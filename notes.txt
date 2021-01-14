@@ -1,0 +1,7 @@
+PHP ini file in xampp für email versenden muss eingerichtet werden
+
+PHPMailer muss eingerichtet werden und es muss geschaut werden, ob es funktioniert
+
+Passwort reset function muss überprüft werden
+
+Aufpassen auf die Fonts! vl sollt ma die Lokal speichern, damit ma ned vom web abhängig sind.. paar aussuchen und DL. 

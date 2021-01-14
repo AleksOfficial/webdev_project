@@ -1,0 +1,130 @@
+/*body, html {
+    height: 100%;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
+} */
+/**
+ * Profile image component
+ */
+.profile-header-container{
+    margin: 0 auto;
+    text-align: center;
+}
+
+.profile-header-img {
+    padding: 54px;
+}
+
+.profile-header-img > img.img-circle {
+    width: 120px;
+    height: 120px;
+    border: 2px solid #51D2B7;
+    border-radius: 50%;
+}
+
+.profile-header {
+    margin-top: 43px;
+}
+
+/**
+ * Ranking component
+ */
+.rank-label-container {
+    margin-top: -19px;
+    /* z-index: 1000; */
+    text-align: center;
+}
+
+.label.label-default.rank-label {
+    background-color: rgb(81, 210, 183);
+    padding: 5px 10px 5px 10px;
+    border-radius: 27px;
+}
+
+#profileLeft {
+    background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
+    
+}
+
+/*.sidebar-link {
+    border-bottom: 2px solid #ffffff3b;
+    font-size:14px;
+    font-weight: 100;
+    margin-bottom: 1.78rem;
+    
+}*/
+.sidebar-item {
+    border-bottom: 2px solid #ffffff3b;
+    font-size:28px;
+    font-weight: 100;
+    margin-bottom: 1.78rem;
+    margin-left: 10%;
+    margin-right: 10%;
+    color: black;
+}
+.sidebar-link-concept {
+    color: black;
+}
+
+.postProfilepic {
+    width: 80px;
+    height: 80px;
+    border: 2px solid black;
+    border-radius: 50%;
+    
+    
+} 
+
+.postProfilepicBorder {
+    padding-left: 5%;
+    
+}
+
+
+.postUsername {
+    padding-left: 3%;
+}
+
+/*
+
+.postProfilepic {
+    width: 30vw;
+    height: 30vh;
+    border: 2px solid black;
+    border-radius: 50%;
+    size: 20vh;
+}
+
+*/
+
+.postPicture {
+    width: 100%;
+    height: 56.25%;
+    border-radius: 10px;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+.postText {
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.postIcon {
+    width: 50px;
+    height: 50px;
+}
+
+.postIcons {
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-bottom: 2%;
+}
+
+.feedPost {
+    border: 2px solid darkslategray;
+    
+}
+
