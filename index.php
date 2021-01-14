@@ -7,6 +7,7 @@
   <link rel = "stylesheet" href="./res/css/base.css">
   <?php
     //css
+    session_start();
     if(isset($_GET['register']))
       echo '<link rel = "stylesheet" href="./res/css/registerform.css">';
     else
@@ -28,7 +29,11 @@
 
     if(isset($_POST['register']))
     {
-      $db->registerUser($_POST);
+      if($db->registerUser($_POST))
+      {
+
+      }
+
     }
     
 
