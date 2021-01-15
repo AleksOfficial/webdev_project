@@ -429,13 +429,7 @@
       supported-color-schemes: light dark;
     }
     </style>
-    <!--[if mso]>
-    <style type="text/css">
-      .f-fallback  {
-        font-family: Arial, sans-serif;
-      }
-    </style>
-  <![endif]-->
+
   </head>
   <body>
     <span class="preheader">Use this link to reset your password. The link is only valid for 24 hours.</span>
@@ -446,7 +440,7 @@
             <tr>
               <td class="email-masthead">
                 <a href="https://example.com" class="f-fallback email-masthead_name">
-                [Product Name]
+                RIFT
               </a>
               </td>
             </tr>
@@ -476,9 +470,9 @@
                             </td>
                           </tr>
                         </table>
-                        <p>For security, this request was received from a {{operating_system}} device using {{browser_name}}. If you did not request a password reset, please ignore this email or <a href="{{support_url}}">contact support</a> if you have questions.</p>
+                        <p>If you did not request a password reset, please ignore this email.</p>
                         <p>Thanks,
-                          <br>The [Product Name] Team</p>
+                          <br>The RIFT Team</p>
                         <!-- Sub copy -->
                         <table class="body-sub" role="presentation">
                           <tr>
@@ -499,11 +493,11 @@
                 <table class="email-footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
                   <tr>
                     <td class="content-cell" align="center">
-                      <p class="f-fallback sub align-center">&copy; 2019 [Product Name]. All rights reserved.</p>
+                      <p class="f-fallback sub align-center">&copy; 2021 RIFT. All rights reserved.</p>
                       <p class="f-fallback sub align-center">
-                        [Company Name, LLC]
-                        <br>1234 Street Rd.
-                        <br>Suite 1234
+                        [RIFT Social Media, GmbH]
+                        <br>Höchstädtplatz 6.
+                        <br>Wien, 1200
                       </p>
                     </td>
                   </tr>

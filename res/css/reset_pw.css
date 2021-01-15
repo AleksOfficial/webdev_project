@@ -1,0 +1,90 @@
+
+.container{
+  height: 100%;
+  align-content: center;
+  }
+  
+  .card{
+  height: 370px;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 400px;
+  background-color: rgba(0,0,0,0.5) !important;
+  }
+  
+  .social_icon a
+  {
+    text-decoration: none;
+    margin-top: 7%;
+    font-size: 10px;
+    color: #FFC312;
+    transition-duration: .15s;
+    transition-timing-function: ease-out;
+  
+  }
+  
+  .social_icon a:hover{
+    transition-timing-function: ease;
+    transition-duration: .15s;
+  color: white;
+  cursor: pointer;
+  margin-top:5%;
+  }
+  
+  .card-header h3{
+  color: white;
+  }
+  
+  .social_icon{
+  position: absolute;
+  right: 20px;
+  top: -45px;
+  }
+  .social_icon{
+    position: absolute;
+    right: 20px;
+    top: 280px;
+    }
+  .input-group
+  {
+    color:white;
+    margin-left:0;
+    margin-top:10px;
+  }
+    .input-group-prepend span{
+      width: 56px;
+      padding:0.5rem .75rem;
+      background-color: #FFC312;
+      color: black;
+      border:0 !important;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    .fa-user img{
+      width: 16px;
+      height: auto;
+    }
+    .fa-logo img{
+      padding-top:5%;
+      width: 96px;
+      height: auto;
+    }
+    .login_btn{
+      margin-top: 5%;
+      color: black;
+      background-color: #FFC312;
+      width: auto;
+      
+      }
+      
+      .login_btn:hover{
+      color: black;
+      background-color: white;
+      }
+      ._button{
+        text-align:center;
+      }
+    p{
+      color:white;
+    }
+      

@@ -1,5 +1,22 @@
 @import url('https://fonts.googleapis.com/css?family=Numans');
-
-body{
+html,body{
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 100%;
   font-family: 'Numans', sans-serif;
+  animation-name: gradient;
+  animation-duration: 15s;
+  animation-timing-function: ease;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-fill-mode: none;
+  animation-play-state: running;
+
+background-repeat: no-repeat;
+height: 100%;
+font-family: 'Numans', sans-serif;
+}
+@keyframes gradient{
+  0% {background-position:0%}
+  100% {background-position: 100%}
 }

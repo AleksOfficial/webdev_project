@@ -10,25 +10,25 @@
 				</div>
 			</div>
 			<div class="card-body">
-				<form>
+				<form action="index.php" method ="POST">
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fas fa-user"><img src="res/icons/user.png"></i></span>
 						</div>
-						<input type="text" class="form-control" placeholder="username">
+						<input type="text" class="form-control" name="username" placeholder="username">
 						
 					</div>
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fas fa-key"><img src="res/icons/lock.png"></i></span>
 						</div>
-						<input type="password" class="form-control" placeholder="password">
+						<input type="password" class="form-control" name="password" placeholder="password">
 					</div>
 					<div class="row align-items-center remember">
 						<input type="checkbox" name ="logged" >Remember Me
 					</div>
 					<div class="form-group">
-						<input type="submit" value="Login" class="btn float-right login_btn">
+						<input type="submit" name="login" value="Login" class="btn float-right login_btn">
 					</div>
 				</form>
 			</div>

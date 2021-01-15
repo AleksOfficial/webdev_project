@@ -19,10 +19,11 @@ CREATE TABLE person(
   first_name VARCHAR(60) NOT NULL,
   last_name VARCHAR(60) NOT NULL,
   password_hash VARCHAR(255) NOT NULL,
-  username VARCHAR(60) NOT NULL,
-  email VARCHAR(160) NOT NULL,
+  username VARCHAR(60) NOT NULL UNIQUE,
+  email VARCHAR(160) NOT NULL UNIQUE,
   last_login TIMESTAMP,
-  active BOOLEAN
+  active BOOLEAN,
+  is_admin BOOLEAN NOT NULL
 );
 
 CREATE TABLE tag(
@@ -72,7 +73,7 @@ CREATE TABLE password_reset(
     person_id INTEGER NOT NULL,
     selector VARCHAR(255) NOT NULL,
     token VARCHAR(255) NOT NULL,
-    expires TIMESTAMP
+    created_on TIMESTAMP
 );
 -- Relationship tables
 /*

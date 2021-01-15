@@ -4,95 +4,139 @@ input[type=radio] {
   -moz-appearance: radio !important;
   -webkit-appearance: radio !important;
   -o-appearance: radio !important;
-  -ms-appearance: radio !important; }
-  
+  -ms-appearance: radio !important;
+}
+#labelm, #labelw{
+  width:49%;
+}
+
 .form-radio {
-  margin-bottom: 40px; }
-  .form-radio input {
-    width: 0;
-    height: 0;
+  margin-bottom: 40px;
+}
+
+.form-radio input {
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: -9999px;
+}
+
+.form-radio input+label {
+  margin: 0px;
+  padding: 12px 10px;
+  width: 94px;
+  height: 50px;
+  box-sizing: border-box;
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  border: 1px solid #ebebeb;
+  background-color: #FFF;
+  font-size: 14px;
+  font-weight: 600;
+  color: #888;
+  text-align: center;
+  text-transform: none;
+  transition: border-color .15s ease-out, color .25s ease-out, background-color .15s ease-out, box-shadow .15s ease-out;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -o-border-radius: 5px;
+  -ms-border-radius: 5px;
+}
+
+.form-radio input:checked+label {
+  background-color: #FFC312;
+  color: #000;
+  border-color: #FFC312;
+  z-index: 1;
+}
+
+.container {
+  max-width: 1024px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  color: #fff;
+  position:relative;
+  padding:40px;
+}
+
+.wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5%;
+  /*align-items: center;*/
+}
+
+.register_btn {
+  color: black;
+  background-color: #FFC312;
+  width: auto;
+  margin-bottom: 3%;
+}
+
+.container img {
+  width: 16px;
+  height: auto;
+}
+
+.input-group-prepend span {
+  width: 56px;
+  padding: 0.5rem .75rem;
+  background-color: #FFC312;
+  color: black;
+  border: 0 !important;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.social_icon {
+  position: absolute;
+  right: 20px;
+  top: 500px;
+}
+.social_icon img{
+  width:96px;
+  height:auto;
+}
+.social_icon a {
+  text-decoration: none;
+  margin-top: 7%;
+  font-size: 10px;
+  color: #FFC312;
+  transition-duration: .15s;
+  transition-timing-function: ease-out;
+}
+
+.social_icon a:hover {
+  transition-timing-function: ease;
+  transition-duration: .15s;
+  color: white;
+  cursor: pointer;
+  margin-top: 5%;
+}
+
+
+@media only screen and (min-width: 576px) {
+  .col-sm-5 {
+    width: 45%;
+  }
+  .offset-sm-2 {
+    margin-left: 10% !important;
+  }
+  .container {
+    padding: 40px;
+  }
+  .register_btn {
+    margin-bottom: 0%;
+  }
+  .social_icon {
     position: absolute;
-    left: -9999px; }
-  .form-radio input + label {
-    margin: 0px;
-    padding: 12px 10px;
-    width: 94px;
-    height: 50px;
-    box-sizing: border-box;
-    position: relative;
-    display: inline-block;
-    text-align: center;
-    border: 1px solid #ebebeb;
-    background-color: #FFF;
-    font-size: 14px;
-    font-weight: 600;
-    color: #888;
-    text-align: center;
-    text-transform: none;
-    transition: border-color .15s ease-out,  color .25s ease-out,  background-color .15s ease-out, box-shadow .15s ease-out;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -o-border-radius: 5px;
-    -ms-border-radius: 5px; }
-  .form-radio input:checked + label {
-    background-color: #FFC312;
-    color: #000;
-    border-color: #FFC312;
-    z-index: 1; }
-  
-  .container{
-    max-width:1024px;
-    background-color: rgba(0,0,0,0.5);
-    border-radius:10px;
-    color:#fff;
+    right: 20px;
+    top: 32px;
+  }
+  #labelw,#labelm{
+    width:100px;
     
   }
-
-  .wrap
-  {
-    display:flex;
-    justify-content: center;
-    margin-bottom:5%;
-    /*align-items: center;*/
-  }
-  .register_btn{
-    color: black;
-    background-color: #FFC312;
-    width: auto;
-    margin-bottom:3%;
-    }
   
-
-  .container img{
-      width: 16px;
-      height: auto;
-    }
-  .input-group-prepend span{
-      width: 56px;
-      padding:0.5rem .75rem;
-      background-color: #FFC312;
-      color: black;
-      border:0 !important;
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-      }
-
-    @media only screen and (min-width: 576px)
-    {
-      .col-sm-5
-      {
-        width:45%;
-      }
-      .offset-sm-2{
-        margin-left:10% !important;
-        
-      }
-      .container
-      {
-        padding:5%;
-      }
-      .register_btn{
-        margin-bottom:0%;
-      }
-    }
+}
