@@ -41,8 +41,8 @@ include 'includes/autoloader.inc.php';
         
         </main>
         <footer>
-            <?php include 'profile.php'; ?>
-            <?php //include 'post.inc.php'; ?>
+            <?php include 'sites/profile.php'; ?>
+            <?php //include 'sites/post.inc.php'; ?>
         </footer>
         <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
