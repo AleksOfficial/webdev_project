@@ -1,5 +1,5 @@
 <?php
-class Dbh
+class Db_con
 {
   private $host = "localhost";
   private $user = "hello_world";
