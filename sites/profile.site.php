@@ -12,10 +12,11 @@ IDEEN FÜR PROFILE
 */
 ?>
 
+
 <section id="profile">
 
 <div class="row">
-    <div class="col-3" id="profileLeft"> <?php //profilsettings links schmale Spalte ?>
+    <div class="col-md-3" id="profileLeft"> <?php //profilsettings links schmale Spalte ?>
         <div> <?php //PROFILEPIC ?>
             <div class="container">
 	            <div class="row">
@@ -46,7 +47,7 @@ IDEEN FÜR PROFILE
             </div>
         </div>
     </div>
-    <div class="col-9"> <?php //profilübersicht posts/einstellungen ?>
+    <div class="col-md-9 profileContainer"> <?php //profilübersicht posts/einstellungen ?>
     </div>
 </div>
 

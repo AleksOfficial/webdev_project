@@ -1,6 +1,6 @@
 <?php
 
-include 'includes/autoloader.inc.php';
+include 'inc/class-autoload.inc.php';
 
 ?>
 
@@ -24,7 +24,7 @@ include 'includes/autoloader.inc.php';
 
 <?php
 
-         include 'navigation.inc.php';
+         include 'inc/navigation.inc.php';
 
 ?>
 
@@ -41,8 +41,9 @@ include 'includes/autoloader.inc.php';
         
         </main>
         <footer>
-            <?php include 'sites/profile.php'; ?>
-            <?php //include 'sites/post.inc.php'; ?>
+            <?php //include 'sites/profile.site.php'; ?>
+            <?php //include 'inc/post.inc.php'; ?>
+            <?php include 'sites/post.site.php'; ?>
         </footer>
         <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
