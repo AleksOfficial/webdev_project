@@ -4,7 +4,7 @@
 $mail = new PHPMailer();
     $mail->isSMTP();
 
-    var_dump(openssl_get_cert_locations());
+    //var_dump(openssl_get_cert_locations());
     //$mail->SMTPDebug = SMTP::DEBUG_CONNECTION;
     $mail->SMTPOptions = array(
       'ssl' => array(

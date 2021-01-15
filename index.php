@@ -8,6 +8,7 @@
   <?php
     //css
     session_start();
+    $file = basename(__FILE__);
     if(isset($_GET['register']))
       echo '<link rel = "stylesheet" href="./res/css/registerform.css">';
     else
@@ -16,8 +17,8 @@
   <title>Document</title>
 </head>
 <body>
-  <?php 
-    var_dump($_POST);
+  <?php
+    //var_dump($_POST);
     include "inc/class-autoload.inc.php";
     if(isset($_GET['register']))
     {
@@ -29,11 +30,16 @@
 
     if(isset($_POST['register']))
     {
-      if($db->registerUser($_POST))
+      if($db->register_user($_POST))
       {
-
+        //here should be a login thing. 
+        echo"hi";
       }
 
+    }
+    if(isset($_POST['login']))
+    {
+      $db->loginUser($_POST['username'],$_POST['password']);
     }
     
 
