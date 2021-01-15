@@ -1,142 +1,118 @@
-html,body{
-  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-  background-size: 400% 100%;
-  animation-name: gradient;
-  animation-duration: 15s;
-  animation-timing-function: ease;
-  animation-delay: 0s;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-  animation-fill-mode: none;
-  animation-play-state: running;
-
-background-repeat: no-repeat;
-height: 100%;
-font-family: 'Numans', sans-serif;
-}
-@keyframes gradient{
-  0% {background-position:0%}
-  100% {background-position: 100%}
+.container {
+  height: 100%;
+  align-content: center;
+  
 }
 
-.container{
-height: 100%;
-align-content: center;
+.card {
+  height: 370px;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 400px;
+  background-color: rgba(0, 0, 0, 0.5) !important;
 }
 
-.card{
-height: 370px;
-margin-top: auto;
-margin-bottom: auto;
-width: 400px;
-background-color: rgba(0,0,0,0.5) !important;
-}
-
-.social_icon a
-{
+.social_icon a {
   text-decoration: none;
   margin-top: 7%;
   font-size: 10px;
   color: #FFC312;
   transition-duration: .15s;
   transition-timing-function: ease-out;
-
 }
 
-
-
-.social_icon a:hover{
+.social_icon a:hover {
   transition-timing-function: ease;
   transition-duration: .15s;
-color: white;
-cursor: pointer;
-margin-top:5%;
+  color: white;
+  cursor: pointer;
+  margin-top: 5%;
 }
 
-.card-header h3{
-color: white;
+.card-header h3 {
+  color: white;
 }
 
-.social_icon{
-position: absolute;
-right: 20px;
-top: -45px;
+.social_icon {
+  position: absolute;
+  right: 20px;
+  top: -45px;
 }
 
-.fab .fa-text
-{
-  top:0px;
-}
-.input-group
-{
-  margin-bottom:5%;
-  
+.fab .fa-text {
+  top: 0px;
 }
 
-.input-group-prepend span{
+.input-group {
+  margin-bottom: 5%;
+
+}
+
+.input-group-prepend span {
   width: 56px;
-  padding:0.5rem .75rem;
+  padding: 0.5rem .75rem;
   background-color: #FFC312;
   color: black;
-  border:0 !important;
+  border: 0 !important;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-
-input:focus{
-outline: 0 0 0 0  !important;
-box-shadow: 0 0 0 0 !important;
+input:focus {
+  outline: 0 0 0 0 !important;
+  box-shadow: 0 0 0 0 !important;
 }
 
-.remember{
-color: white;
+.remember {
+  color: white;
 }
 
-.remember input
-{
-width: 20px;
-height: 20px;
-margin-left: 15px;
-margin-right: 5px;
+.remember input {
+  width: 20px;
+  height: 20px;
+  margin-left: 15px;
+  margin-right: 5px;
 }
 
-.login_btn{
-color: black;
-background-color: #FFC312;
-width: 100px;
+.login_btn {
+  color: black;
+  background-color: #FFC312;
+  width: 100px;
 }
 
-.login_btn:hover{
-color: black;
-background-color: white;
+.login_btn:hover {
+  color: black;
+  background-color: white;
 }
 
-.links{
-color: white;
+.links {
+  color: white;
 }
 
-.links a{
-margin-left: 4px;
+.links a {
+  margin-left: 4px;
 }
-.fa-user img{
+
+.fa-user img {
   width: 16px;
   height: auto;
 }
-.fa-key img{
+
+.fa-key img {
   width: 16px;
   height: auto;
 }
-.fa-logo img{
-  padding-top:5%;
+
+.fa-logo img {
+  padding-top: 5%;
   width: 96px;
   height: auto;
 }
-.col-sm-5
-{
-  width:40%;
+
+.col-sm-5 {
+  width: 40%;
 }
-.offset-sm-2{
-  margin-left:10% !important;
-  
+
+.offset-sm-2 {
+  margin-left: 10% !important;
 }
