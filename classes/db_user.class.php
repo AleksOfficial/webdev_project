@@ -1,9 +1,9 @@
 <?php
 
-class Db_user extends Dbh
+class Db_user extends Db_con
 {
 
-  public function prepare_($array)
+  public function prepare_input_registration($array)
   {
     $return_array = array();
     $invalid_inputs = array();
@@ -17,9 +17,8 @@ class Db_user extends Dbh
           if ($x === "password") {
             $pw = password_hash($array["$x"], PASSWORD_DEFAULT);
             array_push($return_array, $pw);
-          }
-          else {
-            array_push($return_array, $array["$x"]);
+          } else {
+            array_push($return_array, strtolower($array["$x"]));
           }
         } else {
           $invalid = true;
@@ -41,9 +40,9 @@ class Db_user extends Dbh
     }
   }
 
-  function registerUser($user) //comes in as an array
+  function register_user($user) //comes in as an array
   {
-    $user = $this->prepare_($user);
+    $user = $this->prepare_input_registration($user);
     if ($user == NULL)
       return;
     else {
@@ -60,28 +59,55 @@ class Db_user extends Dbh
     }
   }
 
-  function loginUser($username, $password)
+  function login_user($username, $password)
   {
-    $user = $this->getUser($username);
-    var_dump($user);
+    $username = strtolower($username);
+    $user = $this->get_user_by_name($username);
+
     if (password_verify($password, $user['password_hash'])) {
+      //$this->update_timestamp($username); On logout it should be updated though.
       $this->success("User Logged in!");
       return true;
     } else {
-      
+
       return false;
     }
   }
 
-  function getUser($username)
+  function get_user_by_name($username)
   {
     $con = $this->connect();
-    $query = "SELECT * FROM users WHERE username LIKE ?";
+    $query = "SELECT * FROM person WHERE username LIKE ?";
     $stmt = $con->prepare($query);
-    #$stmt->setFetchMode(PDO::FETCH_ASSOC);
     $stmt->execute([$username]);
+    $results = $stmt->fetch(); // Perhaps its better to return it into a user class
+    return $results;
+  }
+  function get_user_by_id($userid)
+  {
+    $con = $this->connect();
+    $query = "SELECT * FROM person WHERE person_id LIKE ?";
+    $stmt = $con->prepare($query);
+    $stmt->execute([$userid]);
     $results = $stmt->fetch();
     return $results;
+  }
+  function get_user_by_email($useremail)
+  {
+    $con = $this->connect();
+    $query = "SELECT * FROM person WHERE email LIKE ?";
+    $stmt = $con->prepare($query);
+    $stmt->execute([$useremail]);
+    $results = $stmt->fetch();
+    return $results;
+  }
+
+  function update_timestamp($username)
+  {
+    $con = $this->connect();
+    $query = "UPDATE person SET last_login = CURRENT_TIMESTAMP WHERE username = ?";
+    $stmt = $con->prepare($query);
+    return $stmt->execute([$username]);
   }
   /*
   function getUserList()
