@@ -11,16 +11,8 @@
   <?php
   $file = basename(__FILE__);
   include "../inc/class-autoload.inc.php";
-  var_dump($file);
-  var_dump($_POST);
-  var_dump($_GET);
-  
   $submission = true;
   $reset = new Db_pw_reset();
-  $selector = $_GET['selector'];
-  $validator = $_GET['validator'];
-  var_dump($selector);
-  
   if (isset($_POST['reset-request-submit'])) {
     $reset->send_request_reset($_POST);
   }
@@ -57,7 +49,7 @@ echo'
             <h3>Password Reset </h3>
           </div>
           <div class="card-body">
-            <form action="reset-pw.php" method="POST">
+            <form action="reset_pw.php" method="POST">
               <div class="input-group form-group">
                 <p>Enter your E-Mail address to reset your password</p>
                 <div class="input-group-prepend">
@@ -85,7 +77,8 @@ echo'
 </html>';
 } else {
   //HERE COMES THE PASSWORD RESET FORM
-
+  $selector = $_GET['selector'];
+  $validator = $_GET['validator'];
   echo'
   <body>
     <div class="container">
@@ -95,7 +88,7 @@ echo'
             <h3>Password Reset </h3>
           </div>
           <div class="card-body">
-            <form action="reset-pw.php?selector='.$selector.'&validator='.$validator.'" method="POST">
+            <form action="reset_pw.php?selector='.$selector.'&validator='.$validator.'" method="POST">
             <p>Enter a new password and confirm it by entering it again.</p>
               <div class="input-group form-group">
                 

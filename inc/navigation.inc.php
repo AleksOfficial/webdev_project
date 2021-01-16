@@ -2,8 +2,8 @@
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div class="container-fluid">
                     
-                        <a class="navbar-brand" href="index.php?menu=home">
-                            <img src="./res/icons/rift_logo128x.png" alt="" width="30" height="24">
+                        <a class="navbar-brand" href="index.php?site=home">
+                            <img class = "navbar_logo" src="<?php echo $file == "index.php" ?  "./" :  "../" ?>res/icons/logo.png" alt="logo">
                         </a>
                     
                     <a class="navbar-brand" href="index.php?menu=home">RIFT</a>
@@ -12,29 +12,52 @@
                         </button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="index.php?menu=profile">Profile</a>
+
+                                <?php
+                                if($_SESSION['logged'])
+                                {
+                                    //print stuff for a logged user?>
+                                    <li class="nav-item">
+                                    <a class="nav-link<?php echo $file == "profile.php"? " active": "";?> aria-current="page" href="/sites/profile.php">Profile</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Notifications</a>
+                                    <a class="nav-link<?php echo $navigator == "notifications" ? " active": "";?>" href="<?php echo $file == "index.php" ?  "./" :  "../" ?>index.php?site=notifications">Notifications</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Messages</a>
+                                    <a class="nav-link<?php echo $navigator == "messages" ? " active": "";?>" href="<?php echo $file == "index.php" ?  "./" :  "../" ?>index.php?site=messages">Messages</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Admin</a>
+                                <?php
+                                     // admin print
+                                    if($_SESSION['user']['is_admin'])
+                                    {
+                                        //printing list element for admin panel?>
+                                    <li class="nav-item">
+                                        <a class="nav-link<?php echo $navigator == "admin" ? " active": "";?>" href=" <?php echo $file == "index.php" ?  "./" :  "../"; ?> index.php?site=admin">Admin</a>
                                 </li>
+                                    <?php
+                                    }
+                                    // Logout Button print?>
+                                    <li class="nav-item">
+                                <a class="nav-link" href="<?php echo $file == "index.php" ?  "./" :  "../" ?>index.php?site=logout">Logout</a>
+                            </li>
+
+                                <?php
+                                } else
+                                {
+                                    //User is not logged in - print register and login button?>
+
+                                    <li class="nav-item">
+                                <a class="nav-link<?php echo $navigator == "login" ? " active": "";?>" href="<?php echo $file == "index.php" ?  "./" :  "../" ?>index.php?site=login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link<?php echo $navigator == "register" ? " active": "";?>" href="<?php echo $file == "index.php" ?  "./" :  "../" ?>index.php?site=register">Sign Up</a>
+                            </li>
+                            <?php
+                                }
+                            
+                                //print remaining items?>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Log In</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Log Out</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Impressum</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                                    <a class="nav-link<?php echo $navigator == "impressum" ? " active": "";?>" href="<?php echo $file == "index.php" ?  "./" :  "../" ?>index.php?site=impressum">Impressum</a>
                                 </li>
                             </ul>
                             <form class="d-flex">
@@ -44,47 +67,3 @@
                         </div>
                 </div>
             </nav>
-
-
-
-            <?php   
-
-        if (isset($_GET['menu']))
-        {
-            $home = TRUE;
-            switch ($_GET['menu']) {
-                case 'profile':
-                    include 'sites/profile.php';
-                    break;
-                case 'notifications':
-                    include 'sites/notifications.php';
-                        break;
-                case 'messages':
-                    include 'sites/messages.php';
-                    break;
-                case 'adminset':
-                    include 'sites/administration.php';
-                    break;
-                case 'impressum':
-                    include 'inc/impressum.inc.php';
-                    break;
-                case 'login':
-                    include 'sites/login.php';
-                    break;
-                case 'logout':
-                    include 'sites/kontaktform.php';
-                    break;
-               /* default:
-                    include 'sites/default.php';
-                    $home =False;
-                    break;*/
-            
-            }
-        }
-               
-        
-
-
-
-        //navbar-expand-lg
-        ?>    
