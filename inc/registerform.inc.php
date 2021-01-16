@@ -1,7 +1,8 @@
 <form action="./index.php" method="POST">
-
   <div class="container">
     <form action="index.php" method="POST">
+    <h3>Sign Up</h3>
+    <p>Füllen Sie die Felder unterhalb aus</p>
       <div class="form-group">
         <div class="d-flex justify-content-end social_icon">
           <a href="index.php">

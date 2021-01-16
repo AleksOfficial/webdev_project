@@ -50,7 +50,7 @@ class Db_user extends Db_con
       $con = $this->connect();
       $stmt = $con->prepare($query);
       if ($stmt->execute($user)) {
-        $this->success("User sucessfully inserted and logged in!");
+        $this->success("User sucessfully registered!");
         return true;
       } else {
         $this->error("Could not Insert into Database: " . $stmt->errorInfo()[2]);
@@ -63,15 +63,15 @@ class Db_user extends Db_con
   {
     $username = strtolower($username);
     $user = $this->get_user_by_name($username);
-
-    if (password_verify($password, $user['password_hash'])) {
-      //$this->update_timestamp($username); On logout it should be updated though.
-      $this->success("User Logged in!");
-      return true;
-    } else {
-
-      return false;
+    if($user !=NULL)
+    {
+      if (password_verify($password, $user['password_hash'])) {
+        //$this->update_timestamp($username); On logout it should be updated though.
+        return true;
+      }
     }
+    return false;
+
   }
 
   function get_user_by_name($username)

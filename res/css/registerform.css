@@ -93,6 +93,7 @@ input[type=radio] {
   position: absolute;
   right: 20px;
   top: 500px;
+  visibility: hidden;
 }
 .social_icon img{
   width:96px;
@@ -125,6 +126,7 @@ input[type=radio] {
   }
   .container {
     padding: 40px;
+    margin-top:5%;
   }
   .register_btn {
     margin-bottom: 0%;
@@ -133,6 +135,7 @@ input[type=radio] {
     position: absolute;
     right: 20px;
     top: 32px;
+    visibility:visible;
   }
   #labelw,#labelm{
     width:100px;

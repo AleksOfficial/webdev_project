@@ -33,7 +33,7 @@ class Db_pw_reset extends Db_con
     //$mail->SMTPSecure = "tls";
     $mail->SMTPAuth = true;
     $mail->Username = 'myfirstpythonscript28@gmail.com';
-    $mail->Password = 'HSemViencL5R3tY';
+    $mail->Password = 'Y2GdLZb7HnKsUrB';
     $mail->setFrom('myfirstpythonscript28@gmail.com', 'RIFT No-Reply');
     $mail->addAddress($user['email']);
     $mail->Subject = 'RIFT Account: Password-Reset';
@@ -60,6 +60,8 @@ class Db_pw_reset extends Db_con
           return false;
         }
         $token = hex2bin($hextoken);
+        $expire = $data['created_on'];
+        //missing: checking if the token has expired or not
         if (password_verify($token, $data['token'])) {
           return true;
         }
@@ -79,7 +81,7 @@ class Db_pw_reset extends Db_con
     $token = random_bytes(32);
     $sendtoken = bin2hex($token);
 
-    $url = "localhost/webtech/webdev_project/sites/reset-pw.php?selector=$selector&validator=$sendtoken"; // URL CHANGES IF THE FOLDER STRUCTURE IS DIFFERENT!
+    $url = "localhost/webtech/webdev_project/sites/reset_pw.php?selector=$selector&validator=$sendtoken"; // URL CHANGES IF THE FOLDER STRUCTURE IS DIFFERENT!
     $db_con = new Db_user();
     $user = $db_con->get_user_by_email($array['email']);
     $con = $db_con->connect();
@@ -89,7 +91,7 @@ class Db_pw_reset extends Db_con
     $stmt = $con->prepare($query1);
     if (!$stmt) {
       echo "There was an error!";
-      exit();
+      exit(); 
     }
     $stmt->execute([$id]);
     $query2 = "INSERT INTO password_reset (person_id,selector,token,created_on) VALUES (?,?,?,CURRENT_TIMESTAMP)";
@@ -100,8 +102,6 @@ class Db_pw_reset extends Db_con
     } else {
       $hashedToken = password_hash($token, PASSWORD_DEFAULT);
       $stmt->execute([$id, $selector, $hashedToken]);
-      $x = $stmt->debugDumpParams();
-      var_dump($x);
     }
     return [$user, $url];
   }
