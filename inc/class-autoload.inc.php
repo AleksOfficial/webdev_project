@@ -1,5 +1,5 @@
 <?php
-if($file =="index.php")
+if($file =="index2.php")
   spl_autoload_register('my_auto_loader');
 else
   spl_autoload_register('my_auto_loader2');

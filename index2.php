@@ -1,5 +1,5 @@
 <?php
-
+$file = basename(__FILE__);
 include 'inc/class-autoload.inc.php';
 
 ?>
@@ -41,8 +41,8 @@ include 'inc/class-autoload.inc.php';
         
         </main>
         <footer>
-            <?php //include 'sites/profile.site.php'; ?>
-            <?php //include 'inc/post.inc.php'; ?>
+            <?php include 'sites/profile.site.php'; ?>
+            <?php include 'inc/post.inc.php'; ?>
             <?php include 'sites/post.site.php'; ?>
         </footer>
         <!-- Optional JavaScript -->

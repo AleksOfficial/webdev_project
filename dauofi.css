@@ -131,13 +131,15 @@
 /*########SINGLE POST#########*/
 
 .singlepostProfilepic {
-    height: 50px;
-    width: 50px;
+    height: 60px;
+    width: 60px;
+    border-radius: 30px;
 }
 
-/*.singlepostUsername {
-    
-}*/
+.singlepostUsername {
+    padding-left: 25px;
+    padding-top: 15px;
+}
 
 .singlepostDelete {
     height: 50px;
@@ -147,7 +149,17 @@
 .singlepostPic {
     width: 100%;
     height: 56.25%;
+    border-radius: 10px;
+    
+
 }
+
+
+
+.singlepostText {
+    padding-top: 10px;
+} 
+
 
 
 
@@ -155,7 +167,46 @@
 
 /*############################*/
 
+.postReactions {
+    height: 40px;
+    width: 40px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 
+
+
+
+
+/*#######COMMENT#############*/
+
+
+.commentProfilepic {
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+}
+
+.comment {
+    padding-top: 10px;
+    border-bottom: 2px solid darkslategray;
+    padding-bottom: 10px;
+}
+
+.commentSubmit {
+    
+}
+
+.commentWrite {
+    width: 75%;
+    height: 38px;
+}
+
+.commentInhalt {
+    
+}
+
+/*############################*/
 
 /* X-Small devices (portrait phones, less than 576px)
 // No media query for `xs` since this is the default in Bootstrap
