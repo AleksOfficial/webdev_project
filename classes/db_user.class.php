@@ -46,7 +46,7 @@ class Db_user extends Db_con
     if ($user == NULL)
       return;
     else {
-      $query = "INSERT INTO person(profile_pic,gender,first_name,last_name,password_hash,username,email,last_login,active) VALUES(NULL, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, 1)";
+      $query = "INSERT INTO person(profile_pic,gender,first_name,last_name,password_hash,username,email,last_login,active,is_admin) VALUES(NULL, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, 1,0)";
       $con = $this->connect();
       $stmt = $con->prepare($query);
       if ($stmt->execute($user)) {

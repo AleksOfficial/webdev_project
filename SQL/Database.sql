@@ -88,7 +88,8 @@ CREATE TABLE messages (
   msg_id INTEGER PRIMARY KEY AUTO_INCREMENT,
   from_id INTEGER NOT NULL,
   to_id INTEGER NOT NULL,
-  content VARCHAR(255)
+  content VARCHAR(500) NOT NULL,
+  viewed BOOLEAN NOT NULL
 );
 
 CREATE TABLE friends (
