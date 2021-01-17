@@ -44,6 +44,8 @@ include 'inc/class-autoload.inc.php';
             <?php include 'sites/profile.site.php'; ?>
             <?php include 'inc/post.inc.php'; ?>
             <?php include 'sites/post.site.php'; ?>
+            <?php include 'inc/impressum.inc.php'; ?>
+
         </footer>
         <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
