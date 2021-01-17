@@ -24,7 +24,7 @@ include 'inc/class-autoload.inc.php';
 
 <?php
 
-         include 'inc/navigation.inc.php';
+         //include 'inc/navigation.inc.php';
 
 ?>
 
@@ -41,10 +41,11 @@ include 'inc/class-autoload.inc.php';
         
         </main>
         <footer>
-            <?php include 'sites/profile.site.php'; ?>
-            <?php include 'inc/post.inc.php'; ?>
-            <?php include 'sites/post.site.php'; ?>
-            <?php include 'inc/impressum.inc.php'; ?>
+            <?php //include 'sites/profile.site.php'; ?>
+            <?php //include 'inc/post.inc.php'; ?>
+            <?php //include 'sites/post.site.php'; ?>
+            <?php //include 'inc/impressum.inc.php'; ?>
+            <?php include 'sites/searchResult.php'; ?>
 
         </footer>
         <!-- Optional JavaScript -->
