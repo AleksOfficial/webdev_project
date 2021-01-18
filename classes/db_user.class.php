@@ -109,6 +109,13 @@ class Db_user extends Db_con
     $stmt = $con->prepare($query);
     return $stmt->execute([$username]);
   }
+  function get_profile_thumbnail_path($userid)
+  {
+    $con = $this->connect();
+    $query = "SELECT * FROM person WHERE person_id = ? JOIN images ON person.profile_pic = image_id";
+    $stmt = $con->prepare($query);
+    
+  }
   /*
   function getUserList()
   {
