@@ -5,3 +5,39 @@ PHPMailer muss eingerichtet werden und es muss geschaut werden, ob es funktionie
 Passwort reset function muss überprüft werden
 
 Aufpassen auf die Fonts! vl sollt ma die Lokal speichern, damit ma ned vom web abhängig sind.. paar aussuchen und DL. 
+
+
+
+
+SEARCH USER 
+anzahl user % 3 = rest 
+anzahl user/3 = anzahl reihen 
+verschachtelte for-loop 
+äußere for-loop = anzahl reihen 
+innere for-loop = 3 mal 
+danach letzte zeile so viele user wie anzahl user % 3
+
+
+3 for schleifen
+$variable = 0
+anzahl % 3 
+erste for schleife wenn modulo nicht null dann eins mehr als anzalh / 3 wenn nicht dann nur anzahl / 3
+immer nach einer card ++$variable
+zweite for schleife beginnt bei der $variable 
+das selbe für 3te schleife
+das kann was werden omg 
+
+
+
+
+
+
+neverrrrmind du bastard lol 
+
+
+wie kann ich das machen denk nach bitte 
+pensando en ti iiiiii 
+dame tu piel 
+
+
+anzahl / 3 

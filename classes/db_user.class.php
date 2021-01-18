@@ -121,16 +121,15 @@ class Db_user extends Db_con
     return $userlist;
   }
 
+*/
 
-
-  function searchUser($username)
+  function search_user($username)
   {
 
     $result = array();
     $con = $this->connect();
-    $query = "SELECT * FROM users WHERE username LIKE ? ORDER BY id ASC";
+    $query = "SELECT * FROM person JOIN images ON profile_pic=image_id WHERE username LIKE ? ORDER BY id ASC";
     $stmt = $con->prepare($query);
-    $stmt->setFetchMode(PDO::FETCH_CLASS, "User");
     $stmt->execute([$username]);
 
     foreach ($stmt->fetchAll() as $user) {
@@ -154,6 +153,9 @@ class Db_user extends Db_con
     asort($result);
     return $result;
   }
+
+  
+/*
     function updateUser($user)
   {
     $user_array = $user->convert_to_array();
