@@ -14,7 +14,7 @@ CREATE DATABASE webdev_project;
 */
 CREATE TABLE person(
   person_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-  profile_pic INTEGER,
+  profile_pic INTEGER DEFAULT 0,
   gender CHAR(1),
   first_name VARCHAR(60) NOT NULL,
   last_name VARCHAR(60) NOT NULL,
@@ -89,7 +89,8 @@ CREATE TABLE messages (
   from_id INTEGER NOT NULL,
   to_id INTEGER NOT NULL,
   content VARCHAR(500) NOT NULL,
-  viewed BOOLEAN NOT NULL
+  viewed BOOLEAN NOT NULL,
+  created_on TIMESTAMP NOT NULL 
 );
 
 CREATE TABLE friends (
