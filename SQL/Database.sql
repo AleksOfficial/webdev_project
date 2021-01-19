@@ -90,13 +90,14 @@ CREATE TABLE messages (
   to_id INTEGER NOT NULL,
   content VARCHAR(500) NOT NULL,
   viewed BOOLEAN NOT NULL,
-  created_on TIMESTAMP NOT NULL 
+  created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE RESTRICT
 );
 
 CREATE TABLE friends (
   status_request INTEGER(1) NOT NULL,
   from_id INTEGER NOT NULL,
-  to_id INTEGER NOT NULL
+  to_id INTEGER NOT NULL,
+  viewed BOOLEAN NOT NULL DEFAULT 0
   -- all of them are the primary key
 );
 
@@ -184,7 +185,7 @@ ALTER TABLE messages
 ALTER TABLE friends
   ADD CONSTRAINT PK_friends PRIMARY KEY(status_request,from_id,to_id),
   ADD CONSTRAINT FK_friends_from FOREIGN KEY(from_id) REFERENCES person(person_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT FK_friends_to FOREIGN KEY(from_id) REFERENCES person(person_id) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT FK_friends_to FOREIGN KEY(to_id) REFERENCES person(person_id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE all_tags
   ADD CONSTRAINT PK_all_tags PRIMARY KEY (tag_id,post_id),

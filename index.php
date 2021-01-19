@@ -35,6 +35,9 @@
     case 'messages':
       // does messages have a css?
       break;
+    case 'show_chat':
+      echo '<link rel = "stylesheet" href="res/css/messages.css">';
+      break;
     case 'admin':
       // does admin have a css?
       break;
@@ -44,7 +47,6 @@
     case 'login':
       echo '<link rel = "stylesheet" href="./res/css/login.css">';
       break;
-
     case 'register':
       echo '<link rel = "stylesheet" href="./res/css/registerform.css">';
       break;
@@ -86,6 +88,12 @@
       break;
     case 'home':
       echo"welcome user!";
+      break;
+    case 'show_chat':
+      include 'inc/show_chat.inc.php';
+      break;
+    case 'start_chat':
+      include 'inc/start_chat.inc.php';
       break;
     default:
       header("Location: sites/lost.php");
