@@ -2,88 +2,117 @@
 class db_messages extends Db_con
 {
   function get_messages_list($user_array)
-  {
+  { 
     $con = $this->connect();
     $query = "SELECT * FROM messages where to_id=? OR from_id = ? ORDER BY msg_id DESC";
     $stmt = $con->prepare($query);
     $id = $user_array['person_id'];
-    $stmt->execute([$id,$id]);
+    $stmt->execute([$id, $id]);
     $print_order = array();
     $recipients = array();
-    while($row = $stmt->fetch())
-    {
+    while ($row = $stmt->fetch()) {
       $new_entry = $row;
-      $recipient_id = $this->get_recipient_id($row,$id);
+      $recipient_id = $this->get_not_user($row, $id);
       $new_entry['recipient_id'] = $recipient_id;
-      if(!$new_entry['viewed'])
-      $new_entry['unread_msg'] = 1;
-      else
-      $new_entry['unread_msg']=0;
-      $index = array_search($recipient_id,$recipients);
-      if(!empty($recipients))
-      {
-        if($recipients[0]==$recipient_id || $index>0)
-        {
-          if(!$row['viewed'])
-          {
-            $print_order[$index]['unread_msg']++;
-          }
+
+      $index = array_search($recipient_id, $recipients);
+      if (!empty($recipients)) {
+        if ($recipients[0] == $recipient_id || $index > 0) {
+
+        } else {
+          array_push($print_order, $new_entry);
+          array_push($recipients, $recipient_id);
         }
-        else{
-          array_push($print_order,$new_entry);
-          array_push($recipients,$recipient_id);
-        }
-      }
-      else
-      {
-        array_push($print_order,$new_entry);
-        array_push($recipients,$recipient_id);
+      } else {
+        array_push($print_order, $new_entry);
+        array_push($recipients, $recipient_id);
       }
     }
     return $print_order;
-    }
-  function get_recipient_id($message,$id)
+  }
+  function get_unread_msg ($user_id,$recipient_id)
   {
-    if($message['from_id']==$id)
-      return $message['to_id'];
-    else
-      return $message['from_id'];
+    $con = $this->connect();
+    $query = "SELECT COUNT(*) FROM messages WHERE (from_id = ? AND to_id =?) AND viewed = 0";
+    $stmt = $con->prepare($query);
+    $stmt->execute([$recipient_id,$user_id]);
+    return $stmt->fetch()['COUNT(*)'];
   }
+  
 
-  function get_timestring($timestamp)
-  { 
-    //Cool this works :) maybe we can shift it to the con_class so every function has this capability. This way you can use it for posts as well.
-    $date_msg = new DateTime($timestamp);
-    $now = date('D d M Y H:i:s');
-    $date_now = new DateTime($now);
-    $diff = $date_now->diff($date_msg);
-    var_dump($diff);
-    /*
-    $timestamp=strtotime($timestamp);
-    $now = time();
-    $diff = $now-$timestamp;
-    $diff=getdate($diff);
-    //var_dump(getdate($timestamp));
-    var_dump($now);
-    var_dump($diff);
-    */
-  }
-
-  function print_list_element($userid,$message)
+  function print_list_element($user_id, $message)
   {
     $db_user = new db_user();
-    $user = $db_user->get_user_by_id($userid);
-    $img_path = $db_user->get_profile_thumbnail_path($userid);
+    $user = $db_user->get_user_by_id($message['recipient_id']);
+    $recipient_id = $message['recipient_id'];
+    $img_path = $user['thumbnail_path'];
     $username = $user['username'];
     $content = $message['content'];
     $timestamp = $this->get_timestring($message['created_on']);
-    //echo out 
-    /*<html>
-      <td><img class='messengerthumbnail' src='$img_path'></td>
-      <td><p class="username">$username</p></td>
-      <td><p class="msg_content">$content</p><i class="timestamp">$timestamp      
-    </html>*/
+    $unread = $this->get_unread_msg($user_id,$recipient_id);
+    echo "
+      <a href='index.php?site=show_chat&chat=$recipient_id'>
+      <div class='row list_element'>
+      <div class ='col thumbnail_list'><img class='messengerthumbnail' src='$img_path'></div>
+      <div class ='col username_list'>$username</div>
+      <div class ='col timestamp_list'><p class='msg_content'>$content</p><i class='timestamp'>$timestamp</i></div>
+      <div class ='col unread_msg_list'><span class='unread_msg_counter'>$unread</span></div>
+      </div>
+      </a>";
   }
+  function get_chat($user,$recipient_id)
+  {
+
+    $con = $this->connect();
+    $id = $user['person_id'];
+    $query = "SELECT * FROM messages WHERE (from_id = ? AND to_id = ?) OR (to_id = ? AND from_id = ?)";
+    $stmt = $con->prepare($query);
+    $stmt->execute([$id,$recipient_id,$id,$recipient_id]);
+    return $stmt->fetchAll();
+    
+  }
+  function update_viewed($user_id,$recipient_id)
+  {
+    $con = $this->connect();
+    $query = "UPDATE messages SET viewed =1 WHERE from_id = ? AND to_id =?";
+    $stmt = $con->prepare($query);
+    $stmt->execute([$recipient_id,$user_id]);
+  }
+  function print_message($message,$user_id)
+  {
+    $r_id = $message['from_id'];
+    $content = $message['content'];
+    $timestring = $this->get_timestring($message['created_on']);
+    if($r_id == $user_id)
+    {
+      echo "<div class='row'>
+      <div class ='message-orange col-sm-7 offset-sm-5 '>
+    <div class='message-content'>
+        $content
+    </div>
+    <div class='message-timestamp-right'>$timestring</div>
+  </div>
+  </div>";
+    }
+    else{
+      echo "<div class='row'>
+      <div class ='message-blue col-sm-7 '>
+      <div class='message-content'>
+      $content
+      </div>
+      <div class='message-timestamp-left'>$timestring</div>
+    </div>
+    </div>";
+    }
+  }
+  function insert_message($from_id,$recipient_id,$content)
+  {
+    $con = $this->connect();
+    $query = "INSERT INTO messages(from_id,to_id,content,viewed,created_on) VALUES(?,?,?,0,CURRENT_TIME)";
+    $stmt = $con->prepare($query);
+    $stmt->execute([$from_id,$recipient_id,$content]);
+  }
+  
   /*
   LMAO NONE OF THIS SHIT WORKS ! NOOOO I AM NOT MAD AT MYSELF OR PHP
   function get_messages_list($user_array)

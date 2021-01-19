@@ -77,7 +77,7 @@ class Db_user extends Db_con
   function get_user_by_name($username)
   {
     $con = $this->connect();
-    $query = "SELECT * FROM person WHERE username LIKE ?";
+    $query = "SELECT * FROM person LEFT JOIN images ON person.profile_pic = images.image_id WHERE username LIKE ?";
     $stmt = $con->prepare($query);
     $stmt->execute([$username]);
     $results = $stmt->fetch(); // Perhaps its better to return it into a user class
@@ -86,7 +86,7 @@ class Db_user extends Db_con
   function get_user_by_id($userid)
   {
     $con = $this->connect();
-    $query = "SELECT * FROM person WHERE person_id LIKE ?";
+    $query = "SELECT * FROM person LEFT JOIN images ON person.profile_pic = images.image_id WHERE person.person_id LIKE ?";
     $stmt = $con->prepare($query);
     $stmt->execute([$userid]);
     $results = $stmt->fetch();
@@ -95,7 +95,7 @@ class Db_user extends Db_con
   function get_user_by_email($useremail)
   {
     $con = $this->connect();
-    $query = "SELECT * FROM person WHERE email LIKE ?";
+    $query = "SELECT * FROM person LEFT JOIN images ON person.profile_pic = images.image_id WHERE email LIKE ?";
     $stmt = $con->prepare($query);
     $stmt->execute([$useremail]);
     $results = $stmt->fetch();
@@ -109,26 +109,61 @@ class Db_user extends Db_con
     $stmt = $con->prepare($query);
     return $stmt->execute([$username]);
   }
-  function get_profile_thumbnail_path($userid)
+  
+  function check_friends($user_id1, $user_id2)
   {
     $con = $this->connect();
-    $query = "SELECT * FROM person WHERE person_id = ? JOIN images ON person.profile_pic = image_id";
+    $query = "SELECT * FROM friends WHERE (from_id = ? AND to_id = ?) OR (from_id = ? AND to_id = ?)";
     $stmt = $con->prepare($query);
-    
+    $stmt->execute([$user_id1,$user_id2,$user_id2,$user_id1]);
+    $result = $stmt->fetch();
+    if(!empty($result))
+    {
+      if($result['status_request'])
+      {
+        return true;
+      }
+    }
+    return false;
   }
-  /*
-  function getUserList()
+
+  function get_friends($user_id)
   {
     $con = $this->connect();
-    var_dump($con);
-
-    $query = "SELECT * FROM users";
-    $stmt = $con->query($query);
-    $userlist = $stmt->fetchAll(PDO::FETCH_CLASS, "User");
-    return $userlist;
+    $query = "SELECT from_id, to_id FROM friends WHERE (from_id = ? OR to_id = ?) AND status_request = 1";
+    $stmt = $con->prepare($query);
+    $stmt->execute([$user_id,$user_id]);
+    $result = $stmt->fetchAll();
+    $friends_ids = array();
+    foreach($result as $key => $array)
+    {
+      $other_id=$this->get_not_user($array,$user_id);
+      $friends_ids[$key] = $other_id;
+    }
+    return $friends_ids;
   }
 
-*/
+  function print_result_card($user_id)
+  {
+    $user = $this->get_user_by_id($user_id);
+    $username = $user['username'];
+    $thumbnail_path = $user['thumbnail_path'];
+    $names = $user['first_name']." ".$user['last_name'];
+    $filename = $user['filename'];
+    
+    echo "<div class='col-md-3 searchResultContainer'>
+    <div class='card searchResultCard'>
+    <img src='$thumbnail_path'class='card-img-top' alt='$filename'>
+        <div class='card-body'>
+            <h5 class='card-title'>$username</h5>
+            <p class='card-names'>$names</p>
+            <a href='index.php?site=show_chat&id=$user_id' class='btn btn-primary'></a>
+            <a href='sites/profile.php&user=$user_id' class='btn btn-primary'>Visit profile</a>
+        </div>
+    </div>
+</div>";
+    /**/
+  }
 
   function search_user($username)
   {

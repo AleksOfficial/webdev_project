@@ -34,4 +34,46 @@ class Db_con
     echo '<div class="alert alert-success" role="alert">
     ' . $success_msg . '</div>';
   }
+  function get_timestring($timestamp)
+  {
+    //Cool this works :) maybe we can shift it to the con_class so every function has this capability. This way you can use it for posts as well.
+    $date_msg = new DateTime($timestamp);
+    $now = date('D d M Y H:i:s');
+    $date_now = new DateTime($now);
+    $diff = $date_now->diff($date_msg);
+
+    if ($diff->y) {
+      return $date_msg->format('D, d M Y H:i');
+    }
+    if ($diff->m) {
+      return $date_msg->format('D, d M Y H:i');
+    }
+    if ($diff->d) {
+      if ($diff->d < 10)
+        return $diff->d . " day" . ($diff->y > 1 ? "s" : "") . " ago. - " . $date_msg->format('D, d M Y H:i');
+      else
+        return $date_msg->format('D, d M Y H:i:s');
+    }
+    if ($diff->h) {
+      return $diff->h . " hour" . ($diff->h > 1 ? "s" : "") . " ago - " . $date_msg->format('H:i');
+    }
+    if ($diff->i) {
+      return $diff->i . " minute" . ($diff->i > 1 ? "s" : "") . " ago. - " . $date_msg->format('H:i');
+    }
+    if ($diff->s) {
+      if ($diff->s < 30) {
+        return "under 30 seconds ago. - " . $date_msg->format('H:i');
+      } else {
+        return "under a minute ago. - " . $date_msg->format('H:i');
+      }
+    }
+    return "Now";
+}
+function get_not_user($from_to_array, $user_id)
+{ var_dump($from_to_array);
+  if($from_to_array['from_id'] == $user_id)
+    return $from_to_array['to_id'];
+  else
+    return $from_to_array['from_id'];
+}
 }

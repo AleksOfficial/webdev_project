@@ -1,14 +1,13 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400);
+/*Fonts need a change.. */
 
-/*the paddings and widths need update, it seems to break once I shift the width around. it needs to be responsive ... alternatively: https://www.youtube.com/watch?v=EW9I1HqaKwk */
 .message-blue {
     position: relative;
-    margin-left: 20px;
+    
     margin-bottom: 10px;
     padding: 15px;
 		padding-bottom: 25px;
     background-color: #A8DDFD;
-    width: 50%;
     height: auto;
     text-align: left;
     font: 400 .9em 'Open Sans', sans-serif;
@@ -19,15 +18,13 @@
 .message-orange {
     position: relative;
     margin-bottom: 10px;
-    margin-left: calc(100% - 240px);
     padding: 15px;
 		padding-bottom:25px;
-    background-color: #f8e896;
-    width: 50%;
+    background-color: #A1F698;
     height: auto;
     text-align: left;
     font: 400 .9em 'Open Sans', sans-serif;
-    border: 1px solid #dfd087;
+    border: 1px solid #a1f69898;
     border-radius: 10px;
 }
 
@@ -81,7 +78,7 @@
     position: absolute;
     width: 0;
     height: 0;
-    border-bottom: 15px solid #f8e896;
+    border-bottom: 15px solid #a1f69898;
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
     bottom: 0;
@@ -93,11 +90,44 @@
     position: absolute;
     width: 0;
     height: 0;
-    border-bottom: 17px solid #dfd087;
+    border-bottom: 17px solid #A1F698;
     border-left: 16px solid transparent;
     border-right: 16px solid transparent;
     bottom: -1px;
     right: -17px;
+}
+.input_field
+{
+    padding:0!important;
+}
+.send_btn {
+    color: black;
+    background-color: #FFC312;
+    width:100%;
+    height:86px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    
+}
+.button_container{
+    padding:0!important;
+}
+
+.send_btn img {
+    width:36px;
+    height:auto;
+  }
+  
+  .send_btn:hover {
+    color: black;
+    background-color: white;
+  }
+textarea{
+    resize:none;
+    border-top-right-radius: 0!important;
+    border-bottom-right-radius: 0!important;
+    height:86px;
+    
 }
 
 
