@@ -203,6 +203,16 @@ class Db_user extends Db_con
     return $result;
   }
 
+
+  function count_array($array) {
+    $count = 0;
+    foreach ($array as $arr) {
+      $count++;
+    
+    }
+    return $count;
+  }
+
   
 /*
     function updateUser($user)

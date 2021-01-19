@@ -7,15 +7,24 @@
 $searchUserClass = new Db_user();
 
 $searchUser = $searchUserClass->search_user($_SESSION['searchVal']);
+$searchAmount = $searchUserClass->count_array($searchUser);
 
 //echo "test" . $searchUser[1][1]; why bro
 var_dump($searchUser);
+$cycle = 0;
+?>
 
+<div>
+
+<?php
 foreach($searchUser as $user)
 {
     
 }
-if ($searchUser['username'] != NULL) {
+?>
+</div>
+<?php
+if ($searchUser[0]['username'] != NULL) {
     
     $_SESSION['searchAmount'] = count($searchUser['username'], 0);
     echo "testamount=" . $_SESSION['searchAmount'];
