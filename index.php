@@ -88,7 +88,7 @@
       include 'inc/registerform.inc.php';
       break;
     case 'home':
-      echo"welcome user!";
+      include 'inc/feed.inc.php';
       break;
     case 'show_chat':
       include 'inc/show_chat.inc.php';
