@@ -149,7 +149,7 @@ class Db_user extends Db_con
     $stmt = $con->prepare($query);
     $stmt->execute([$user_id,$user_id]);
     $result = $stmt->fetch();
-    var_dump($result);
+    
     if(empty($result))
     {
       return 0;

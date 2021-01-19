@@ -63,7 +63,9 @@ if ($_SESSION['logged']) {
               <span>Friends ($friend_count)</span>
               
             </div>
+            <ul>
             $friends_string
+            </ul>
           </div>
         </div>
       </div>
@@ -73,13 +75,14 @@ if ($_SESSION['logged']) {
           <div class='first_second_names'>
             <span>$first_name $last_name</span>
           </div>
-        </div>
-        <div class='post_section'>";
+        </div>";
+        
         //Print out all posts of user
+        include "../inc/feed.inc.php";
+
         
         
-        
-      echo "</div>
+      echo "
       </div>
       <div class='col-lg-3'>
         <div class='edit_button'><a href='profile.php?user=$user_id&unfriend=1' class='btn my_button unfriend_button'><i><img src='../res/icons/edit.png' alt='unfriend'></i></a></div>

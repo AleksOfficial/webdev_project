@@ -2,7 +2,7 @@
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div class="container-fluid">
                     
-                        <a class="navbar-brand" href="index.php?site=home">
+                        <a class="navbar-brand" href="<?php echo ($file == "index.php" ?  "./" :  "../"); ?>index.php?site=home">
                             <img class = "navbar_logo" src="<?php echo ($file == "index.php" ?  "./" :  "../"); ?>res/icons/logo.png" alt="logo">
                         </a>
                     
