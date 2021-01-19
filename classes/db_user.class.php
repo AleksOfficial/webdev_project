@@ -142,6 +142,23 @@ class Db_user extends Db_con
     }
     return $friends_ids;
   }
+  function count_friends($user_id)
+  {
+    $con = $this->connect();
+    $query = "SELECT COUNT(*) FROM friends WHERE from_id = ? or to_id = ?";
+    $stmt = $con->prepare($query);
+    $stmt->execute([$user_id,$user_id]);
+    $result = $stmt->fetch();
+    var_dump($result);
+    if(empty($result))
+    {
+      return 0;
+    }
+    else
+    {
+      return $result['COUNT(*)'];
+    }
+  }
 
   function print_result_card($user_id)
   {

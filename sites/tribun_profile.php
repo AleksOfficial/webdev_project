@@ -11,8 +11,6 @@ IDEEN FÜR PROFILE
 
 */
 ?>
-
-
 <section id="profile">
 
 <div class="row">
