@@ -170,9 +170,12 @@ class Db_user extends Db_con
 
     $result = array();
     $con = $this->connect();
-    $query = "SELECT * FROM person INNER JOIN images ON person.profile_pic=images.image_id WHERE username LIKE '%?%' ORDER BY person.person_id ASC";
+    $query = "SELECT * FROM person INNER JOIN images ON person.profile_pic=images.image_id WHERE username LIKE '%?%' ORDER BY person.person_id ASC;";
     $stmt = $con->prepare($query);
     $stmt->execute([$username]);
+
+    $stmt->debugDumpParams();
+    var_dump($stmt->fetchAll());
 
     foreach ($stmt->fetchAll() as $user) {
       
@@ -180,8 +183,9 @@ class Db_user extends Db_con
       
     }
     
-    $result = array_unique($result);
-    asort($result);
+    //$result = array_unique($result);
+    //asort($result);
+    //var_dump($result);
     return $result;
   }
 

@@ -6,21 +6,37 @@
 
 $searchUserClass = new Db_user();
 
+$searchUser = $searchUserClass->search_user($_SESSION['searchVal']);
 
-if (isset($_SESSION['searchVal'])) {
-    $_SESSION['searchUser'] = $searchUserClass->search_user($_GET['searchValue']);
-    $_SESSION['searchAmount'] = count($_SESSION['searchUser'], 0);
+//echo "test" . $searchUser[1][1]; why bro
+var_dump($_SESSION['searchVal']);
 
-} else {
-    echo "there are no results for \"". $_GET['searchValue'] . "\"";
+if ($searchUser['username'] != NULL) {
+    
+    $_SESSION['searchAmount'] = count($searchUser['username'], 0);
+    echo "testamount=" . $_SESSION['searchAmount'];
+    
+?>  <div class="container">     
+        <h3>
+            <?php  echo "showing results for \"" . $_GET['searchValue'] . "\"";   ?>
+        </h3>
+    </div>                                                              <?php
+
+
+} else /*if ($searchUser['username'] != NULL)*/ {            ?>
+    <div class="container">     
+        <h3>
+            <?php  echo "there are no results for \"" . $_GET['searchValue'] . "\"";   ?>
+        </h3>
+    </div>                                              <?php
 }
 
 
-foreach ($_SESSION['searchUser'] as $test) {
+foreach ($searchUser as $test) {
     echo "this is a test: " . $test;
 }
 
-echo "testest " . $_SESSION['searchUser'];
+//echo "testest " . $_SESSION['searchUser'];
 
 
 
@@ -80,9 +96,9 @@ echo "testest " . $_SESSION['searchUser'];
 ?>                  </div>                                                                               <?php
                 }   
                 
-
-
             ?>
+    </div>
+</div>
 
 
  <!--       <div class="col-md-4 searchResultContainer">

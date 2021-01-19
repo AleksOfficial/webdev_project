@@ -74,6 +74,6 @@
 
             if (isset($_GET['searchValue'])){
                 $_SESSION['searchVal'] = $_GET['searchValue'];
-                include 'sites/searchResult.php';
+                include 'sites/searchResultTest.php';
             }
             ?>
