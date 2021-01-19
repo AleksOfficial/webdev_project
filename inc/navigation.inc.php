@@ -60,12 +60,24 @@
                                     <a class="nav-link<?php echo $navigator == "impressum" ? " active": "";?>" href="<?php echo $file == "index.php" ?  "./" :  "../" ?>index.php?site=impressum">Impressum</a>
                                 </li>
                             </ul>
-                            <form class="d-flex" method="GET">
-                                <input class="form-control me-2" type="search" placeholder="Search user" aria-label="Search">
-                                <button class="btn btn-outline-success" name="searchSubmit" type="submit">Search</button>
+                            <form class="d-flex" action="index.php" method="GET">
+                                <input class="form-control me-2" type="search" name="searchValue" placeholder="Search user" aria-label="Search">
+                                <button class="btn btn-outline-success" id="searchSubmit" name="searchSubmit" type="submit">Search</button>
                             </form>
                         </div>
                 </div>
             </nav>
 
+<<<<<<< HEAD
             <?php  //include 'sites/searchResult.php' doesn't work for now, wait till push from tribun ?>
+=======
+
+            
+            <?php
+
+            if (isset($_GET['searchValue'])){
+                $_SESSION['searchVal'] = $_GET['searchValue'];
+                include 'sites/searchResult.php';
+            }
+            ?>
+>>>>>>> 3dd8bd97519d616e88cdd3dd01a7deed732dfa44
