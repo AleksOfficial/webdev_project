@@ -135,27 +135,16 @@ class Db_user extends Db_con
 
     $result = array();
     $con = $this->connect();
-    $query = "SELECT * FROM person JOIN images ON profile_pic=image_id WHERE username LIKE ? ORDER BY id ASC";
+    $query = "SELECT * FROM person INNER JOIN images ON person.profile_pic=images.image_id WHERE username LIKE '%?%' ORDER BY person.person_id ASC";
     $stmt = $con->prepare($query);
     $stmt->execute([$username]);
 
     foreach ($stmt->fetchAll() as $user) {
-      array_push($result, $user);
+      
+        array_push($result, $user);
+      
     }
-    $stmt->execute(["%" . $username]);
-    foreach ($stmt->fetchAll() as $user) {
-      array_push($result, $user);
-    }
-
-    $stmt->execute([$username . "%"]);
-    foreach ($stmt->fetchAll() as $user) {
-      array_push($result, $user);
-    }
-
-    $stmt->execute(["%" . $username . "%"]);
-    foreach ($stmt->fetchAll() as $user) {
-      array_push($result, $user);
-    }
+    
     $result = array_unique($result);
     asort($result);
     return $result;
