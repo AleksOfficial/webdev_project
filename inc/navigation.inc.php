@@ -68,4 +68,4 @@
                 </div>
             </nav>
 
-            <?php  include 'sites/searchResult.php' ?>
+            <?php  //include 'sites/searchResult.php' doesn't work for now, wait till push from tribun ?>

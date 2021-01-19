@@ -54,3 +54,25 @@ margin-left:0;
   top: -5px; /* changed */
   left: 18px; /* changed */
 }
+.message_button {
+  color: black;
+  background-color: #FFC312;
+  width:100%;
+  height:86px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  
+}
+.button_container{
+  padding:0!important;
+}
+
+.message_button img {
+  width:36px;
+  height:auto;
+}
+
+.message_button:hover {
+  color: black;
+  background-color: white;
+}
