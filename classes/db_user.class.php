@@ -190,22 +190,13 @@ class Db_user extends Db_con
 
   function search_user($username)
   {
-
-    $result = array();
-    $con = $this->connect();
-    $query = "SELECT * FROM person INNER JOIN images ON person.profile_pic=images.image_id WHERE username LIKE '%?%' ORDER BY person.person_id ASC;";
-    $stmt = $con->prepare($query);
-    $stmt->execute([$username]);
-
-    $stmt->debugDumpParams();
-    var_dump($stmt->fetchAll());
-
-    foreach ($stmt->fetchAll() as $user) {
-      
-        array_push($result, $user);
-      
-    }
+    var_dump($username);
     
+    $con = $this->connect();
+    $query = "SELECT * FROM person LEFT JOIN images ON person.profile_pic = images.image_id WHERE person.username LIKE ? ORDER BY person.person_id ASC";
+    $stmt = $con->prepare($query);
+    $stmt->execute(["%".$username."%"]);
+    $result = $stmt->fetchAll();    
     //$result = array_unique($result);
     //asort($result);
     //var_dump($result);

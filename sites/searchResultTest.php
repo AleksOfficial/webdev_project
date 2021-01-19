@@ -9,8 +9,12 @@ $searchUserClass = new Db_user();
 $searchUser = $searchUserClass->search_user($_SESSION['searchVal']);
 
 //echo "test" . $searchUser[1][1]; why bro
-var_dump($_SESSION['searchVal']);
+var_dump($searchUser);
 
+foreach($searchUser as $user)
+{
+    
+}
 if ($searchUser['username'] != NULL) {
     
     $_SESSION['searchAmount'] = count($searchUser['username'], 0);
