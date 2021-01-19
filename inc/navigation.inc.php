@@ -3,7 +3,7 @@
                 <div class="container-fluid">
                     
                         <a class="navbar-brand" href="index.php?site=home">
-                            <img class = "navbar_logo" src="<?php echo $file == "index.php" ?  "./" :  "../" ?>res/icons/logo.png" alt="logo">
+                            <img class = "navbar_logo" src="<?php echo ($file == "index.php" ?  "./" :  "../"); ?>res/icons/logo.png" alt="logo">
                         </a>
                     
                     <a class="navbar-brand" href="index.php?site=home">RIFT</a>
@@ -18,7 +18,9 @@
                                 {
                                     //print stuff for a logged user?>
                                     <li class="nav-item">
-                                    <a class="nav-link<?php echo $file == "profile.php"? " active": "";?> aria-current="page" href="/sites/profile.php">Profile</a>
+                                    <a class="nav-link<?php echo $file == "profile.php"? " active": "";?> aria-current="page" href=
+                                    "<?php echo ($file == "index.php" ?  "./" :  "../"); ?>sites/profile.php?<?php $id = $_SESSION['user']['person_id']; echo "user=$id"?>">
+                                    Profile</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link<?php echo $navigator == "notifications" ? " active": "";?>" href="<?php echo $file == "index.php" ?  "./" :  "../" ?>index.php?site=notifications">Notifications</a>

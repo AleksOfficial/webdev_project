@@ -206,4 +206,7 @@ ALTER TABLE all_notifications
 ALTER TABLE password_reset
   ADD CONSTRAINT FK_password_reset FOREIGN KEY(person_id) REFERENCES person(person_id) ON DELETE CASCADE ON UPDATE CASCADE;
 
+/* INSERT STATEMENTS*/
+--will be done at the end, especially notifications as this is not needed. the feed is more important as well as the profile.php site. 
 
+INSERT INTO type_notification(notification_text,icon_path) VALUES('friend request')

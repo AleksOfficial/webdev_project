@@ -142,6 +142,23 @@ class Db_user extends Db_con
     }
     return $friends_ids;
   }
+  function count_friends($user_id)
+  {
+    $con = $this->connect();
+    $query = "SELECT COUNT(*) FROM friends WHERE from_id = ? or to_id = ?";
+    $stmt = $con->prepare($query);
+    $stmt->execute([$user_id,$user_id]);
+    $result = $stmt->fetch();
+    var_dump($result);
+    if(empty($result))
+    {
+      return 0;
+    }
+    else
+    {
+      return $result['COUNT(*)'];
+    }
+  }
 
   function print_result_card($user_id)
   {
@@ -149,7 +166,7 @@ class Db_user extends Db_con
     $username = $user['username'];
     $thumbnail_path = $user['thumbnail_path'];
     $names = $user['first_name']." ".$user['last_name'];
-    $filename = $user['filename'];
+    $filename = $user['image_name'];
     
     echo "<div class='col-md-3 searchResultContainer'>
     <div class='card searchResultCard'>
@@ -157,8 +174,14 @@ class Db_user extends Db_con
         <div class='card-body'>
             <h5 class='card-title'>$username</h5>
             <p class='card-names'>$names</p>
-            <a href='index.php?site=show_chat&id=$user_id' class='btn btn-primary'></a>
+            <div class='row'>
+            <div class='col-3'>
+            <a href='index.php?site=show_chat&chat=$user_id' class='btn btn-primary message_button'><img src='res/icons/mail_smaller.png'></a>
+            </div>
+            <div class='col'>
             <a href='sites/profile.php&user=$user_id' class='btn btn-primary'>Visit profile</a>
+            </div>
+            </div>
         </div>
     </div>
 </div>";

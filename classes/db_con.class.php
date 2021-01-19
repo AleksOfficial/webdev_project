@@ -70,7 +70,7 @@ class Db_con
     return "Now";
 }
 function get_not_user($from_to_array, $user_id)
-{ var_dump($from_to_array);
+{ 
   if($from_to_array['from_id'] == $user_id)
     return $from_to_array['to_id'];
   else

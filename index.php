@@ -37,6 +37,7 @@
       break;
     case 'show_chat':
       echo '<link rel = "stylesheet" href="res/css/messages.css">';
+      //echo '<meta http-equiv="refresh" content="30">'; might be added later.
       break;
     case 'admin':
       // does admin have a css?
