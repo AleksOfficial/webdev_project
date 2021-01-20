@@ -14,7 +14,7 @@ include 'inc/class-autoload.inc.php';
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-        <link rel="stylesheet" href="dauofi.css">
+        <link rel="stylesheet" href="profile.css">
         <title>RIFT</title>
         
     </head>
@@ -42,10 +42,10 @@ include 'inc/class-autoload.inc.php';
         </main>
         <footer>
             <?php //include 'sites/profile.site.php'; ?>
-            <?php //include 'inc/post.inc.php'; ?>
+            <?php include 'inc/post.inc.php'; ?>
             <?php //include 'sites/post.site.php'; ?>
             <?php //include 'inc/impressum.inc.php'; ?>
-            <?php include 'sites/searchResult.php'; ?>
+            <?php //include 'sites/searchResult.php'; ?>
 
         </footer>
         <!-- Optional JavaScript -->
