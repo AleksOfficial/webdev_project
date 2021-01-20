@@ -40,7 +40,7 @@ CREATE TABLE reaction_type(
 CREATE TABLE comments(
   comment_id INTEGER PRIMARY KEY AUTO_INCREMENT,
   comment_text VARCHAR(500),
-  created_on TIMESTAMP,
+  created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
   post_id INTEGER NOT NULL, -- Where it belongs to so it needs to be a foreign key
   person_id INTEGER NOT NULL  -- Who wrote it
 );
@@ -73,7 +73,7 @@ CREATE TABLE password_reset(
     person_id INTEGER NOT NULL,
     selector VARCHAR(255) NOT NULL,
     token VARCHAR(255) NOT NULL,
-    created_on TIMESTAMP
+    created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP 
 );
 -- Relationship tables
 /*
@@ -112,7 +112,7 @@ CREATE TABLE all_reactions
   reaction_id INTEGER NOT NULL,
   post_id INTEGER NOT NULL,
   person_id INTEGER NOT NULL,
-  created_on TIMESTAMP
+  created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP 
   -- FKs: reaction; post; friends
 );
 

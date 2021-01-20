@@ -44,7 +44,7 @@
   //printing available posts
   if (!empty($posts_person)) {
     foreach ($posts_person as $post) {
-      $db_post->print_post($post);
+      $db_post->print_post($post,$file,$_SESSION['user']['person_id']);
     }
   }
   ?>
