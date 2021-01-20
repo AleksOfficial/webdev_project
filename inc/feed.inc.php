@@ -3,15 +3,26 @@
   $db_post = new Db_posts();
   if ($file == "index.php") {
     if ($_SESSION['logged']) {
-      //registered user
-
       //admin user
-      $posts_person = $db_post->get_all_posts($_SESSION['user']['person_id']);
+      if($_SESSION['user']['is_admin'])
+      {
+        $posts_person = $db_post->get_all_posts($_SESSION['user']['person_id']);
+      }
+      //registered user
+      else
+      {
+        $db_user = new Db_user();
+        $friends_ids = $db_user->get_friends($_SESSION['user']['person_id']);
+        $post_ids = $db_post->get_post_ids_from_own_and_friends($_SESSION['user']['person_id'],$friends_ids);
+        $posts_person = $db_post->convert_to_posts($post_ids);
+      }
+      
+      
     } else {
       //public user
       $posts_person = $db_post->get_posts_public();
     }
-  } else {
+  } else if($file == "profile.php") {
     //Profile Page
     if ($_SESSION['logged']) {
       $db_user = new Db_user();
