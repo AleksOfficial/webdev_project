@@ -87,6 +87,9 @@
     case 'register':
       include 'inc/registerform.inc.php';
       break;
+    case 'search':
+      header("Location: sites/searchUserTest.php");
+      break;
     case 'home':
       include 'inc/feed.inc.php';
       break;
