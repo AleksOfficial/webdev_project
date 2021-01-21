@@ -7,7 +7,7 @@ class Db_posts extends Db_con{
     $query = "SELECT * FROM post LEFT JOIN person ON person.person_id = post.person_id LEFT JOIN images ON post.image_id = images.image_id WHERE post.person_id = ? ORDER BY post.post_id DESC";
     $stmt = $con->prepare($query);
     $x = $stmt->execute([$user_id]);
-    var_dump($x);
+    
     $results = $stmt->fetchAll();
     return $results;
   }
@@ -17,7 +17,7 @@ class Db_posts extends Db_con{
     $query = "SELECT * FROM post LEFT JOIN person ON person.person_id = post.person_id LEFT JOIN images ON post.image_id = images.image_id WHERE post.person_id = ? AND (privacy_status=1 OR privacy_status = 2) ORDER BY post.post_id DESC";
     $stmt = $con->prepare($query);
     $x = $stmt->execute([$user_id]);
-    var_dump($x);
+    
     $results = $stmt->fetchAll();
     return $results;
   }
@@ -41,7 +41,7 @@ class Db_posts extends Db_con{
     //var_dump($x);
     $stmt = $con->prepare($query);
     $x = $stmt->execute([$user_id]);
-    var_dump($x);
+    //var_dump($x);
     $all_posts = array();
     $results = $stmt->fetchAll();
     $db_user = new Db_user();
@@ -79,7 +79,7 @@ class Db_posts extends Db_con{
     $query = "SELECT * FROM post LEFT JOIN person ON person.person_id = post.person_id LEFT JOIN images ON post.image_id = images.image_id WHERE post.person_id = ? AND post.privacy_status = 1";
     $stmt = $con->prepare($query);
     $x = $stmt->execute([$user_id]);
-    var_dump($x);
+    //var_dump($x);
     $results = $stmt->fetchAll();
     return $results;
   }
@@ -132,14 +132,21 @@ class Db_posts extends Db_con{
     $stmt->execute([$post_id]);
     return $stmt->fetchAll();
   }
-  function get_status_img_string($privacy_status)
+  function get_status_img_string($privacy_status,$dots)
   {
-    return "<li>hello_world!</li>";
+    //return "<li>hello_world!</li>";
     //return the right image
     switch($privacy_status)
     {
       case 1:
-
+        return "<li><img class ='status' src='$dots/res/icons/public.png'></li>";
+        break;
+      case 2:
+        return "<li><img class ='status' src='$dots/res/icons/friends.png'></li>";
+        break;
+      case 3:
+        return "<li><img class ='status' src='$dots/res/icons/private.png'></li>";
+        break;
     }
   }
 
@@ -180,11 +187,11 @@ class Db_posts extends Db_con{
   
   function print_post($post_with_person,$file,$logged_id)
   {
-    var_dump($post_with_person);
+    
     $post_id = $post_with_person['post_id'];
     $username = $post_with_person['username'];
     $timestring = $this->get_timestring($post_with_person['created_on']);
-    $status_image = $this->get_status_img_string($post_with_person['privacy_status']); //should echo out an img tag and an a tag around it so you can change it if necessary. changes possible only in single_post view. as a dropdown perhaps idk..
+    
     $edit_button = "";
     
     $all_tags = $this->get_tags_from_id($post_with_person['post_id']);
@@ -197,7 +204,7 @@ class Db_posts extends Db_con{
       $dots = ".";
     else
       $dots = "..";
-    
+    $status_image = $this->get_status_img_string($post_with_person['privacy_status'],$dots); //should echo out an img tag and an a tag around it so you can change it if necessary. changes possible only in single_post view. as a dropdown perhaps idk..
     if($this->own_post_check($post_with_person,$logged_id))
     {
       $edit_button = "<li><a href='$dots/sites/single_post.php?edit=$post_id'><img src ='$dots/res/icons/edit.png' alt='edit'></a></li>";
@@ -209,19 +216,27 @@ class Db_posts extends Db_con{
 
     echo "       
     <div class='post'>
-      <div class='post_topbar'>
-        <div class='usy-dt'>
-          <img src='$profile_pic_thumbnail' alt='$filename'>
-          <div class='usy-name'>
-            <a href='profile.php?user=$user_id'><p class='username'>$username</p></a>
-            <span>$timestring</span>
+      <div class='card mb-3 post_topbar'>
+        <div class='row user_image'>
+          <div class='col-md-2'>  
+            <img src='$profile_pic_thumbnail' alt='$filename'>
           </div>
-        </div>
-        <div class='status_image'>
-          <ul>    
-            $status_image
-            $edit_button
-        </ul>
+          <div class='col-md-7 user_name'>
+            <div class='card-body'>
+              <div class='card-text'>
+                <a href='profile.php?user=$user_id'><h5 class='username'>$username</h5></a>
+              </div>
+              <div class='card-text'>
+                <small><i>$timestring</i></small>
+              </div>
+            </div>
+          </div>
+          <div class='col-md-3 status_image'>
+            <ul>    
+              $status_image
+              $edit_button
+            </ul>
+          </div>
         </div>
       </div>
       <div class='main_input'>

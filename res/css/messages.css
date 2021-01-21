@@ -113,22 +113,7 @@
     padding:0!important;
 }
 
-.send_btn img {
-    width:36px;
-    height:auto;
-  }
-  
-  .send_btn:hover {
-    color: black;
-    background-color: white;
-  }
-textarea{
-    resize:none;
-    border-top-right-radius: 0!important;
-    border-bottom-right-radius: 0!important;
-    height:86px;
-    
-}
+
 
 
 
