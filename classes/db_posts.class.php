@@ -127,10 +127,30 @@ class Db_posts extends Db_con{
   function get_reactions_from_id($post_id)
   {
     $con = $this->connect();
-    $query = "SELECT * FROM all_reactions LEFT JOIN person ON all_reactions.person_id = person.person_id WHERE post_id = ?";
+    $query = "SELECT COUNT(*) AS amount ,all_reactions.reaction_id  FROM all_reactions LEFT JOIN reaction_type ON all_reactions.reaction_id = reaction_type.reaction_id WHERE post_id = ? GROUP BY all_reactions.reaction_id ORDER BY amount DESC";
     $stmt = $con->prepare($query);
-    $stmt->execute([$post_id]);
+    $x = $stmt->execute([$post_id]);
+    if(!$x)
+    {
+      $this->error($stmt->errorInfo()[2]);
+      return NULL;
+    }
     return $stmt->fetchAll();
+  }
+  function get_reaction_details($reaction_id)
+  {
+    $con = $this->connect();
+    $query = "SELECT * FROM reaction_type WHERE reaction_id = ?";
+    $stmt = $con->prepare($query);
+    $x=$stmt->execute([$reaction_id]);
+    if($x)
+    {
+      return $stmt->fetch();
+    }
+    else
+    {
+      $this->error($stmt->errorInfo()[2]);
+    }
   }
   function get_status_img_string($privacy_status,$dots)
   {
@@ -188,18 +208,53 @@ class Db_posts extends Db_con{
     echo "
     <li><a href=$dots/sites/searchResult.php?tag=$text>$text</a></li>";
   }
+  function count_comments_post($post_id)
+  {
+    $con = $this->connect();
+    $query = "SELECT COUNT(*) AS amount FROM comments WHERE post_id = ?";
+    $stmt =$con->prepare($query);
+    $x=$stmt->execute([$post_id]);
+    if($x)
+      return $stmt->fetch()['amount'];
+    else
+      $this->error($stmt->errorInfo()[2]);
+
+  }
   
+  function get_possible_reactions()
+  {
+    $con = $this->connect();
+    $query = "SELECT * FROM reaction_type";
+    $stmt =$con->prepare($query);
+    $x = $stmt->execute();
+    $reactions = $stmt->fetchAll();
+    if(!$x)
+    {
+      $this->error($stmt->errorInfo()[2]);
+      return false;
+    } 
+    $result = array();
+    $var = 1;
+    foreach($reactions as $_)
+    {
+      array_push($result,$var);
+      $var++;
+    }
+    return $result;
+    
+  }
+
   function print_post($post_with_person,$file,$logged_id=NULL)
   {
-    
+    //1var_dump($post_with_person);
     $post_id = $post_with_person['post_id'];
     $username = $post_with_person['username'];
     $timestring = $this->get_timestring($post_with_person['created_on']);
-    
+    $content = $post_with_person['post_text'];
     $edit_button = "";
     $delete_button = "";
     $all_tags = $this->get_tags_from_id($post_with_person['post_id']);
-    $all_reactions = $this->get_reactions_from_id($post_with_person['post_id']);
+    $url = $_SERVER['REQUEST_URI'];
     $var = 0;
     $profile_pic_thumbnail = $this->get_profilethumb_path($post_with_person['person_id']);
     $filename = $post_with_person['image_name'];
@@ -246,73 +301,102 @@ class Db_posts extends Db_con{
       
       <div class='row main_input'>
         <div class='post_text'>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam luctus hendrerit metus, ut ullamcorper quam
-          finibus at. Etiam id magna sit amet </p> collapse if too many chars. <a href='$singlepost'>View full post</a></div>";
+        <p>$content</p> <a href='$singlepost'>View full post</a></div>";
         if($post_with_person['image_id']!=NULL)
         {
           $post_image = $this->get_post_with_image($post_id);
           $image_path = $post_image['thumbnail_path'];
-          $image_name = $post_image['filename'];
+          $image_name = $post_image['image_name'];
           echo"
           <div class='post_image'>
-            <a href='$singlepost'><img src='$image_path' alt='$image_name'></a>
+            <a href='$singlepost'><img class='rounded mx-auto d-block' src='$dots/$image_path' alt='$image_name'></a>
           </div>";
         }
           echo"
-        <div class='tags'>
-        <ul>";
-        foreach($all_tags as $tag)
-        {
-          if ($var ==10)
-            break;
-          $this->print_tag($tag,$dots);
-          $var++;
-        }
-        echo "          
-        
-        </ul>
-        </div>
       </div>
-      <div class='reaction_section'>
-        <ul class='reactions'>";
-        foreach($all_reactions as $reaction)
-        {
-            //<li>
-            //Here comes a function which prints out the possible reactions. right now there are only 2 or so. could add more actually. is added 
-            //<a href='#'><img src='$dots/res/icons/Notification_like.png'></a>
+      <div class='row reaction_section'>
+        <div class='col-6'>
+          <div class='row'>
+        ";/*
+        $all_reactions = $this->get_possible_reactions();
+        $amount_reactions = $this->get_reactions_from_id($post_with_person['post_id']);*/
+        $reactions = $this->get_possible_reactions();
+        $amount_reactions = $this->get_reactions_from_id($post_id);
+
+        foreach($amount_reactions as $reaction)
+        {//Here comes a function which prints out the possible reactions. right now there are only 2 or so. could add more actually. is added
+          
+            
+            $reaction_id = $reaction['reaction_id'];
+            $amount = $reaction['amount'];
+            $reaction = $this->get_reaction_details($reaction_id);
+            $reactions[$reaction_id-1]=0;
+            $emoji_path = $reaction['emoji_path'];
+            echo "<div class='col'>
+            <a class='btn btn-warning' href='$url'><img class='smaller_profile_icon'src='$dots/$emoji_path'> </a><span class='text-white' style='margin-left:5px;'>($amount)
+            </div>";
+            
+            
             //<img src='images/liked-img.png' alt='likes'>
             //<span>amount of specific reaction</span>
             //</li>
         }
+        foreach($reactions as $reaction)
+        {
+          if($reaction>0)
+          {
+            $reaction = $this->get_reaction_details($reaction);
+            $emoji_path = $reaction['emoji_path'];
+            echo "<div class='col'>
+            <a class='btn btn-warning' href='$url'><img class='smaller_profile_icon'src='$dots/$emoji_path'></a></div>";
+          }
+
+        }
          
-        echo "</ul>
+        echo "
+        </div>
+        </div>
         </div>
         <div class='row comment-section'>";
           if($file !="single_post.php")
           $last_comments= $this->get_3_comments($post_id);
-          if(!empty($last_comments!=NULL))
+          $count_comments=$this->count_comments_post($post_id);
+          $count_comments-=3;
+          if(!empty($last_comments))
           {
-            echo "<a href='$singlepost' class='view_more_comments'>view more comments</a>
-            <ul>";
+            if($count_comments>0)
+            {
+              echo "<a href='$singlepost' class='view_more_comments'>view more comments ($count_comments)</a>";
+            }
+            
+            echo "<ul>";
             for($x = 0; $x<3;$x++)
             {
               $element = 2-$x;
               if(isset($last_comments[$element]))
               {
                 $comment = $last_comments[$element];
-                $comment_thumbnail = $comment['thumbnail'];
+                $comment_thumbnail = $comment['thumbnail_path'];
                 $comment_filename = $comment['image_name'];
                 $comment_timestring = $this->get_timestring($comment['created_on']);
                 $comment_username = $comment['username'];
                 $comment_content = $comment['comment_text'];
 
                 echo "
-                <div class='comment'>
+                <div class='card bg-dark text-white mb-3 comment'>
+                <div class='row user_image'>
+                <div class='col-md-2 pic_container'> 
                   <img src='$dots/$comment_thumbnail' class='smaller_profile_pic' alt = '$comment_filename'>
+                  </div>
+                  <div class='col-md-10 user_name'>
+                  <div class='card-body'>
                   <p class='comment_name'>$comment_username</p>
-                  <span>$comment_timestring</span>
+                  <small class='text-muted'><span>$comment_timestring</span></small>
                   <p class='comment_content'>$comment_content</p>
-                </div>";
+                  </div>
+                </div>
+              </div>
+            </div>";
 
               }
             }
@@ -330,17 +414,24 @@ class Db_posts extends Db_con{
           </li>*/
         $site = $_SERVER['PHP_SELF'];
         //$site = $site."?user=$user_id";
-        echo "
-        <div class='comment_img'>
+
+        if($_SESSION['logged'])
+        {
+          echo"
+          <div class='comment_img'>
           <img class='smaller_profile_pic' src='$dots/$profile_pic_thumbnail' alt='$filename'>
         </div>
           <div class='comment_box'>
             <form action='$site' method='POST'>
               <input type='text' placeholder='Post a comment' name='comment_text'>
+              <input type='hidden' name='post_id' value='$post_id'>
               <button type='submit' name='comment_submit'>Send</button>
             </form>
           </div>
+          ";
  
+        }
+        echo"          
       </div>
     </div>
     </div>";

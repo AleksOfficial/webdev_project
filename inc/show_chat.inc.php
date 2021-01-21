@@ -51,7 +51,7 @@ if (isset($_GET['chat'])) {
   echo "</div><form action ='index.php?site=show_chat&chat=$recipient_id' method = 'POST'>
         <div class='row input_of_message'>
         <div class='col-11 input_field'>
-        <textarea rows=3 class = 'form-control' name='content' placeholder='Enter your Message here ...' required></textarea></div>
+        <textarea rows=3 class = 'form-control' name='content' maxlength='500' placeholder='Enter your Message here ...' required></textarea></div>
         <div class='col-1 button_container'><button type='submit' class='btn send_btn' name='send'><img src='res/icons/send-mail.png'></button>
         </form>";
   echo '</div>';

@@ -2,7 +2,11 @@
   <?php
   $db_post = new Db_posts();
 
-  
+  //!!!! NEEDS SOME LOGIC TO UDPATE THE STATUS BARS AND THEIR COUNTERS!!!!
+  /*
+    RIGHT HERE
+
+  */
   if ($file == "index.php") {
     if ($_SESSION['logged']) {
       //admin user

@@ -19,12 +19,27 @@
     if (!isset($_SESSION['user'])) {
       $_SESSION['logged'] = false;
     }
-  
+    if($file == "index.php")
+    {
+      $dots=".";
+    }
+    else
+    {
+      $dots="..";
+    }
   //Login User & Register
   $db = new Db_user();
   if(isset($_POST['login']) ||isset($_POST['register']))
   {
     include "script/login_register.script.php";
+  }
+  if(isset($_POST['submit_post']))
+  {
+    include "script/add_post.script.php";
+  }
+  if(isset($_POST['comment_submit']))
+  {
+    include "script/add_comment.script.php";
   }
 
   //css
