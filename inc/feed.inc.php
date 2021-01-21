@@ -2,7 +2,11 @@
   <?php
   $db_post = new Db_posts();
 
+  //!!!! NEEDS SOME LOGIC TO UDPATE THE STATUS BARS AND THEIR COUNTERS!!!!
   /*
+    RIGHT HERE
+
+  */
   if ($file == "index.php") {
     if ($_SESSION['logged']) {
       //admin user
@@ -42,9 +46,10 @@
       //not logged on - foreigners page
       $posts_person = $db_post->get_posts_from_id_user($_GET['user']);
     }
-
+  }
+/*
   } else if ($file == "searchResultTest.php") {
-    */
+    
     if ($_SESSION['logged']) {
       //admin user
       if($_SESSION['user']['is_admin'])
@@ -69,13 +74,33 @@
     }
     $posts_person_save = $posts_person;
     $posts_person = $db_post->search_post($_SESSION['searchVal'],$posts_person_save);
-    var_dump($posts_person);
-  //}
+    var_dump($posts_person);*/
+  
   //printing available posts
   if (!empty($posts_person)) {
     foreach ($posts_person as $post) {
-      $db_post->print_post($post,$file,$_SESSION['user']['person_id']);
+      if($_SESSION['logged'])
+      {
+        $db_post->print_post($post,$file,$_SESSION['user']['person_id']);
+      }
+      else{
+        $db_post->print_post($post,$file);
+      }
+      
     }
+  }
+  else
+  {
+    if($file!="search_result.php")
+    {
+      echo "<div style='text-align:center'>
+      <h1 class='nothing_here_yet headline'>¯\_(ツ)_/¯</h1>
+      <p class='nothing_here_yet text'>There is nothing here yet!</p></div>";  
+    }
+    else
+    echo "<div style='text-align:center'>
+          <h1 class='nothing_here_yet headline'>ლಠ_ಠლ</h1>
+          <p class='nothing_here_yet text'>Couldn't find anything</p></div>";
   }
   ?>
 </div>

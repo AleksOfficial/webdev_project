@@ -53,10 +53,10 @@ class db_messages extends Db_con
     echo "
       <a href='index.php?site=show_chat&chat=$recipient_id'>
       <div class='row list_element'>
-      <div class ='col thumbnail_list'><img class='messengerthumbnail' src='$img_path'></div>
-      <div class ='col username_list'>$username</div>
-      <div class ='col timestamp_list'><p class='msg_content'>$content</p><i class='timestamp'>$timestamp</i></div>
-      <div class ='col unread_msg_list'><span class='unread_msg_counter'>$unread</span></div>
+      <div class ='col-3 thumbnail_list'><img class='small_profile_pic' src='$img_path'></div>
+      <div class ='col-3 username_list'>$username</div>
+      <div class ='col-6 timestamp_list'><h3 class='msg_content'>$content</h3><small class='text-muted'><i class='timestamp'>$timestamp</i</small></div>
+      <div class ='unread_msg_list'><span class='unread_msg_counter'>$unread</span></div>
       </div>
       </a>";
   }

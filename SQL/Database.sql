@@ -46,13 +46,13 @@ CREATE TABLE comments(
 );
 
 CREATE TABLE images(
-  image_id INTEGER NOT NULL PRIMARY KEY,
+  image_id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
   image_name VARCHAR(255) NOT NULL, 
   file_path VARCHAR(255),
   thumbnail_path VARCHAR(255)
 );
 
-CREATE TABLE post2(
+CREATE TABLE post(
   post_id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
   person_id INTEGER,
   created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -207,6 +207,8 @@ ALTER TABLE password_reset
   ADD CONSTRAINT FK_password_reset FOREIGN KEY(person_id) REFERENCES person(person_id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /* INSERT STATEMENTS*/
---will be done at the end, especially notifications as this is not needed. the feed is more important as well as the profile.php site. 
+#will be done at the end, especially notifications as this is not needed. the feed is more important as well as the profile.php site. 
 
-INSERT INTO type_notification(notification_text,icon_path) VALUES('friend request')
+#INSERT INTO type_notification(notification_text,icon_path) VALUES('friend request')
+INSERT INTO images(image_id,image_name,file_path,thumbnail_path) VALUES(0,'default.png','res/icons/default.png','res/icons/default_smaller.png');
+INSERT INTO reaction_type(reaction_text,emoji_path) VALUES('liked','res/icons/emoji_like.png'),('disliked','res/icons/emoji_dislike.png'),('pooped on','res/icons/emoji_poop.png');

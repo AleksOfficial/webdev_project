@@ -6,7 +6,7 @@
                             <img class = "navbar_logo" src="<?php echo ($file == "index.php" ?  "./" :  "../"); ?>res/icons/logo.png" alt="logo">
                         </a>
                     
-                    <a class="navbar-brand" href="index.php?site=home">RIFT</a>
+                    <a class="navbar-brand" href="<?php echo ($file == "index.php" ?  "./" :  "../"); ?>index.php?site=home">RIFT</a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
@@ -62,9 +62,9 @@
                                     <a class="nav-link<?php echo $navigator == "impressum" ? " active": "";?>" href="<?php echo $file == "index.php" ?  "./" :  "../" ?>index.php?site=impressum">Impressum</a>
                                 </li>
                             </ul>
-                            <form class="d-flex" action="index.php" method="GET">
-                                <input class="form-control me-2" type="search" name="searchValue" hi placeholder="Search user" aria-label="Search">
-                                <button class="btn btn-outline-success" id="searchSubmit" name="searchSubmit" type="submit">Search</button>
+                            <form class="d-flex" action="<?php echo $dots;?>/sites/search_result.php" method="GET">
+                                <input class="form-control me-2" type="search" name="search_value" placeholder="Search user" aria-label="Search">
+                                <button class="btn btn-outline-success" id="search_submit" name="searchSubmit" type="submit">Search</button>
                             </form>
                         </div>
                 </div>

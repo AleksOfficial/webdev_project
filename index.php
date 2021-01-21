@@ -19,12 +19,27 @@
     if (!isset($_SESSION['user'])) {
       $_SESSION['logged'] = false;
     }
-  
+    if($file == "index.php")
+    {
+      $dots=".";
+    }
+    else
+    {
+      $dots="..";
+    }
   //Login User & Register
   $db = new Db_user();
   if(isset($_POST['login']) ||isset($_POST['register']))
   {
     include "script/login_register.script.php";
+  }
+  if(isset($_POST['submit_post']))
+  {
+    include "script/add_post.script.php";
+  }
+  if(isset($_POST['comment_submit']))
+  {
+    include "script/add_comment.script.php";
   }
 
   //css
@@ -33,7 +48,7 @@
       // does notifications have a css?
       break;
     case 'messages':
-      // does messages have a css?
+      echo '<link rel = "stylesheet" href="res/css/messages.css">';
       break;
     case 'show_chat':
       echo '<link rel = "stylesheet" href="res/css/messages.css">';
@@ -91,7 +106,7 @@
       header("Location: sites/searchUserTest.php");
       break;
     case 'home':
-      include 'inc/feed.inc.php';
+      include 'inc/home.inc.php';
       break;
     case 'show_chat':
       include 'inc/show_chat.inc.php';
@@ -103,6 +118,7 @@
       header("Location: sites/lost.php");
       break;
   }
+  
   ?>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>

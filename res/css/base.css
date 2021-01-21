@@ -57,17 +57,22 @@ margin-left:0;
 .message_button {
   color: black;
   background-color: #FFC312;
-  width:100%;
+  width:90%;
   height:86px;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  
+  margin-bottom:15px;
+
+}
+.msg_button{
+  background-color:#A4F596;
+}
+.fr_button{
+  background-color:#7DB1E3;
 }
 .button_container{
   padding:0!important;
 }
 
-.message_button img {
+.button_icon {
   width:36px;
   height:auto;
 }
@@ -75,4 +80,115 @@ margin-left:0;
 .message_button:hover {
   color: black;
   background-color: white;
+}
+.post_topbar
+{
+  border:none;
+}
+.profile_pic{
+  border-radius:50%; 
+  border:5px; 
+  border-color:white;
+  border-style:solid;
+  width:120px;
+  margin:30px auto 60px auto;
+    
+}
+.file_upload{
+  position: absolute;
+  font-size: 50px;
+  opacity: 0;
+  right: 0;
+  top: 0;
+  width:62px;
+}
+
+.main_left{
+  text-align:center;
+}
+.main{
+  margin-top:3%;
+
+}
+.send_btn{
+  color: black;
+  background-color: #FFC312;
+  
+  height:86px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.send_btn img {
+  width:36px;
+  height:auto;
+}
+
+.send_btn:hover {
+  color: black;
+  background-color: white;
+}
+textarea{
+  resize:none;
+  border-top-right-radius: 0!important;
+  border-bottom-right-radius: 0!important;
+  height:86px;
+  
+}
+.send_btn_left
+{
+  border-radius:.25rem;
+  border-top-right-radius: 0!important;
+  border-bottom-right-radius: 0!important;
+}
+
+.post_bar
+{
+  color:white;
+  margin-bottom: 5%;
+}
+.small_profile_pic{
+  width:64px;
+  border-radius: 50%;
+  margin-top:15px;
+}
+.smaller_profile_pic{
+  width:48px;
+  border-radius: 50%;
+  margin-top:12px;
+}
+.pic_container{
+  text-align:center;
+}
+ul li{
+  display:inline;
+  list-style: none;
+
+}
+.small_{
+  padding:0;
+}
+.small_button{
+  width:24px;
+  margin:5px;
+  
+}
+.status_image{
+  text-align:right;
+}
+.username_post{
+  color:#23a6d5;
+}
+.post{
+  margin-top:16px;
+  margin-bottom:16px;
+}
+.buttons ul{
+  list-style:none;
+  display:inline;
+}
+.button_icon_left{
+  margin-top:16px;
+}
+.reaction_section{
+  margin-top:10px;
 }

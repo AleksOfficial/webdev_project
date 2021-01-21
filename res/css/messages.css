@@ -112,25 +112,38 @@
 .button_container{
     padding:0!important;
 }
+.send_msg_btn{
+    padding: 0px 0px 10px 15px;
+}
 
-.send_btn img {
-    width:36px;
-    height:auto;
+.social_icon {
+    position: absolute;
+    right: 40px;
+    top: 40px;
   }
   
-  .send_btn:hover {
-    color: black;
-    background-color: white;
+  .fab .fa-text {
+    top: 0px;
   }
-textarea{
-    resize:none;
-    border-top-right-radius: 0!important;
-    border-bottom-right-radius: 0!important;
-    height:86px;
+  .fa-logo img {
+    padding-top: 5%;
+    width: 96px;
+    height: auto;
+  }
+.headline{
+    margin-bottom:80px;
+    border-bottom:2px solid;
+    position:relative;
+    border-color:grey;
     
 }
 
-
+a{
+    color:white;
+}
+a:hover{
+    color:lightgrey;
+}
 
 
 
