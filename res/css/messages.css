@@ -112,10 +112,38 @@
 .button_container{
     padding:0!important;
 }
+.send_msg_btn{
+    padding: 0px 0px 10px 15px;
+}
 
+.social_icon {
+    position: absolute;
+    right: 40px;
+    top: 40px;
+  }
+  
+  .fab .fa-text {
+    top: 0px;
+  }
+  .fa-logo img {
+    padding-top: 5%;
+    width: 96px;
+    height: auto;
+  }
+.headline{
+    margin-bottom:80px;
+    border-bottom:2px solid;
+    position:relative;
+    border-color:grey;
+    
+}
 
-
-
+a{
+    color:white;
+}
+a:hover{
+    color:lightgrey;
+}
 
 
 

@@ -88,7 +88,7 @@ class Db_posts extends Db_con{
   {
     $con = $this->connect();
     $query = "SELECT * FROM post LEFT JOIN images ON post.image_id = images.image_id WHERE post_id = ?";
-    $stmt = $con->prepare($con);
+    $stmt = $con->prepare($query);
     $stmt->execute([$post_id]);
     $result = $stmt->fetch();
     return $result;
@@ -139,13 +139,13 @@ class Db_posts extends Db_con{
     switch($privacy_status)
     {
       case 1:
-        return "<li><img class ='status' src='$dots/res/icons/public.png'></li>";
+        return "<li><a class='btn btn-info status-public small_'><img class ='status small_button' src='$dots/res/icons/public.png'></a></li>";
         break;
       case 2:
-        return "<li><img class ='status' src='$dots/res/icons/friends.png'></li>";
+        return "<li><a class='btn btn-info status-friends small_'><img class ='status small_button' src='$dots/res/icons/friends.png'></a></li>";
         break;
       case 3:
-        return "<li><img class ='status' src='$dots/res/icons/private.png'></li>";
+        return "<li><a class='btn btn-info status-private small_'><img class ='status button' src='$dots/res/icons/private.png'></a></li>";
         break;
     }
   }
@@ -161,6 +161,10 @@ class Db_posts extends Db_con{
   }
   function own_post_check ($post_with_person,$logged_id)
   {
+    if($logged_id==NULL)
+    {
+      return false;
+    }
     $user_id=$post_with_person['person_id'];
     if($logged_id == $user_id)
       return true;
@@ -185,7 +189,7 @@ class Db_posts extends Db_con{
     <li><a href=$dots/sites/searchResult.php?tag=$text>$text</a></li>";
   }
   
-  function print_post($post_with_person,$file,$logged_id)
+  function print_post($post_with_person,$file,$logged_id=NULL)
   {
     
     $post_id = $post_with_person['post_id'];
@@ -193,7 +197,7 @@ class Db_posts extends Db_con{
     $timestring = $this->get_timestring($post_with_person['created_on']);
     
     $edit_button = "";
-    
+    $delete_button = "";
     $all_tags = $this->get_tags_from_id($post_with_person['post_id']);
     $all_reactions = $this->get_reactions_from_id($post_with_person['post_id']);
     $var = 0;
@@ -207,39 +211,40 @@ class Db_posts extends Db_con{
     $status_image = $this->get_status_img_string($post_with_person['privacy_status'],$dots); //should echo out an img tag and an a tag around it so you can change it if necessary. changes possible only in single_post view. as a dropdown perhaps idk..
     if($this->own_post_check($post_with_person,$logged_id))
     {
-      $edit_button = "<li><a href='$dots/sites/single_post.php?edit=$post_id'><img src ='$dots/res/icons/edit.png' alt='edit'></a></li>";
+      $edit_button = "<li><a class='btn btn-warning small_'href='$dots/sites/single_post.php?edit=$post_id'><img class='small_button edit_button' src ='$dots/res/icons/edit.png' alt='edit'></a></li>";
+      $delete_button = "<li><a class='btn btn-danger small_' href='$dots/sites/single_post.php?delete=$post_id'><img class='small_button delete_button' src ='$dots/res/icons/delete.png' alt='delete'></a></li>";
     }
     
     $singlepost = $dots."/sites/single_post.php?post=$post_id";
 
 
-
     echo "       
     <div class='post'>
-      <div class='card mb-3 post_topbar'>
+      <div class='card bg-dark text-white mb-3 post_topbar'>
         <div class='row user_image'>
-          <div class='col-md-2'>  
-            <img src='$profile_pic_thumbnail' alt='$filename'>
+          <div class='col-md-2 pic_container'>  
+            <img src='$dots/$profile_pic_thumbnail' class='profile_pic small_profile_pic' alt='$filename'>
           </div>
-          <div class='col-md-7 user_name'>
+          <div class='col-md-6 user_name'>
             <div class='card-body'>
               <div class='card-text'>
-                <a href='profile.php?user=$user_id'><h5 class='username'>$username</h5></a>
+                <a class='username_post' href='$dots/sites/profile.php?user=$user_id'><h5 class='username'>$username</h5></a>
               </div>
               <div class='card-text'>
                 <small><i>$timestring</i></small>
               </div>
             </div>
           </div>
-          <div class='col-md-3 status_image'>
-            <ul>    
+          <div class='col-md-4 status_image'>
+            <ul>
               $status_image
               $edit_button
+              $delete_button    
             </ul>
           </div>
         </div>
-      </div>
-      <div class='main_input'>
+      
+      <div class='row main_input'>
         <div class='post_text'>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam luctus hendrerit metus, ut ullamcorper quam
           finibus at. Etiam id magna sit amet </p> collapse if too many chars. <a href='$singlepost'>View full post</a></div>";
@@ -282,7 +287,7 @@ class Db_posts extends Db_con{
          
         echo "</ul>
         </div>
-        <div class='comment-section'>";
+        <div class='row comment-section'>";
           if($file !="single_post.php")
           $last_comments= $this->get_3_comments($post_id);
           if(!empty($last_comments!=NULL))
@@ -303,7 +308,7 @@ class Db_posts extends Db_con{
 
                 echo "
                 <div class='comment'>
-                  <img src='$comment_thumbnail' alt = '$comment_filename'>
+                  <img src='$dots/$comment_thumbnail' class='smaller_profile_pic' alt = '$comment_filename'>
                   <p class='comment_name'>$comment_username</p>
                   <span>$comment_timestring</span>
                   <p class='comment_content'>$comment_content</p>
@@ -324,9 +329,10 @@ class Db_posts extends Db_con{
 
           </li>*/
         $site = $_SERVER['PHP_SELF'];
+        //$site = $site."?user=$user_id";
         echo "
         <div class='comment_img'>
-          <img src='$profile_pic_thumbnail alt='$filename'>
+          <img class='smaller_profile_pic' src='$dots/$profile_pic_thumbnail' alt='$filename'>
         </div>
           <div class='comment_box'>
             <form action='$site' method='POST'>
@@ -336,6 +342,7 @@ class Db_posts extends Db_con{
           </div>
  
       </div>
+    </div>
     </div>";
 
   }

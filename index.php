@@ -33,7 +33,7 @@
       // does notifications have a css?
       break;
     case 'messages':
-      // does messages have a css?
+      echo '<link rel = "stylesheet" href="res/css/messages.css">';
       break;
     case 'show_chat':
       echo '<link rel = "stylesheet" href="res/css/messages.css">';

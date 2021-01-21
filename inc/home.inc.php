@@ -44,8 +44,6 @@ echo "<div class='container main'>
     <div class='input-group'>
         <div class='input-group-prepend'>
           <button class='btn send_btn send_btn_left'><i><input type='file' class='file_upload' name='image'><img class='button_icon'  src='res/icons/camera.png' alt='upload your image'></i></button>
-
-        
       </div>
         <textarea class='form-control' name='content_post'  placeholder='What are you thinking about today?'></textarea>
         <button class='btn send_btn' type='submit' name='submit_post'><img src='./res/icons/send-mail.png'></button>
