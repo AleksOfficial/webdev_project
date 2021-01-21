@@ -1,22 +1,41 @@
+<?php
+$adminUserClass = new Db_user();
+$adminUser = $searchUserClass->get_all_users();
+$adminAmount = $searchUserClass->count_array($adminUser);
+?>
 
+<?php //activate/deactivate user
+    if (isset($_GET['action'])) {
+        $action_and_id = explode("-", $_GET['action']);
+        if ($action_and_id[0] == 'activate') {
+        
+            $adminUserClass->change_status(1, $action_and_id[1]);
+
+        } else {
+            $adminUserClass->change_status(2, $action_and_id[1]);
+        }
+
+    }
+?>
+<div class="container">
+    <div>
+        <h2>
+            Welcome Admin!
+        </h2>
+    </div>
+    <div>
+
+    </div>
+</div>
 
 <?php
 
-//include 'inc/class-autoload.inc.php';
-
-$searchUserClass = new Db_user();
-
-$searchUser = $searchUserClass->search_user($_SESSION['searchVal']);
-$searchAmount = $searchUserClass->count_array($searchUser);
-
-//echo "test" . $searchUser[1][1]; why bro
-var_dump($searchUser);
 $cycle = 0;
 
 
 
 
-if ($searchAmount > 0) {
+if ($adminAmount > 0) {
     
     
 ?>  <div class="container">     
@@ -26,7 +45,7 @@ if ($searchAmount > 0) {
     </div>                                                              <?php
 
 
-} else if ($searchAmount == 0) {            ?>
+} else if ($adminAmount == 0) {            ?>
     <div class="container">     
         <h3>
             <?php  echo "there are no results for \"" . $_GET['searchValue'] . "\"";   ?>
@@ -42,33 +61,33 @@ if ($searchAmount > 0) {
 
             <?php
 
-                $rows = $searchAmount / 3;
-                $rowsRest = $searchAmount % 3;
+                $rows = $adminAmount / 3;
+                $rowsRest = $adminAmount % 3;
                 $userCount = 0;
-                if ($searchAmount == 2) {
+                if ($adminAmount == 2) {
                     for ($i = 0 ; $i < 2 ; $i++) {
     ?>                  <div class="col-md-4 searchResultContainer">                                            <?php
 
-                            $searchUserClass->print_result_card($searchUser[$userCount]['person_id']);
+                            $adminUserClass->print_admin_card($adminUser[$userCount]['person_id']);
                             $userCount++;
                     
     ?>                  </div>                                                                                  <?php
                     }
                     ?> <div class="col-md-4 searchResultContainer"></div> <?php
-                } else if ($searchAmount == 1) {
+                } else if ($adminAmount == 1) {
                    
 ?>                  <div class="col-md-4 searchResultContainer">                                            <?php
                     
-                        $searchUserClass->print_result_card($searchUser[$userCount]['person_id']);
+                        $adminUserClass->print_admin_card($adminUser[$userCount]['person_id']);
                         $userCount++;
                                         
 ?>                  </div>                                                                                  <?php
                                         
                     ?> <div class="col-md-4 searchResultContainer"></div> <?php
                     ?> <div class="col-md-4 searchResultContainer"></div> <?php
-                } else if ($searchAmount == 0) {
+                } else if ($adminAmount == 0) {
                     ?>  bruh  <?php
-                } else if ($searchAmount >= 3) {
+                } else if ($adminAmount >= 3) {
 
 
 
@@ -80,13 +99,13 @@ if ($searchAmount > 0) {
                     
                         if ($rowsRest > 0) {
                             for($i = 0 ; $i < $rows+1 ; $i++) {
-                                $searchUserClass->print_result_card($searchUser[$userCount]['person_id']);
+                                $adminUserClass->print_admin_card($adminUser[$userCount]['person_id']);
                                 
                                 $userCount++;
                             }
                         } else {
                             for($i = 0 ; $i < $rows ; $i++) {
-                                $searchUserClass->print_result_card($searchUser[$userCount]['person_id']);
+                                $adminUserClass->print_admin_card($adminUser[$userCount]['person_id']);
                                 
                                 $userCount++;
                             }

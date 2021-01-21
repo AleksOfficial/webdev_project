@@ -1,16 +1,23 @@
+<?php
+$adminUserClass = new Db_user();
+$adminUser = $searchUserClass->get_all_users();
+$adminAmount = $searchUserClass->count_array($adminUser);
+?>
 
+
+<div class="container">
+    <div>
+        <h2>
+            Welcome Admin!
+        </h2>
+    </div>
+    <div>
+
+    </div>
+</div>
 
 <?php
 
-//include 'inc/class-autoload.inc.php';
-
-$searchUserClass = new Db_user();
-
-$searchUser = $searchUserClass->search_user($_SESSION['searchVal']);
-$searchAmount = $searchUserClass->count_array($searchUser);
-
-//echo "test" . $searchUser[1][1]; why bro
-var_dump($searchUser);
 $cycle = 0;
 
 

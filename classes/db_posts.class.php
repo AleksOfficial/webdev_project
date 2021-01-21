@@ -328,9 +328,7 @@ class Db_posts extends Db_con{
     /*tmt = $con->prepare($query);
     $stmt->execute(["%".$search."%"]);
     $result = $stmt->fetchAll();    
-    //$result = array_unique($result);
-    //asort($result);
-    //var_dump($result);
+    
     return $result; */
     $cycle = 0;
     $result = array();

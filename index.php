@@ -71,7 +71,7 @@
     case 'messages':
       include 'inc/messages.inc.php';
       break;
-    case 'adminset':
+    case 'admin':
       include 'inc/administration.inc.php';
       break;
     case 'impressum':
