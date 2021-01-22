@@ -34,7 +34,7 @@
                                     {
                                         //printing list element for admin panel?>
                                     <li class="nav-item">
-                                        <a class="nav-link<?php echo $navigator == "admin" ? " active": "";?>" href=" <?php echo $file == "index.php" ?  "./" :  "../"; ?> index.php?site=admin">Admin</a>
+                                        <a class="nav-link<?php echo $navigator == "admin" ? " active": "";?>" href=" <?php echo $file == "index.php" ?  "./" :  "../"; ?>index.php?site=admin">Admin</a>
                                 </li>
                                     <?php
                                     }

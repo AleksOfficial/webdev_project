@@ -48,13 +48,13 @@
     }
   }
 /*
-  } else if ($file == "searchResultTest.php") {
+   else if ($file == "search_result.php") {
     
     if ($_SESSION['logged']) {
       //admin user
       if($_SESSION['user']['is_admin'])
       {
-        $posts_person = $db_post->get_all_posts($_SESSION['user']['person_id']);
+         
       }
       //registered user
       else
@@ -97,10 +97,10 @@
       <h1 class='nothing_here_yet headline'>¯\_(ツ)_/¯</h1>
       <p class='nothing_here_yet text'>There is nothing here yet!</p></div>";  
     }
-    else
+    else{
     echo "<div style='text-align:center'>
           <h1 class='nothing_here_yet headline'>ლಠ_ಠლ</h1>
           <p class='nothing_here_yet text'>Couldn't find anything</p></div>";
-  }
+  }}
   ?>
 </div>
