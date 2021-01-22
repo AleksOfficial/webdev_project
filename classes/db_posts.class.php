@@ -398,6 +398,8 @@ class Db_posts extends Db_con
         foreach ($result as $element) {
           array_push($all_result, $element['post_id']);
         }
+        $all_result = array_unique($all_result, SORT_REGULAR);
+        rsort($all_result);
         return $all_result;
       } else {
         $query = "SELECT * FROM post LEFT JOIN comments ON post.post_id = comments.post_id LEFT JOIN images ON post.image_id = images.image_id INNER JOIN all_tags ON post.post_id = all_tags.post_id WHERE (post.post_text LIKE ? OR comments.comment_text LIKE ? OR images.image_name LIKE ?) AND post.privacy_status = 1";
