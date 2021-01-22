@@ -53,28 +53,27 @@ class Db_create_stuff extends Db_con{
     if(!$x)
     $this->error($stmt->errorInfo()[2]);
   }
+  function tags_to_ids($tagarray)
+   {
+     $con = $this->connect();
+     $all_elements = array();
+     foreach($tagarray as $tag)
+     {
+        $query = "SELECT* FROM tag WHERE tag_text LIKE ?";
+        $stmt = $con->prepare($query);
+        $stmt->execute([$tag]);
+        $result = $stmt->fetch();
+        if(!empty($result))
+        {
+          array_push($all_elements,$result['tag_id']);
+        }
+     }
+     return $all_elements;
+   }
   function create_tag ($tags,$id)
   {
-    
+
   }
-  function get_hashtags($string, $str = 1) {
-    preg_match_all('/#(\w+)/',$string,$matches);
-    $i = 0;
-	  $keywords = "";
-    if ($str) {
-        foreach ($matches[1] as $match) {
-            $count = count($matches[1]);
-            $keywords .= "$match";
-            $i++;
-            if ($count > $i) $keywords .= ", ";
-        }
-    } else {
-        foreach ($matches[1] as $match) {
-            $keyword[] = $match;
-        }
-        $keywords = $keyword;
-    }
-    return $keywords;
-}
+
 
 }
