@@ -243,6 +243,38 @@ class Db_posts extends Db_con{
     return $result;
     
   }
+  /*
+  function search_user($username)
+  {
+    var_dump($username);
+    
+    $con = $this->connect();
+    $query = "SELECT * FROM person LEFT JOIN images ON person.profile_pic = images.image_id WHERE person.username LIKE ? ORDER BY person.person_id ASC";
+    $stmt = $con->prepare($query);
+    $stmt->execute(["%".$username."%"]);
+    $result = $stmt->fetchAll();    
+    return $result;
+  }*/
+  function search_posts($string)
+  {
+    var_dump($string);
+    $con = $this->connect();
+    $query = "SELECT post.post_id FROM post LEFT JOIN comments ON post.post_id = comments.post_id LEFT JOIN images ON images.image_id = post.image_id WHERE post.post_text LIKE ? OR comments.comment_text LIKE ?";
+    $stmt = $con->prepare($query);
+    $x = $stmt->execute(["%".$string."%","%".$string."%"]);
+
+    $result = $stmt->fetchAll();
+    if(!$x)
+    {
+      $this->error($stmt->errorInfo()[2]);
+    }
+    while($row = $stmt->fetch())
+    {
+      
+    }
+    return array_unique($result, SORT_REGULAR);
+
+  }
 
   function print_post($post_with_person,$file,$logged_id=NULL)
   {
@@ -436,21 +468,5 @@ class Db_posts extends Db_con{
     </div>
     </div>";
 
-  }
-  function search_post($search, $postArray){
-    /*tmt = $con->prepare($query);
-    $stmt->execute(["%".$search."%"]);
-    $result = $stmt->fetchAll();    
-    
-    return $result; */
-    $cycle = 0;
-    $result = array();
-    foreach($postArray as $post) {
-      if(in_array($search, $post[$cycle]['post_text']) == true) {
-        array_push($result, $post[$cycle]);
-      }
-      $cycle++;
-    }
-    return $result;
   }
 }

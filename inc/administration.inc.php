@@ -1,7 +1,7 @@
 <?php
 $adminUserClass = new Db_user();
-$adminUser = $searchUserClass->get_all_users();
-$adminAmount = $searchUserClass->count_array($adminUser);
+$adminUser = $adminUserClass->get_all_users();
+$adminAmount = $adminUserClass->count_array($adminUser);
 ?>
 
 <?php //activate/deactivate user

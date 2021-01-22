@@ -197,9 +197,6 @@ class Db_user extends Db_con
     $stmt = $con->prepare($query);
     $stmt->execute(["%".$username."%"]);
     $result = $stmt->fetchAll();    
-    //$result = array_unique($result);
-    //asort($result);
-    //var_dump($result);
     return $result;
   }
 

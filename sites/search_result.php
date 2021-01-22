@@ -17,31 +17,75 @@
   include '../inc/navigation.inc.php';
   //Suchfunktion
   if (isset($_GET['search_submit'])) {
+    if(isset($_GET['search_value']) && !empty($_GET['search_value']))
+    {
+      $db_user = new Db_user();
+      $db_post = new Db_posts();
+      $searchval = $_GET['search_value'];
+      $search_result_users = $db_user->search_user($searchval);
+      $search_result_posts = $db_post->search_posts($searchval);
+      var_dump($search_result_posts);
+    }
   }
+
 
 
   ?>
 </head>
 
 <body>
-  <div class="container">
+  <div class="container-fluid">
     <div class="row">
-      <div class="col-3">
+    <div class='col-2'>
 
-      </div>
+  </div>
       <div class="col">
         <div class="row">
-          <div class="col">
-
+          <div class="col d-flex flex-wrap ">
+          <?php
+      foreach($search_result_users as $user)
+      {
+        $file_path = $user['thumbnail_path'];
+        $file_name = $user['image_name'];
+        $username = $user['username'];
+        $first_name = $user['first_name'];
+        $last_name = $user['last_name'];
+        $user_id = $user['person_id'];
+       
+      echo"
+      
+      <div class='card text-white bg-dark m-2 search_result_card'>
+          <img class='card-img-top profile_pic' src='$dots/$file_path' alt='$file_name'>
+        <div class='card-body'>
+        <div class='card-title username'>
+        <h3>$username's profile</h3>
+      </div>
+      <div class='card-text names'>
+        <span>$first_name $last_name</span>
+      </div>
+          <div class='card-text buttons'>
+          <div class='col'>
+             <a href='../index.php?site=show_chat&chat=$user_id' class='btn message_button msg_button '><img src='../res/icons/mail.png'></a></li>
+          </div>
+          <div class='col'>
+             <a href='profile.php?user=$user_id&friend_request=1' class='btn message_button fr_button'><img src='../res/icons/friendrequest.png'></a></li>
+          </div>
+        </div>
+      </div>
+    </div>
+    ";
+      }?>
           </div>
           <div class="row">
             <div class="col">
+              <?php
 
+              ?>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-3">
+      <div class="col-2">
 
       </div>
 
