@@ -16,7 +16,6 @@
   include "../inc/class-autoload.inc.php";
   include '../inc/navigation.inc.php';
   //Suchfunktion
-  echo "hello";
   if (isset($_GET['search_submit'])) {
     if(isset($_GET['search_value']) && !empty($_GET['search_value']))
     {
@@ -25,20 +24,20 @@
       $db_create = new Db_create_stuff();
       $searchval = $_GET['search_value'];
       $all_tags = $db_post->get_hashtags($searchval,0);
+      $tag_search = false;
 
-      var_dump($searchval);
-      var_dump($all_tags);
-      $all_tags = $db_create->tags_to_ids($all_tags);
-      var_dump($all_tags);
-      
       foreach($all_tags as $tag)
       {
+        $tag_search = true;
         $searchval=str_replace("#".$tag,"",$searchval,);
         $searchval=trim($searchval);
       }
-      var_dump($searchval);
+      if(!$tag_search)
+      {
+        $search_result_users = $db_user->search_user($searchval);
+      }
       
-      $search_result_users = $db_user->search_user($searchval);
+      $all_tags = $db_create->tags_to_ids($all_tags);
       
     }
   }

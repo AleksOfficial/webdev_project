@@ -72,7 +72,7 @@ class Db_create_stuff extends Db_con{
    }
   function create_tag ($tags,$id)
   {
-
+    
   }
 
 

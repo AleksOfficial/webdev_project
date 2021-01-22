@@ -166,7 +166,7 @@ class Db_posts extends Db_con
   {
 
     $con = $this->connect();
-    $query = "SELECT * FROM comments JOIN person ON comments.person_id = person.person_id JOIN images ON person.profile_pic = images.image_id WHERE post_id = ? ORDER BY comment_id DESC";
+    $query = "SELECT * FROM comments JOIN person ON comments.person_id = person.person_id JOIN images ON person.profile_pic = images.image_id WHERE post_id = ? ORDER BY comment_id DESC ";
     if ($amount != 0) {
       $query = $query . "LIMIT $amount";
     }
@@ -411,7 +411,7 @@ class Db_posts extends Db_con
     $tags = $this->get_hashtags($content,0);
     foreach($tags as $tag)
     {
-      $content = $this->convert_text_to_hashtag($content,"#".$tag,$dots);
+      $content = $this->convert_text_to_hashtag($content,$tag,$dots);
     }
 
     $status_image = $this->get_status_img_string($post_with_person['privacy_status'], $dots); //should echo out an img tag and an a tag around it so you can change it if necessary. changes possible only in single_post view. as a dropdown perhaps idk..
@@ -496,8 +496,14 @@ class Db_posts extends Db_con
         </div>
         </div>
         <div class='row comment-section'>";
+    $var = 0;
     if ($file != "single_post.php")
-      $last_comments = $this->get_comments($post_id, 3);
+    {
+      $var = 3;
+      $last_comments = $this->get_comments($post_id, $var);
+
+    }
+      
     $count_comments = $this->count_comments_post($post_id);
     $count_comments -= 3;
     if (!empty($last_comments)) {

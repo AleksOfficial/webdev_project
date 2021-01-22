@@ -98,7 +98,7 @@ class Db_con
   }
   function convert_text_to_hashtag($string,$word,$dots)
   {
-    $string = preg_replace('/(?<!\S)#([0-9a-zA-Z]+)/', "<a href='$dots/sites/search_result.php?search_value=$word&search_submit=1'>$word</a>", $string,1);
+    $string = preg_replace('/(?<!\S)#([0-9a-zA-Z]+)/', "<a href='$dots/sites/search_result.php?search_value=%23$word&search_submit=1'>#$word</a>", $string,1);
     return $string;
   }
 
