@@ -24,21 +24,20 @@
       $db_create = new Db_create_stuff();
       $searchval = $_GET['search_value'];
       $all_tags = $db_post->get_hashtags($searchval,0);
+      $tag_search = false;
 
-      var_dump($searchval);
-      var_dump($all_tags);
-      $all_tags = $db_create->tags_to_ids($all_tags);
-      var_dump($all_tags);
-      
       foreach($all_tags as $tag)
       {
+        $tag_search = true;
         $searchval=str_replace("#".$tag,"",$searchval,);
         $searchval=trim($searchval);
       }
-      var_dump($searchval);
+      if(!$tag_search)
+      {
+        $search_result_users = $db_user->search_user($searchval);
+      }
       
-    
-      $search_result_users = $db_user->search_user($searchval);
+      $all_tags = $db_create->tags_to_ids($all_tags);
       
     }
   }
@@ -58,45 +57,28 @@
         <div class="row">
           <div class="col d-flex flex-wrap ">
           <?php
+          if(!empty($search_result_users)){
+
+          
       foreach($search_result_users as $user)
       {
-        $file_path = $user['thumbnail_path'];
-        $file_name = $user['image_name'];
-        $username = $user['username'];
-        $first_name = $user['first_name'];
-        $last_name = $user['last_name'];
         $user_id = $user['person_id'];
-       
-      echo"
-      
-      <div class='card text-white bg-dark m-2 search_result_card'>
-          <img class='card-img-top profile_pic' src='$dots/$file_path' alt='$file_name'>
-        <div class='card-body'>
-        <div class='card-title username'>
-        <h3>$username's profile</h3>
-      </div>
-      <div class='card-text names'>
-        <span>$first_name $last_name</span>
-      </div>
-          <div class='card-text buttons'>
-          <div class='col'>
-             <a href='../index.php?site=show_chat&chat=$user_id' class='btn message_button msg_button '><img src='../res/icons/mail.png'></a></li>
-          </div>
-          <div class='col'>
-             <a href='profile.php?user=$user_id&friend_request=1' class='btn message_button fr_button'><img src='../res/icons/friendrequest.png'></a></li>
-          </div>
-        </div>
-      </div>
-    </div>
-    ";
-      }?>
+        $db_user->print_result_card($user_id);
+      }}?>
           </div>
           <div class="row">
-            <div class="col">
+          <div class="col-3">
+          
+          </div>
+            <div class="col-6">
               <?php
+              
                 include "../inc/feed.inc.php";
               ?>
             </div>
+            <div class="col-3">
+          
+          </div>
           </div>
         </div>
       </div>

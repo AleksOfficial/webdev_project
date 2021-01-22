@@ -49,15 +49,17 @@
     {
       //Admin User
       if($_SESSION['user']['is_admin'])
-        $posts_person = $db_post->get_search_results($searchval,3,$all_tags);
+        $post_ids = $db_post->get_search_results($searchval,3,$all_tags);
       //Registered User
       else  
-        $posts_person = $db_post->get_search_results($searchval,2,$all_tags);
+        $post_ids = $db_post->get_search_results($searchval,2,$all_tags,$_SESSION['user']['person_id']);
     }
     else{
     //Foreigners Page
-      $posts_person = $db_post->get_search_results($searchval,1,$all_tags);
+      $post_ids = $db_post->get_search_results($searchval,1,$all_tags);
     }
+    $posts_person = $db_post->convert_to_posts($post_ids);
+    
   }
     
     
