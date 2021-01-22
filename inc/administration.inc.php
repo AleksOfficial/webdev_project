@@ -79,13 +79,13 @@ $cycle = 0;
                        
                     
                         if ($rowsRest > 0) {
-                            for($i = 0 ; $i < $rows+1 ; $i++) {
+                            for($i = 0 ; $i < $rows ; $i++) {
                                 $adminUserClass->print_admin_card($adminUser[$userCount]['person_id']);
                                 
                                 $userCount++;
                             }
                         } else {
-                            for($i = 0 ; $i < $rows ; $i++) {
+                            for($i = 0 ; $i < $rows-1 ; $i++) {
                                 $adminUserClass->print_admin_card($adminUser[$userCount]['person_id']);
                                 
                                 $userCount++;
