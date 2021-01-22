@@ -58,6 +58,7 @@
       break;
     case 'admin':
       // does admin have a css?
+      echo '<link rel = "stylesheet" href="./res/css/admin.css">';
       break;
     case 'impressum':
       echo '<link rel = "stylesheet" href="./res/css/impressum.css">';
