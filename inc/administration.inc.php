@@ -7,8 +7,8 @@ $adminAmount = $adminUserClass->count_array($adminUser);
 <?php //activate/deactivate user
     if (isset($_GET['action'])) {
         $action_and_id = explode("-", $_GET['action']);
-        echo 'action and id ma man';
-        var_dump($action_and_id);
+        //echo 'action and id ma man';
+        //var_dump($action_and_id);
         if ($action_and_id[0] == 'activate') {
         
             $adminUserClass->change_status(1, $action_and_id[1]);

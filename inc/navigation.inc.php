@@ -61,6 +61,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link<?php echo $navigator == "impressum" ? " active": "";?>" href="<?php echo $file == "index.php" ?  "./" :  "../" ?>index.php?site=impressum">Impressum</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link<?php echo $navigator == "help" ? " active": "";?>" href="<?php echo $file == "index.php" ?  "./" :  "../" ?>index.php?site=help">Help</a>
+                                </li>
                             </ul>
                             <form class="d-flex" action="<?php echo $dots;?>/sites/search_result.php" method="GET">
                                 <input class="form-control me-2" type="search" name="search_value" placeholder="Search user" aria-label="Search">
