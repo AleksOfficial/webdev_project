@@ -179,10 +179,10 @@ class Db_user extends Db_con
 </div>
     <div class='card-text buttons'>
     <div class='col'>
-       <a href='$dots/index.php?site=show_chat&chat=$user_id' class='btn message_button msg_button '><img src='../res/icons/mail.png'></a></li>
+       <a href='$dots/index.php?site=show_chat&chat=$user_id' class='btn message_button msg_button '><img src='$dots/res/icons/mail.png'></a></li>
     </div>
     <div class='col'>
-       <a href='profile.php?user=$user_id&friend_request=1' class='btn message_button fr_button'><img src='../res/icons/friendrequest.png'></a></li>
+       <a href='profile.php?user=$user_id&friend_request=1' class='btn message_button fr_button'><img src='$dots/res/icons/friendrequest.png'></a></li>
     </div>
   </div>
 </div>
