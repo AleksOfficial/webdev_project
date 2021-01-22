@@ -168,22 +168,24 @@ class Db_user extends Db_con
     $names = $user['first_name']." ".$user['last_name'];
     $filename = $user['image_name'];
     
-    echo "<div class='col-md-3 searchResultContainer'>
-    <div class='card searchResultCard'>
-    <img src='$thumbnail_path'class='card-img-top' alt='$filename'>
-        <div class='card-body'>
-            <h5 class='card-title'>$username</h5>
-            <p class='card-names'>$names</p>
-            <div class='row'>
-            <div class='col-3'>
-            <a href='index.php?site=show_chat&chat=$user_id' class='btn btn-primary message_button'><img src='res/icons/mail_smaller.png'></a>
-            </div>
-            <div class='col'>
-            <a href='sites/profile.php&user=$user_id' class='btn btn-primary'>Visit profile</a>
-            </div>
-            </div>
-        </div>
+    echo "      <div class='card text-white bg-dark m-2 search_result_card'>
+    <img class='card-img-top profile_pic' src='../$thumbnail_path' alt='$filename'>
+  <div class='card-body'>
+  <div class='card-title username'>
+  <h3>$username's profile</h3>
+</div>
+<div class='card-text names'>
+  <span>$names</span>
+</div>
+    <div class='card-text buttons'>
+    <div class='col'>
+       <a href='../index.php?site=show_chat&chat=$user_id' class='btn message_button msg_button '><img src='../res/icons/mail.png'></a></li>
     </div>
+    <div class='col'>
+       <a href='profile.php?user=$user_id&friend_request=1' class='btn message_button fr_button'><img src='../res/icons/friendrequest.png'></a></li>
+    </div>
+  </div>
+</div>
 </div>";
     /**/
   }
