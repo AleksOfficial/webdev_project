@@ -1,5 +1,6 @@
 <?php
-class Db_create_stuff extends Db_con{
+class Db_create_stuff extends Db_con
+{
   function create_post($post)
   {
     var_dump($post);
@@ -16,10 +17,13 @@ class Db_create_stuff extends Db_con{
     $x = $stmt->execute($post);
     if(!$x)
     {
-      var_dump($stmt->errorInfo());}
-    var_dump($x);
-    
+      $this->error($stmt->errorInfo());
+    }
+    else{
+      return $con->lastInsertId();
+    }
   }
+
   function create_image($image)
   {
     var_dump($image);
@@ -70,10 +74,57 @@ class Db_create_stuff extends Db_con{
      }
      return $all_elements;
    }
-  function create_tag ($tags,$id)
+  function add_tags ($tags,$post_id)
   {
-    
+    $con = $this->connect();
+    $id_array = array();
+    foreach($tags as $tag)
+    {
+      $query = "SELECT * FROM tag WHERE tag_text LIKE ?";
+      $stmt = $con->prepare($query);
+      $x = $stmt->execute([$tag]);
+      if(!$x)
+      {
+        $this->error($stmt->errorInfo()[2]);
+        return false;
+      }
+      $result = $stmt->fetchAll();
+      if(empty($result))
+      {
+        $insert_query = "INSERT INTO tag(tag_text) VALUES(?)";
+        $stmt = $con->prepare($insert_query);
+        $x = $stmt->execute([$tag]);
+        if(!$x)
+        {
+          $this->error($stmt->errorInfo()[2]);
+          return false;
+        }
+        else
+        {
+          $inserted_id = $con->lastInsertId();
+          array_push($id_array,$inserted_id);
+        }
+      }
+      else
+      {
+        $found_id = $result[0]['tag_id'];
+        array_push($id_array,$found_id);
+      }
+    }
+    foreach($id_array as $id)
+    {
+      $tag_query ="INSERT INTO all_tags(tag_id,post_id) VALUES(?,?)";
+      $stmt = $con->prepare($tag_query);
+      $x = $stmt->execute([$id,$post_id]);
+      if(!$x)
+      {
+        $this->error($stmt->errorInfo());
+        return false;
+      }
+    }
   }
-
-
+  function add_reaction($id)
+  {
+    echo "Hello World";
+  }
 }

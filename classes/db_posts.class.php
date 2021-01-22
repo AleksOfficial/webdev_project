@@ -233,38 +233,50 @@ class Db_posts extends Db_con
   function get_search_results($string, $status, $all_tags = NULL, $user_id = 0)
   {
     $con = $this->connect();
-    if ($all_tags == NULL) {
       //Admin
-      if ($status == 3) {
-        if ($all_tags == NULL) {
+      if ($status == 3)
+      {
+        if ($all_tags == NULL)
+        {
           $query = "SELECT post.post_id FROM post LEFT JOIN comments ON post.post_id = comments.post_id LEFT JOIN images ON images.image_id = post.image_id WHERE post.post_text LIKE ? OR comments.comment_text LIKE ? OR images.image_name LIKE ?";
           $stmt = $con->prepare($query);
           $x = $stmt->execute(["%" . $string . "%", "%" . $string . "%", "%" . $string . "%"]);
           $all_result = array();
-          if (!$x) {
+          if (!$x)
+          {
             $this->error($stmt->errorInfo()[2]);
-          } else {
+          } 
+          else 
+          {
             $result = $stmt->fetchAll();
           }
-          foreach ($result as $element) {
+          foreach ($result as $element) 
+          {
             array_push($all_result, $element['post_id']);
           }
 
           $all_result = array_unique($all_result, SORT_REGULAR);
           rsort($all_result);
           return $all_result;
-        } else {
+        }
+        else
+        {
           $query = "SELECT * FROM post LEFT JOIN comments ON post.post_id = comments.post_id LEFT JOIN images ON images.image_id = post.image_id INNER JOIN all_tags ON all_tags.post_id = post.post_id WHERE post.post_text LIKE ? OR comments.comment_text LIKE ? OR images.image_name LIKE ?";
           $stmt = $con->prepare($query);
           $x = $stmt->execute(["%" . $string . "%", "%" . $string . "%", "%" . $string . "%"]);
           $all_result = array();
           if (!$x) {
             $this->error($stmt->errorInfo()[2]);
-          } else {
+
+          }
+          else
+          {
             $result = $stmt->fetchAll();
           }
-          foreach ($result as $element) {
-            if (in_array($element['tag_id'], $all_tags)) {
+          foreach ($result as $element)
+          {
+            if (in_array($element['tag_id'], $all_tags))
+            {
               array_push($all_result, $element['post_id']);
             }
           }
@@ -275,8 +287,10 @@ class Db_posts extends Db_con
         }
       }
       //Registrierter User
-      else if ($status == 2) {
-        if ($all_tags == NULL) {
+      else if ($status == 2)
+      {
+        if ($all_tags == NULL)
+        {
           //Query for own posts
           $query = "SELECT * FROM post LEFT JOIN comments ON post.post_id = comments.post_id LEFT JOIN images ON images.image_id = post.image_id WHERE (post.post_text LIKE ? OR comments.comment_text LIKE ? OR images.image_name LIKE ?) AND post.person_id = ?";
           $stmt = $con->prepare($query);
@@ -287,8 +301,10 @@ class Db_posts extends Db_con
           } else {
             $result = $stmt->fetchAll();
           }
-          foreach ($result as $element) {
-            if (in_array($element['tag_id'], $all_tags)) {
+          foreach ($result as $element)
+          {
+            if (in_array($element['tag_id'], $all_tags))
+            {
               array_push($all_result, $element['post_id']);
             }
           }
@@ -298,14 +314,20 @@ class Db_posts extends Db_con
           $x = $stmt->execute(["%" . $string . "%", "%" . $string . "%", "%" . $string . "%", $user_id]);
           $all_result = array();
           $db_user = new Db_user();
-          if (!$x) {
+          if (!$x)
+          {
             $this->error($stmt->errorInfo()[2]);
-          } else {
+          }
+          else
+          {
             $result = $stmt->fetchAll();
           }
-          foreach ($result as $element) {
-            if ($db_user->check_friends($user_id, $element['person_id'])) {
-              if (in_array($element['tag_id'], $all_tags)) {
+          foreach ($result as $element)
+          {
+            if ($db_user->check_friends($user_id, $element['person_id']))
+            {
+              if (in_array($element['tag_id'], $all_tags))
+              {
                 array_push($all_result, $element['post_id']);
               }
             }
@@ -314,19 +336,24 @@ class Db_posts extends Db_con
           rsort($all_result);
           return $all_result;
         }
-      } else {
+       else
+       {
         //Query for own posts
         $query = "SELECT * FROM post LEFT JOIN comments ON post.post_id = comments.post_id LEFT JOIN images ON images.image_id = post.image_id INNER JOIN all_tags ON all_tags.post_id = post.post_id WHERE (post.post_text LIKE ? OR comments.comment_text LIKE ? OR images.image_name LIKE ?) AND post.person_id = ?";
         $stmt = $con->prepare($query);
         $x = $stmt->execute(["%" . $string . "%", "%" . $string . "%", "%" . $string . "%", $user_id]);
         $all_result = array();
-        if (!$x) {
+        if (!$x)
+        {
           $this->error($stmt->errorInfo()[2]);
-        } else {
+        } else
+        {
           $result = $stmt->fetchAll();
         }
-        foreach ($result as $element) {
-          if (in_array($element['tag_id'], $all_tags)) {
+        foreach ($result as $element)
+        {
+          if (in_array($element['tag_id'], $all_tags))
+          {
             array_push($all_result, $element['post_id']);
           }
         }
@@ -336,9 +363,11 @@ class Db_posts extends Db_con
         $x = $stmt->execute(["%" . $string . "%", "%" . $string . "%", "%" . $string . "%", $user_id]);
         $all_result = array();
         $db_user = new Db_user();
-        if (!$x) {
+        if (!$x)
+        {
           $this->error($stmt->errorInfo()[2]);
-        } else {
+        } else
+        {
           $result = $stmt->fetchAll();
         }
         foreach ($result as $element) {
@@ -353,6 +382,7 @@ class Db_posts extends Db_con
         return $all_result;
       }
     }
+    
     //Foreign User
     else {
       if ($all_tags == NULL) {
@@ -370,7 +400,7 @@ class Db_posts extends Db_con
         }
         return $all_result;
       } else {
-        $query = "SELECT post.post_id FROM post LEFT JOIN comments ON post.post_id = comments.post_id LEFT JOIN images ON post.image_id = images.image_id INNER JOIN all_tags ON post.post_id = all_tags.post_id WHERE (post.post_text LIKE ? OR comments.comment_text LIKE ? OR images.image_name LIKE ?) AND post.privacy_status = 1";
+        $query = "SELECT * FROM post LEFT JOIN comments ON post.post_id = comments.post_id LEFT JOIN images ON post.image_id = images.image_id INNER JOIN all_tags ON post.post_id = all_tags.post_id WHERE (post.post_text LIKE ? OR comments.comment_text LIKE ? OR images.image_name LIKE ?) AND post.privacy_status = 1";
         $stmt = $con->prepare($query);
         $x = $stmt->execute(["%" . $string . "%", "%" . $string . "%", "%" . $string . "%"]);
         $all_result = array();
@@ -380,7 +410,8 @@ class Db_posts extends Db_con
           $result = $stmt->fetchAll();
         }
         foreach ($result as $element) {
-          array_push($all_result, $element['post_id']);
+          if (in_array($element['tag_id'], $all_tags))
+            array_push($all_result, $element['post_id']);
         }
         $all_result = array_unique($all_result, SORT_REGULAR);
         rsort($all_result);
@@ -408,10 +439,9 @@ class Db_posts extends Db_con
     else
       $dots = "..";
     $content = $post_with_person['post_text'];
-    $tags = $this->get_hashtags($content,0);
-    foreach($tags as $tag)
-    {
-      $content = $this->convert_text_to_hashtag($content,$tag,$dots);
+    $tags = $this->get_hashtags($content, 0);
+    foreach ($tags as $tag) {
+      $content = $this->convert_text_to_hashtag($content, $tag, $dots);
     }
 
     $status_image = $this->get_status_img_string($post_with_person['privacy_status'], $dots); //should echo out an img tag and an a tag around it so you can change it if necessary. changes possible only in single_post view. as a dropdown perhaps idk..
@@ -497,13 +527,14 @@ class Db_posts extends Db_con
         </div>
         <div class='row comment-section'>";
     $var = 0;
-    if ($file != "single_post.php")
-    {
+    if ($file != "single_post.php") {
       $var = 3;
       $last_comments = $this->get_comments($post_id, $var);
-
     }
-      
+    if (!$var) {
+      $last_comments = $this->get_comments($post_id);
+    }
+
     $count_comments = $this->count_comments_post($post_id);
     $count_comments -= 3;
     if (!empty($last_comments)) {
