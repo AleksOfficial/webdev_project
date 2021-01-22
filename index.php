@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="jquery.fancybox.min.css">
+  
   <link rel="stylesheet" href="./res/css/base.css">
   <?php
   //Initial setup
@@ -61,6 +62,8 @@
     case 'impressum':
       echo '<link rel = "stylesheet" href="./res/css/impressum.css">';
       break;
+    case 'help':
+      echo '<link rel = "stylesheet" href="./res/css/impressum.css">';
     case 'login':
       echo '<link rel = "stylesheet" href="./res/css/login.css">';
       break;
@@ -92,6 +95,9 @@
       break;
     case 'impressum':
       include 'inc/impressum.inc.php';
+      break;
+    case 'help':
+      include 'inc/help.inc.php';
       break;
     case 'login':
       include 'inc/login.inc.php';
@@ -128,7 +134,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-	  <script src="jquery.fancybox.min.js"></script>
+    <script src="jquery.fancybox.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha512-uURl+ZXMBrF4AwGaWmEetzrd+J5/8NRkWAvJx5sbPSSuOb0bZLqf+tOzniObO00BjHa/dD7gub9oCGMLPQHtQA==" crossorigin="anonymous"></script>
 </body>
 
 </html>
