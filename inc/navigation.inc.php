@@ -64,19 +64,8 @@
                             </ul>
                             <form class="d-flex" action="<?php echo $dots;?>/sites/search_result.php" method="GET">
                                 <input class="form-control me-2" type="search" name="search_value" placeholder="Search user" aria-label="Search">
-                                <button class="btn btn-outline-success" id="search_submit" name="searchSubmit" type="submit">Search</button>
+                                <button class="btn btn-outline-success" id="search_submit" name="search_submit" type="submit">Search</button>
                             </form>
                         </div>
                 </div>
             </nav>
-
-
-            
-            <?php
-
-            if (isset($_GET['searchValue'])){
-                $_SESSION['searchVal'] = $_GET['searchValue'];
-                include 'sites/searchResultUser.php';
-                include 'sites/searchResultPosts.php';
-            }
-            ?>

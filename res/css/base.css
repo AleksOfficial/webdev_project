@@ -192,3 +192,8 @@ ul li{
 .reaction_section{
   margin-top:10px;
 }
+.search_result_card
+{
+  width:18rem;
+  text-align:center;
+}
