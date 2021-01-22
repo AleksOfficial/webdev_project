@@ -242,7 +242,7 @@ class Db_user extends Db_con
           <p class='card-names'>"; if ($is_active == 1) {echo "active";} else {echo "inactive";} echo "</p>
           <div class='row'>
             <div class='col-3'>
-              <a href='index.php?action="; if ($is_active == 1) {echo "deactivate-" . $user_id;} else {echo "activate-" . $user_id;} echo"' class='btn btn-primary message_button'>activate/deactivate user</a>
+              <a href='index.php?site=admin&action="; if ($is_active == 1) {echo "deactivate-" . $user_id;} else {echo "activate-" . $user_id;} echo"' class='btn btn-primary message_button'>activate/deactivate user</a>
             </div>
             <div class='col'>
               <a href='sites/profile.php&user=$user_id' class='btn btn-primary'>Visit profile</a>
