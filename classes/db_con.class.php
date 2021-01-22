@@ -79,7 +79,8 @@ class Db_con
   function get_hashtags($string, $str = 1) {
     preg_match_all('/#(\w+)/',$string,$matches);
     $i = 0;
-	  $keywords = "";
+    $keywords = "";
+    $keyword = array();
     if ($str) {
         foreach ($matches[1] as $match) {
             $count = count($matches[1]);
@@ -95,9 +96,9 @@ class Db_con
     }
     return $keywords;
   }
-  function transform_text_to_hashtag($string,$dots)
+  function convert_text_to_hashtag($string,$word,$dots)
   {
-    $string = preg_replace('/(?<!\S)#([0-9a-zA-Z]+)/', "<a href='$dots/sites/search_result.php?search_value=$string'>$string</a>", $string);
+    $string = preg_replace('/(?<!\S)#([0-9a-zA-Z]+)/', "<a href='$dots/sites/search_result.php?search_value=$word&search_submit=1'>$word</a>", $string,1);
     return $string;
   }
 

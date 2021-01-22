@@ -16,6 +16,7 @@
   include "../inc/class-autoload.inc.php";
   include '../inc/navigation.inc.php';
   //Suchfunktion
+  echo "hello";
   if (isset($_GET['search_submit'])) {
     if(isset($_GET['search_value']) && !empty($_GET['search_value']))
     {
@@ -37,7 +38,6 @@
       }
       var_dump($searchval);
       
-    
       $search_result_users = $db_user->search_user($searchval);
       
     }
@@ -58,6 +58,9 @@
         <div class="row">
           <div class="col d-flex flex-wrap ">
           <?php
+          if(!empty($search_result_users)){
+
+          
       foreach($search_result_users as $user)
       {
         $file_path = $user['thumbnail_path'];
@@ -89,7 +92,7 @@
       </div>
     </div>
     ";
-      }?>
+      }}?>
           </div>
           <div class="row">
             <div class="col">
