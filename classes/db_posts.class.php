@@ -170,10 +170,15 @@ class Db_posts extends Db_con{
     }
   }
 
-  function get_3_comments($post_id)
+  function get_comments($post_id,$amount=0)
   {
+    
     $con = $this->connect();
-    $query = "SELECT * FROM comments JOIN person ON comments.person_id = person.person_id JOIN images ON person.profile_pic = images.image_id WHERE post_id = ? ORDER BY comment_id DESC LIMIT 3";
+    $query = "SELECT * FROM comments JOIN person ON comments.person_id = person.person_id JOIN images ON person.profile_pic = images.image_id WHERE post_id = ? ORDER BY comment_id DESC";
+    if($amount!=0)
+    {
+      $query = $query."LIMIT $amount";
+    }
     $stmt = $con->prepare($query);
     $stmt->execute([$post_id]);
     $results = $stmt->fetchAll();
@@ -206,7 +211,7 @@ class Db_posts extends Db_con{
   {
     $text = $tag['tag_text'];
     echo "
-    <li><a href=$dots/sites/searchResult.php?tag=$text>$text</a></li>";
+    <li><a href=$dots/sites/search_result.php?search_value=$text>$text</a></li>";
   }
   function count_comments_post($post_id)
   {
@@ -243,51 +248,79 @@ class Db_posts extends Db_con{
     return $result;
     
   }
-  /*
-  function search_user($username)
-  {
-    var_dump($username);
-    
-    $con = $this->connect();
-    $query = "SELECT * FROM person LEFT JOIN images ON person.profile_pic = images.image_id WHERE person.username LIKE ? ORDER BY person.person_id ASC";
-    $stmt = $con->prepare($query);
-    $stmt->execute(["%".$username."%"]);
-    $result = $stmt->fetchAll();    
-    return $result;
-  }*/
-  function search_posts($string)
-  {
-    var_dump($string);
-    $con = $this->connect();
-    $query = "SELECT post.post_id FROM post LEFT JOIN comments ON post.post_id = comments.post_id LEFT JOIN images ON images.image_id = post.image_id WHERE post.post_text LIKE ? OR comments.comment_text LIKE ?";
-    $stmt = $con->prepare($query);
-    $x = $stmt->execute(["%".$string."%","%".$string."%"]);
 
-    $result = $stmt->fetchAll();
-    if(!$x)
-    {
-      $this->error($stmt->errorInfo()[2]);
-    }
-    while($row = $stmt->fetch())
-    {
-      
-    }
-    return array_unique($result, SORT_REGULAR);
 
+  function get_search_results($string,$status,$all_tags=NULL)
+  {
+    $con = $this->connect();
+    if($all_tags==NULL)
+    { 
+      //Admin
+      if($status == 3)
+      {
+        if($all_tags == NULL)
+        {
+          $query = "SELECT post.post_id FROM post LEFT JOIN comments ON post.post_id = comments.post_id LEFT JOIN images ON images.image_id = post.image_id WHERE post.post_text LIKE ? OR comments.comment_text LIKE ? OR images.image_name LIKE ?";
+          $stmt = $con->prepare($query);
+          $x = $stmt->execute(["%".$string."%","%".$string."%","%".$string."%"]);
+          if(!$x)
+          {
+            $this->error($stmt->errorInfo()[2]);
+          }
+          else{
+            return $stmt->fetchAll();
+          }
+        }
+        else{
+          $query = "SELECT * FROM post LEFT JOIN comments ON post.post_id = comments.post_id LEFT JOIN images ON images.image_id = post.image_id INNER JOIN all_tags ON all_tags.post_id = post.post_id WHERE post.post_text LIKE ? OR comments.comment_text LIKE ? OR images.image_name LIKE ?";
+          $stmt = $con->prepare($query);
+          $x = $stmt->execute(["%".$string."%","%".$string."%","%".$string."%"]);
+          $all_result = array();
+          if(!$x)
+          {
+            $this->error($stmt->errorInfo()[2]);
+          }
+          else{
+            $result = $stmt->fetchAll();
+          }
+          foreach($result as $element)
+          {
+            if(in_array($element['tag_id'],$all_tags))
+            {
+              array_push($all_result,$element['post_id']); 
+            }
+          }
+          return $all_result;
+        }
+        
+        
+      }
+      //Registrierter User
+      else if($status == 2)
+      {
+        if($all_tags==NULL)
+        {
+          $query = "SELECT * FROM post LEFT JOIN comments ON post.post_id = comments.post_id LEFT JOIN images ON images.image_id = post.image_id  WHERE post.post_text LIKE ? OR comments.comment_text LIKE ? OR images.image_name LIKE ?";
+        }
+        else
+        {
+
+        }
+        
+      }
+    }
   }
 
   function print_post($post_with_person,$file,$logged_id=NULL)
   {
-    //1var_dump($post_with_person);
     $post_id = $post_with_person['post_id'];
     $username = $post_with_person['username'];
     $timestring = $this->get_timestring($post_with_person['created_on']);
-    $content = $post_with_person['post_text'];
+    
     $edit_button = "";
     $delete_button = "";
-    $all_tags = $this->get_tags_from_id($post_with_person['post_id']);
     $url = $_SERVER['REQUEST_URI'];
-    $var = 0;
+    
     $profile_pic_thumbnail = $this->get_profilethumb_path($post_with_person['person_id']);
     $filename = $post_with_person['image_name'];
     $user_id = $post_with_person['person_id'];
@@ -295,6 +328,7 @@ class Db_posts extends Db_con{
       $dots = ".";
     else
       $dots = "..";
+    $content = $this->transform_text_to_hashtag($post_with_person['post_text'],$dots);
     $status_image = $this->get_status_img_string($post_with_person['privacy_status'],$dots); //should echo out an img tag and an a tag around it so you can change it if necessary. changes possible only in single_post view. as a dropdown perhaps idk..
     if($this->own_post_check($post_with_person,$logged_id))
     {
@@ -349,9 +383,7 @@ class Db_posts extends Db_con{
       <div class='row reaction_section'>
         <div class='col-6'>
           <div class='row'>
-        ";/*
-        $all_reactions = $this->get_possible_reactions();
-        $amount_reactions = $this->get_reactions_from_id($post_with_person['post_id']);*/
+        ";
         $reactions = $this->get_possible_reactions();
         $amount_reactions = $this->get_reactions_from_id($post_id);
 
@@ -368,10 +400,6 @@ class Db_posts extends Db_con{
             <a class='btn btn-warning' href='$url'><img class='smaller_profile_icon'src='$dots/$emoji_path'> </a><span class='text-white' style='margin-left:5px;'>($amount)
             </div>";
             
-            
-            //<img src='images/liked-img.png' alt='likes'>
-            //<span>amount of specific reaction</span>
-            //</li>
         }
         foreach($reactions as $reaction)
         {
@@ -391,7 +419,7 @@ class Db_posts extends Db_con{
         </div>
         <div class='row comment-section'>";
           if($file !="single_post.php")
-          $last_comments= $this->get_3_comments($post_id);
+          $last_comments= $this->get_comments($post_id,3);
           $count_comments=$this->count_comments_post($post_id);
           $count_comments-=3;
           if(!empty($last_comments))
@@ -434,18 +462,8 @@ class Db_posts extends Db_con{
             }
             echo "</ul>";
           }
-          /*
-          <li>
-          function to echo last 2 or 3 comments
-          <div class='comment'>
-          <img>
-          <p class='comment_name>
 
-          </div>
-
-          </li>*/
         $site = $_SERVER['PHP_SELF'];
-        //$site = $site."?user=$user_id";
 
         if($_SESSION['logged'])
         {

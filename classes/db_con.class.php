@@ -68,12 +68,37 @@ class Db_con
       }
     }
     return "Now";
-}
-function get_not_user($from_to_array, $user_id)
-{ 
-  if($from_to_array['from_id'] == $user_id)
-    return $from_to_array['to_id'];
-  else
-    return $from_to_array['from_id'];
-}
+  }
+  function get_not_user($from_to_array, $user_id)
+  {
+    if ($from_to_array['from_id'] == $user_id)
+      return $from_to_array['to_id'];
+    else
+      return $from_to_array['from_id'];
+  }
+  function get_hashtags($string, $str = 1) {
+    preg_match_all('/#(\w+)/',$string,$matches);
+    $i = 0;
+	  $keywords = "";
+    if ($str) {
+        foreach ($matches[1] as $match) {
+            $count = count($matches[1]);
+            $keywords .= "$match";
+            $i++;
+            if ($count > $i) $keywords .= ", ";
+        }
+    } else {
+        foreach ($matches[1] as $match) {
+            $keyword[] = $match;
+        }
+        $keywords = $keyword;
+    }
+    return $keywords;
+  }
+  function transform_text_to_hashtag($string,$dots)
+  {
+    $string = preg_replace('/(?<!\S)#([0-9a-zA-Z]+)/', "<a href='$dots/sites/search_result.php?search_value=$string'>$string</a>", $string);
+    return $string;
+  }
+
 }

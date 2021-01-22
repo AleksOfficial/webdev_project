@@ -21,10 +21,25 @@
     {
       $db_user = new Db_user();
       $db_post = new Db_posts();
+      $db_create = new Db_create_stuff();
       $searchval = $_GET['search_value'];
+      $all_tags = $db_post->get_hashtags($searchval,0);
+
+      var_dump($searchval);
+      var_dump($all_tags);
+      $all_tags = $db_create->tags_to_ids($all_tags);
+      var_dump($all_tags);
+      
+      foreach($all_tags as $tag)
+      {
+        $searchval=str_replace("#".$tag,"",$searchval,);
+        $searchval=trim($searchval);
+      }
+      var_dump($searchval);
+      
+    
       $search_result_users = $db_user->search_user($searchval);
-      $search_result_posts = $db_post->search_posts($searchval);
-      var_dump($search_result_posts);
+      
     }
   }
 
@@ -79,7 +94,7 @@
           <div class="row">
             <div class="col">
               <?php
-
+                include "../inc/feed.inc.php";
               ?>
             </div>
           </div>

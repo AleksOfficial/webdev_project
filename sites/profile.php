@@ -2,8 +2,10 @@
 session_start();
 $file = basename(__FILE__);
 $navigator = "profile";
+$dots="..";
 include "../inc/class-autoload.inc.php";
 include "../inc/navigation.inc.php";
+
 if ($_SESSION['logged']) {
   //only logged users can view profiles
 ?>
