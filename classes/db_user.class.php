@@ -201,6 +201,20 @@ class Db_user extends Db_con
   }
 
 
+  function get_all_users()
+  {
+    
+    $con = $this->connect();
+    $query = "SELECT * FROM person LEFT JOIN images ON person.profile_pic = images.image_id ORDER BY person.person_id ASC";
+    $stmt = $con->prepare($query);
+    $stmt->execute();
+    $result = $stmt->fetchAll();    
+    
+    var_dump($result);
+    
+    return $result;
+  }
+
   function count_array($array) {
     $count = 0;
     foreach ($array as $arr) {
@@ -209,6 +223,55 @@ class Db_user extends Db_con
     }
     return $count;
   }
+
+  function print_admin_card($user_id)
+  {
+    $user = $this->get_user_by_id($user_id);
+    $username = $user['username'];
+    $thumbnail_path = $user['thumbnail_path'];
+    $names = $user['first_name']." ".$user['last_name'];
+    $filename = $user['image_name'];
+    $is_active = $user['active'];
+    
+    echo
+    "<div class='col-md-3 searchResultContainer'>
+      <div class='card searchResultCard'>
+        <img src='$thumbnail_path'class='card-img-top' alt='$filename'>
+        <div class='card-body'>
+          <h5 class='card-title'>$username</h5>
+          <p class='card-names'>"; if ($is_active == 1) {echo "active";} else {echo "inactive";} echo "</p>
+          <div class='row'>
+            <div class='col-3'>
+              <a href='index.php?action="; if ($is_active == 1) {echo "deactivate-" . $user_id;} else {echo "activate-" . $user_id;} echo"' class='btn btn-primary message_button'>activate/deactivate user</a>
+            </div>
+            <div class='col'>
+              <a href='sites/profile.php&user=$user_id' class='btn btn-primary'>Visit profile</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>";
+    /**/
+  }
+
+  function change_status($action, $user_id)
+  {
+    $con = $this->connect();
+    if ($action == 1) {
+      $query = "UPDATE person SET active = 1 WHERE person_id = ?;";
+    } else if ($action == 2) {
+      $query = "UPDATE person SET active = 2 WHERE person_id = ?;";
+    }
+    $stmt = $con->prepare($query);
+    $stmt->execute([$user_id]);
+    
+    //$result = $stmt->fetchAll();    
+    
+    //var_dump($result);
+    
+    //return $result;
+  }
+
 
   
 /*

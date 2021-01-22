@@ -469,5 +469,24 @@ class Db_posts extends Db_con{
     </div>";
 
   }
+<<<<<<< HEAD
 
+=======
+  function search_post($search, $postArray){
+    /*tmt = $con->prepare($query);
+    $stmt->execute(["%".$search."%"]);
+    $result = $stmt->fetchAll();    
+    
+    return $result; */
+    $cycle = 0;
+    $result = array();
+    foreach($postArray as $post) {
+      if(in_array($search, $post[$cycle]['post_text']) == true) {
+        array_push($result, $post[$cycle]);
+      }
+      $cycle++;
+    }
+    return $result;
+  }
+>>>>>>> 57a16441c5b9f95beb72bdb2cc8323faded64750
 }
