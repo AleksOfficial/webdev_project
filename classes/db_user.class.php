@@ -235,7 +235,7 @@ class Db_user extends Db_con
     $is_active = $user['active'];
     
     echo "      <div class='card text-white bg-dark m-2 search_result_card'>
-    <img class='card-img-top profile_pic' src='../$thumbnail_path' alt='$filename'>
+    <a href='$dots/sites/profile.php?user=$user_id'><img class='card-img-top profile_pic' src='$dots/$thumbnail_path' alt='$filename'></a>
   <div class='card-body'>
   <div class='card-title username'>
   <h3>$username's profile</h3>
@@ -247,9 +247,7 @@ class Db_user extends Db_con
     <div class='col'>
       <a href='$dots/index.php?site=admin&action="; if ($is_active == 1) {echo "deactivate-" . $user_id;} else {echo "activate-" . $user_id;} echo"' class='btn btn-primary message_button'>activate/deactivate user</a>
     </div>
-    <div class='col'>
-       <a href='profile.php?user=$user_id&friend_request=1' class='btn message_button fr_button'><img src='$dots/res/icons/friendrequest.png'></a></li>
-    </div>
+    
   </div>
 </div>
 </div>";
