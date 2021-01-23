@@ -81,6 +81,24 @@ class Db_posts extends Db_con
     $results = $stmt->fetchAll();
     return $results;
   }
+  function get_post_from_id($post_id)
+  {
+    $con = $this->connect();
+    $query = "SELECT * FROM post LEFT JOIN person ON person.person_id = post.person_id LEFT JOIN images ON post.image_id = images.image_id WHERE post.post_id = ?";
+    $stmt = $con->prepare($query);
+    $x = $stmt->execute([$post_id]);
+    if($x)
+    {
+      return $stmt->fetch();
+    }
+    else
+    {
+      $this->error($stmt->errorInfo());
+      return false;
+    }
+
+  }
+  
 
   function get_post_with_image($post_id)
   {
@@ -88,8 +106,16 @@ class Db_posts extends Db_con
     $query = "SELECT * FROM post LEFT JOIN images ON post.image_id = images.image_id WHERE post_id = ?";
     $stmt = $con->prepare($query);
     $stmt->execute([$post_id]);
-    $result = $stmt->fetch();
-    return $result;
+    $x = $result = $stmt->fetch();
+    if($x)
+    {
+      return $result;
+    }
+    else
+    {
+      $this->error($stmt->errorInfo());
+    }
+    
   }
 
 
@@ -157,7 +183,7 @@ class Db_posts extends Db_con
         return "<li><a class='btn btn-info status-friends small_'><img class ='status small_button' src='$dots/res/icons/friends.png'></a></li>";
         break;
       case 3:
-        return "<li><a class='btn btn-info status-private small_'><img class ='status button' src='$dots/res/icons/private.png'></a></li>";
+        return "<li><a class='btn btn-info status-private small_'><img class ='status small_button' src='$dots/res/icons/private.png'></a></li>";
         break;
     }
   }
@@ -178,6 +204,10 @@ class Db_posts extends Db_con
   function own_post_check($post_with_person, $logged_id)
   {
     if ($logged_id == NULL) {
+      return false;
+    }
+    if(!isset($post_with_person['person_id']))
+    {
       return false;
     }
     $user_id = $post_with_person['person_id'];
@@ -228,7 +258,51 @@ class Db_posts extends Db_con
     }
     return $result;
   }
+  function already_liked($user_id,$reaction_id,$post_id)
+  {
+    $con = $this->connect();
+    $query = "SELECT * FROM all_reactions WHERE reaction_id = ? AND post_id = ? AND person_id = ?";
+    $stmt = $con->prepare($query);
+    $x = $stmt->execute([$reaction_id, $post_id ,$user_id]);
+    if($x)
+    {
+      $result = $stmt->fetchAll();
+      if(empty($result))
+        return false;
+      else
+      return true;
+    }
+    else
+      $this->error($stmt->errorInfo()[2]);
+    return false;
+    
+  }
+  function delete_post($post_id)
+  {
+    $con = $this->connect();
+    $query = "DELETE FROM post WHERE post_id = ?";
+    $stmt = $con->prepare($query);
+    $x=$stmt->execute([$post_id]);
+    if(!$x)
+    {
+      $this->error($stmt->errorInfo()[2]);
+      return false;
+    }
+    else
+    {
+      return true;
+    }
+  }
+  function remove_tags_from_id($post_id)
+  {
+    $con = $this->connect();
+    $query = "DELETE FROM all_tags WHERE post_id = ?";
+    $stmt = $con->prepare($query);
+    $stmt->execute([$post_id]);
 
+  }
+
+  
 
   function get_search_results($string, $status, $all_tags = NULL, $user_id = 0)
   {
@@ -423,7 +497,7 @@ class Db_posts extends Db_con
   }
 
 
-  function print_post($post_with_person, $file, $logged_id = NULL)
+  function print_post($post_with_person, $file, $logged_id = NULL,$var = 0)
   {
     $post_id = $post_with_person['post_id'];
     $username = $post_with_person['username'];
@@ -448,8 +522,8 @@ class Db_posts extends Db_con
 
     $status_image = $this->get_status_img_string($post_with_person['privacy_status'], $dots); //should echo out an img tag and an a tag around it so you can change it if necessary. changes possible only in single_post view. as a dropdown perhaps idk..
     if ($this->own_post_check($post_with_person, $logged_id)) {
-      $edit_button = "<li><a class='btn btn-warning small_'href='$dots/sites/single_post.php?edit=$post_id'><img class='small_button edit_button' src ='$dots/res/icons/edit.png' alt='edit'></a></li>";
-      $delete_button = "<li><a class='btn btn-danger small_' href='$dots/sites/single_post.php?delete=$post_id'><img class='small_button delete_button' src ='$dots/res/icons/delete.png' alt='delete'></a></li>";
+      $edit_button = "<li><a class='btn btn-warning small_'href='$dots/sites/single_post.php?post=$post_id&edit=$post_id'><img class='small_button edit_button' src ='$dots/res/icons/edit.png' alt='edit'></a></li>";
+      $delete_button = "<li><a class='btn btn-danger small_' href='$dots/sites/single_post.php?post=$post_id&delete=$post_id'><img class='small_button delete_button' src ='$dots/res/icons/delete.png' alt='delete'></a></li>";
     }
 
     $singlepost = $dots . "/sites/single_post.php?post=$post_id";
@@ -486,11 +560,22 @@ class Db_posts extends Db_con
         <p>$content</p> <a href='$singlepost'>View full post</a></div>";
     if ($post_with_person['image_id'] != NULL) {
       $post_image = $this->get_post_with_image($post_id);
-      $image_path = $post_image['thumbnail_path'];
+      if($file == "single_post.php")
+      {
+        $image_path = $post_image['file_path'];
+        $styling = "style='width:100%'";
+      }
+      else
+      {
+        $image_path = $post_image['thumbnail_path'];
+        $styling="";
+      }
+        
+
       $image_name = $post_image['image_name'];
       echo "
           <div class='post_image'>
-            <a href='$singlepost'><img class='rounded mx-auto d-block' src='$dots/$image_path' alt='$image_name'></a>
+            <a href='$singlepost'><img class='rounded mx-auto d-block' src='$dots/$image_path' alt='$image_name'$styling></a>
           </div>";
     }
     echo "
@@ -510,16 +595,23 @@ class Db_posts extends Db_con
       $reaction = $this->get_reaction_details($reaction_id);
       $reactions[$reaction_id - 1] = 0;
       $emoji_path = $reaction['emoji_path'];
+      if($this->already_liked($user_id,$reaction_id,$post_id))
+        $disabled = " isDisabled";
+      else
+        $disabled = "";
+      
+
       echo "<div class='col'>
-            <a class='btn btn-warning' href='$url'><img class='smaller_profile_icon'src='$dots/$emoji_path'> </a><span class='text-white' style='margin-left:5px;'>($amount)
+            <a class='btn btn-warning$disabled' href='$dots/sites/single_post.php?post=$post_id&reaction=$reaction_id'><img class='smaller_profile_icon'src='$dots/$emoji_path'> </a><span class='text-white' style='margin-left:5px;'>($amount)
             </div>";
     }
     foreach ($reactions as $reaction) {
       if ($reaction > 0) {
         $reaction = $this->get_reaction_details($reaction);
+        $reaction_id = $reaction['reaction_id'];
         $emoji_path = $reaction['emoji_path'];
         echo "<div class='col'>
-            <a class='btn btn-warning' href='$url'><img class='smaller_profile_icon'src='$dots/$emoji_path'></a></div>";
+            <a class='btn btn-warning' href='$dots/sites/single_post.php?post=$post_id&reaction=$reaction_id'><img class='smaller_profile_icon'src='$dots/$emoji_path'></a></div>";
       }
     }
 
@@ -528,25 +620,31 @@ class Db_posts extends Db_con
         </div>
         </div>
         <div class='row comment-section'>";
-    $var = 0;
-    if ($file != "single_post.php") {
+
+    //count the comments
+    $count_comments = $this->count_comments_post($post_id);
+    if (($count_comments-3) > 0 && $var!=1) {
+      $count_comments -= 3;
+      echo "<a href='$singlepost' class='view_more_comments'>view more comments ($count_comments)</a>";
+      $count_comments += 3;
+    }
+    if ($var!=0) {
+      $var = $count_comments;
+      $last_comments = $this->get_comments($post_id);
+    }
+    else if ($file != "single_post.php") {
       $var = 3;
       $last_comments = $this->get_comments($post_id, $var);
     }
-    if (!$var) {
-      $last_comments = $this->get_comments($post_id);
-    }
+    
 
-    $count_comments = $this->count_comments_post($post_id);
-    $count_comments -= 3;
+
     if (!empty($last_comments)) {
-      if ($count_comments > 0) {
-        echo "<a href='$singlepost' class='view_more_comments'>view more comments ($count_comments)</a>";
-      }
+
 
       echo "<ul>";
-      for ($x = 0; $x < 3; $x++) {
-        $element = 2 - $x;
+      for ($x = 0; $x < $var; $x++) {
+        $element = $var - $x-1;
         if (isset($last_comments[$element])) {
           $comment = $last_comments[$element];
           $comment_thumbnail = $comment['thumbnail_path'];
@@ -575,7 +673,7 @@ class Db_posts extends Db_con
       echo "</ul>";
     }
 
-    $site = $_SERVER['PHP_SELF'];
+    
 
     if ($_SESSION['logged']) {
       echo "
@@ -583,7 +681,7 @@ class Db_posts extends Db_con
           <img class='smaller_profile_pic' src='$dots/$profile_pic_thumbnail' alt='$filename'>
         </div>
           <div class='comment_box'>
-            <form action='$site' method='POST'>
+            <form action='$dots/sites/single_post.php' method='POST'>
               <input type='text' placeholder='Post a comment' name='comment_text'>
               <input type='hidden' name='post_id' value='$post_id'>
               <button type='submit' name='comment_submit'>Send</button>

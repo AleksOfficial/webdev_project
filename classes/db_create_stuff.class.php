@@ -123,8 +123,35 @@ class Db_create_stuff extends Db_con
       }
     }
   }
-  function add_reaction($id)
+  function add_reaction($reaction_id,$post_id,$person_id)
   {
-    echo "Hello World";
+    $con = $this->connect();
+    $query = "INSERT INTO all_reactions(reaction_id,post_id,person_id,created_on) VALUES(?,?,?,CURRENT_TIMESTAMP)";
+    $stmt = $con->prepare($query);
+    $x = $stmt->execute([$reaction_id,$post_id,$person_id]);
+    if(!$x)
+    {
+      $this->error($stmt->errorInfo()[2]);
+      return false;
+    }
+    return true;
+
+  }
+  function update_post($post)
+  {
+    $con = $this->connect();
+    $query = "UPDATE  post SET created_on=CURRENT_TIMESTAMP ,privacy_status=?,post_text =? WHERE post_id = ?";
+    $stmt = $con->prepare($query);
+    $x = $stmt->execute([$post['privacy_status'],$post['post_text'],$post['post_id']]);
+    if($x)
+    {
+      return true;
+    } 
+    else
+    {
+      $this->error($stmt->errorInfo()[2]);
+      return false;
+    }
+
   }
 }

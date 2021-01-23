@@ -1,4 +1,4 @@
-	<div class="d-flex justify-content-center h-100">
+	<div class="container"style='margin-top:10%;'><div class="d-flex justify-content-center mt-3 h-100">
 		<div class="card">
 			<div class="card-header">
 				<h3>Sign In</h3>
@@ -40,4 +40,5 @@
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>

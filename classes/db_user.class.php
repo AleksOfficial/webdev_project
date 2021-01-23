@@ -187,7 +187,6 @@ class Db_user extends Db_con
   </div>
 </div>
 </div>";
-    /**/
   }
 
   function search_user($username)
@@ -212,7 +211,6 @@ class Db_user extends Db_con
     $stmt->execute();
     $result = $stmt->fetchAll();    
     
-    //var_dump($result);
     
     return $result;
   }
