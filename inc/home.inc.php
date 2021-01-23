@@ -36,21 +36,22 @@ echo "<div class='container main'>
 <div class='col-lg-6'>";
   if($_SESSION['logged'])
   {
-    echo"<div class='post_bar'>
-    <div class='row'> 
+    echo"<div class='card bg-dark text-white post_bar mb-3'>
     <form action='index.php' enctype='multipart/form-data' method='POST'>
-    <div class='col-3'>
-    <h5>Submit a post</h5>
+    <div class='card-title' style='padding:16px;'> 
+    <div class='col'>
+    <h3>Submit a post</h3>
     </div>
-    <div class='col-9'>
+    <div class='col'>
     <select class='form-select' name='privacy_status_post' aria-label='Default select example'>
       <option selected value='1'>Public</option>
       <option value='2'>Friends</option>
       <option value='3'>Private</option>
     </select>
     </div>
-    </div> 
-    
+    </div>
+   
+    <div class='card-body'>
     <div class='row'>
     
     <div class='input-group'>
@@ -61,6 +62,8 @@ echo "<div class='container main'>
         <textarea class='form-control' name='content_post' maxlength='500' placeholder='What are you thinking about today?'></textarea>
         <button class='btn send_btn' type='submit' name='submit_post'><img src='./res/icons/send-mail.png'></button>
     </form>
+    </div>
+    </div>
     </div>
     </div>
     ";
@@ -75,10 +78,22 @@ echo "<div class='container main'>
   //Print out all posts of user
   include "./inc/feed.inc.php";
 
-
+  $db_post = new Db_posts();
+  $most_tags = $db_post->count_tags();
+  $tag_elements = "";
+  foreach ($most_tags as $tag)
+  {
+    $amount = $tag['amount_tagged'];
+    $text = $tag['tag_text'];
+    $tag_elements = $tag_elements."<a href='$dots/sites/search_result.php?search_value=%23$text&search_submit=1' class='list-group-item list-group-item-action bg-dark text-white tag_element'> ➜ $text ($amount)</a>";
+  }
 
 echo "
 </div>
 <div class='col-lg-3'>
+<h5>Most used Tags</h5>
+  <div class='list-group'>
+    $tag_elements
+  </div>
 </div>
 </div>";

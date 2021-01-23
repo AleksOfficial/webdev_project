@@ -39,10 +39,7 @@
   {
     include "script/add_post.script.php";
   }
-  if(isset($_POST['comment_submit']))
-  {
-    include "script/add_comment.script.php";
-  }
+
 
   //css
   switch ($navigator) {

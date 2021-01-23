@@ -11,9 +11,9 @@ html,body{
   animation-direction: alternate;
   animation-fill-mode: none;
   animation-play-state: running;
-
+min-height:100%;
 background-repeat: no-repeat;
-height: 100%;
+height: auto;
 font-family: 'Numans', sans-serif;
 }
 .navbar_logo{
@@ -179,8 +179,8 @@ ul li{
   color:#23a6d5;
 }
 .post{
-  margin-top:16px;
-  margin-bottom:16px;
+  
+  margin-bottom:32px;
 }
 .buttons ul{
   list-style:none;
@@ -196,4 +196,15 @@ ul li{
 {
   width:18rem;
   text-align:center;
+}
+.main_input, .reaction_section
+{
+  padding:15px;
+}
+.isDisabled {
+  color: currentColor;
+  cursor: not-allowed;
+  opacity: 0.5;
+  text-decoration: none;
+  pointer-events: none;
 }

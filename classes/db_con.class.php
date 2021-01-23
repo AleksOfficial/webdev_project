@@ -101,5 +101,21 @@ class Db_con
     $string = preg_replace('/(?<!\S)#([0-9a-zA-Z]+)/', "<a href='$dots/sites/search_result.php?search_value=%23$word&search_submit=1'>#$word</a>", $string,1);
     return $string;
   }
+  function count_tags()
+  {
+    $con = $this->connect();
+    $query = "SELECT COUNT(*) AS amount_tagged , tag.tag_text FROM all_tags JOIN tag ON all_tags.tag_id = tag.tag_id GROUP BY tag_text";
+    $stmt = $con->prepare($query);
+    $x = $stmt->execute();
+    if($x)
+    {
+      return $stmt->fetchAll();
+    }
+    else
+    {
+      $this->error($stmt->errorInfo()[2]);
+      return NULL;
+    }
+  }
 
 }
