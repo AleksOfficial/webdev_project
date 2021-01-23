@@ -105,7 +105,7 @@ if ($_SESSION['logged']) {
       echo "
       </div>
       <div class='col-lg-3'>
-        <div class='edit_button'><a href='profile.php?user=$user_id&unfriend=1' class='btn unfriend_button'><i><img src='../res/icons/edit.png' alt='unfriend'></i></a></div>
+        <div class='edit_button'><a href='edit_profile.php?user=$user_id' class='btn unfriend_button'><i><img src='../res/icons/edit.png' alt='unfriend'></i></a></div>
         <div class='unfriend_button'><a href='profile.php?user=$user_id&unfriend=1' class='btn  unfriend_button'><i><img src='../res/icons/unfriend.png' alt='unfriend'></i>Unfriend</a></div>
       </div>
     </div>

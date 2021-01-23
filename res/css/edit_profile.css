@@ -1,0 +1,48 @@
+@mixin object-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.profile_pic {
+  position: relative;
+  border-radius: 50%;
+  height: 150px;
+  width: 150px;
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: multiply;
+  color: transparent;
+  transition: all .3s ease;
+
+}
+  .profile_pic:hover {
+    background-color: rgba(0,0,0,.5);
+    z-index: 10000;
+    color: rgba(250,250,250,1);
+    transition: all .3s ease;
+  }
+  
+  span {
+    display: inline-flex;
+    padding: .2em;
+  }
+  .file_upload {
+    position: absolute;
+    font-size: 50px;
+    opacity: 0;
+    right: 0;
+    top: 0;
+    width: 140px;
+    margin-top: 30px;
+    height: 90px;
+}
+.edit_text
+{
+  margin-top:52px;
+  margin-left: 7px;
+}
+
+}

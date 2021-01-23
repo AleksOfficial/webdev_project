@@ -39,6 +39,10 @@
   {
     include "script/add_post.script.php";
   }
+  if(isset($_POST['update_profile']))
+  {
+    include "script/update_profile.script.php";
+  }
 
 
   //css
@@ -67,9 +71,6 @@
       break;
     case 'register':
       echo '<link rel = "stylesheet" href="./res/css/registerform.css">';
-      break;
-    default:
-      header("sites/lost.php");
       break;
   }
   ?>
