@@ -10,7 +10,7 @@ if ($_SESSION['logged']) {
       header("Location: index.php?error=2");
     }
     $new_post = array();
-    array_push($new_post,$_SESSION['user']['person_id'],$_POST['privacy_status_post'],$_POST['content_post']);
+    array_push($new_post,$_SESSION['user']['person_id'],stripslashes(htmlspecialchars($_POST['privacy_status_post'])),stripslashes(htmlspecialchars($_POST['content_post'])));
 
 
     
@@ -21,7 +21,7 @@ if ($_SESSION['logged']) {
       {
       $file = $_FILES['image'];
 
-      $file_name = $_FILES['image']['name'];
+      $file_name = stripslashes(htmlspecialchars($_FILES['image']['name']));
       $file_tmp_name = $_FILES['image']['tmp_name'];
       $file_size = $_FILES['image']['size'];
       $file_error = $_FILES['image']['error'];

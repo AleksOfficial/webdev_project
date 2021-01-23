@@ -114,9 +114,6 @@ class Db_pw_reset extends Db_con
   }
   public function password_reset($pw1, $pw2, $selector)
   {
-    var_dump($pw1);
-    var_dump($pw2);
-    var_dump($selector);
 
     if($pw1 === $pw2)
     {
@@ -126,12 +123,10 @@ class Db_pw_reset extends Db_con
       $stmt = $con->prepare($query1);
       $stmt->execute([$selector]);
       $id=$stmt->fetch()['person_id'];
-      var_dump($id);
       //$query = "UPDATE person SET person.password_hash = ? WHERE password_reset.selector = ? FROM person INNER JOIN person.person_id = password_reset.person_id";
       $query2 = "UPDATE person SET password_hash = ? WHERE person_id = ?";
       $stmt = $con->prepare($query2);
       $result = $stmt->execute([$pw_hash,$id]);
-      var_dump($result);
       if($result == NULL)
       {
         $this->error("it's empty... ");

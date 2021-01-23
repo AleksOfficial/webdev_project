@@ -9,7 +9,7 @@
       if(empty($_POST['comment_text']))
         $valid_comment=false;
       else
-        array_push($comment,$_POST['comment_text']);
+        array_push($comment,stripslashes(htmlspecialchars($_POST['comment_text'])));
     }
     else
     {
@@ -20,7 +20,7 @@
       if(empty($_POST['post_id']))
         $valid_comment=false;
       else
-        array_push($comment,$_POST['post_id']);
+        array_push($comment,stripslashes(htmlspecialchars($_POST['post_id'])));
 
     }
     else

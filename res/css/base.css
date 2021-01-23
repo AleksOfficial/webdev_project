@@ -208,3 +208,15 @@ ul li{
   text-decoration: none;
   pointer-events: none;
 }
+.float_msg{
+  position: fixed;
+  top: 80%;
+  left: 90%;
+  margin-left: -150px;
+  width: 300px;
+  z-index: 9999;
+}
+.comment_on_things
+{
+  margin:0 !important;
+}

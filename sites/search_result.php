@@ -21,7 +21,7 @@
       $db_user = new Db_user();
       $db_post = new Db_posts();
       $db_create = new Db_create_stuff();
-      $searchval = $_GET['search_value'];
+      $searchval = stripslashes(htmlspecialchars($_GET['search_value']));
       $all_tags = $db_post->get_hashtags($searchval, 0);
       $tag_search = false;
 
