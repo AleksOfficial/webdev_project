@@ -83,6 +83,7 @@
     border-right: 15px solid transparent;
     bottom: 0;
     right: -15px;
+    
 }
 
 .message-orange:before {
@@ -95,6 +96,7 @@
     border-right: 16px solid transparent;
     bottom: -1px;
     right: -17px;
+    
 }
 .input_field
 {
@@ -145,6 +147,27 @@ a:hover{
     color:lightgrey;
 }
 
+/*
+.chatWindow {
+    max-height: 400px;
+    min-height: 400px;
+    overflow: scroll;
+    
+    
+}
+*/
+
+.chatWindowWrapper {
+    max-height: 400px;
+    min-height: 0px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column-reverse;
+} 
+
+
+/*display: flex;
+    flex-direction: column-reverse;*/
 
 
 

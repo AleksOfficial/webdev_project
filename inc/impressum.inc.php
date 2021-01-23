@@ -51,6 +51,33 @@
             Quelle: Erstellt mit dem Impressum Generator von AdSimple® Online Marketing in Kooperation mit meinhaushalt.at
         </p>
 
+        <br>
+
+        <p>
+            DEV TEAM
+        </p>
+
+        <div class="row">
+            <div class="col-md-2">
+                <img class="impPic" src="res/default/aleks.jpeg" alt="Aleks Jevtic">
+            </div>
+            <div class="col-md-10">
+                <div>
+                    Aleks Jevtic
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <img class="impPic" src="res/default/tribun.jpeg" alt="Tribun Krasniqi">
+            </div>
+            <div class="col-md-10">
+                <div>
+                    Tribun Krasniqi
+                </div>
+            </div>
+        </div>
+
         
 </div>
 

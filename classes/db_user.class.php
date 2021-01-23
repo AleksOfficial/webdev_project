@@ -189,6 +189,35 @@ class Db_user extends Db_con
 </div>";
   }
 
+  function print_friend_card($user_id,$dots)
+  {
+    $user = $this->get_user_by_id($user_id);
+    $username = $user['username'];
+    $thumbnail_path = $user['thumbnail_path'];
+    $names = $user['first_name']." ".$user['last_name'];
+    $filename = $user['image_name'];
+    
+    echo "      <div class='card text-white bg-dark m-2 search_result_card'>
+    <img class='card-img-top profile_pic' src='../$thumbnail_path' alt='$filename'>
+  <div class='card-body'>
+  <div class='card-title username'>
+  <h3>$username's profile</h3>
+</div>
+<div class='card-text names'>
+  <span>$names</span>
+</div>
+    <div class='card-text buttons'>
+    <div class='col'>
+       <a href='$dots/index.php?site=show_chat&chat=$user_id' class='btn message_button msg_button '><img src='$dots/res/icons/mail.png'></a></li>
+    </div>
+    <!--<div class='col'>
+       <a href='profile.php?user=$user_id&friend_request=1' class='btn message_button fr_button'><img src='$dots/res/icons/friendrequest.png'></a></li>
+    </div>-->
+  </div>
+</div>
+</div>";
+  }
+
   function search_user($username)
   {
     
@@ -206,6 +235,19 @@ class Db_user extends Db_con
     
     $con = $this->connect();
     $query = "SELECT * FROM person LEFT JOIN images ON person.profile_pic = images.image_id ORDER BY person.person_id ASC";
+    $stmt = $con->prepare($query);
+    $stmt->execute();
+    $result = $stmt->fetchAll();    
+    
+    
+    return $result;
+  }
+
+  function get_not_admin_users()
+  {
+    
+    $con = $this->connect();
+    $query = "SELECT * FROM person LEFT JOIN images ON person.profile_pic = images.image_id WHERE person.is_admin = 0 ORDER BY person.person_id ASC";
     $stmt = $con->prepare($query);
     $stmt->execute();
     $result = $stmt->fetchAll();    
@@ -292,11 +334,6 @@ class Db_user extends Db_con
     $stmt = $con->prepare($query);
     $stmt->execute([$user_id]);
     
-    //$result = $stmt->fetchAll();    
-    
-    //var_dump($result);
-    
-    //return $result;
   }
 
 
