@@ -46,7 +46,7 @@
     $email = $user['email'];
     $image_path = $user['thumbnail_path'];
     $file_name = $user['image_name'];
-  }
+  }//realpath funktion für background image url
         echo"
  
               <form action='$dots/index.php' enctype='multipart/form-data' method=\"POST\">
@@ -58,7 +58,7 @@
                   <div class='profile_pic ' style=\"background-image: url('$dots/$image_path')\">
                   
                   
-                    <input type='file' class='file_upload'>
+                    <input type='file' name='image' class='file_upload'>
                     <span class='edit_text'>Change Image</span>
                   </div>
                 </a>
@@ -118,7 +118,7 @@
                       </div>
             
                     </div>
-                    <input type = 'hidden' name='id' value='$user_id'>
+                    <input type = 'hidden' name='user_id' value='$user_id'>
                     <input type='submit' class=' btn float-right register_btn' name='update_profile' value='Update Profile'>
                   </div>
                 </form>

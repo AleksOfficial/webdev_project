@@ -72,9 +72,6 @@
     case 'register':
       echo '<link rel = "stylesheet" href="./res/css/registerform.css">';
       break;
-    default:
-      header("sites/lost.php");
-      break;
   }
   ?>
   <title>🌍 RIFT - <?php echo ucwords($navigator)?></title>

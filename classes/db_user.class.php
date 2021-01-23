@@ -191,7 +191,6 @@ class Db_user extends Db_con
 
   function search_user($username)
   {
-    var_dump($username);
     
     $con = $this->connect();
     $query = "SELECT * FROM person LEFT JOIN images ON person.profile_pic = images.image_id WHERE person.username LIKE ? ORDER BY person.person_id ASC";
@@ -222,6 +221,32 @@ class Db_user extends Db_con
     
     }
     return $count;
+  }
+  function update_user($userarray,$update_id)
+  {
+    $con = $this->connect();
+    $query = "UPDATE person SET first_name = ?, last_name = ?, username = ?, email = ?, gender = ? WHERE person_id = ?";
+    $query_img = "UPDATE person SET first_name = ?, last_name = ?, username = ?, email = ?, gender = ?, profile_pic = ? WHERE person_id = ?";
+    if(isset($userarray[5]))
+    {
+      $stmt = $con->prepare($query_img);
+    }
+    else
+    {
+      $stmt = $con->prepare($query);
+    }
+    array_push($userarray,$update_id);
+    $x = $stmt->execute($userarray);
+    if($x)
+    {
+      $this->success("Update successful! - refresh the page");
+      return True;
+    }
+    else
+    {
+      $this->error($stmt->errorInfo()[2]);
+      return false;
+    }
   }
 
 
@@ -263,8 +288,8 @@ class Db_user extends Db_con
     $con = $this->connect();
     if ($action == 1) {
       $query = "UPDATE person SET active = 1 WHERE person_id = ?;";
-    } else if ($action == 2) {
-      $query = "UPDATE person SET active = 2 WHERE person_id = ?;";
+    } else if ($action == 0) {
+      $query = "UPDATE person SET active = 0 WHERE person_id = ?;";
     }
     $stmt = $con->prepare($query);
     $stmt->execute([$user_id]);
@@ -278,24 +303,4 @@ class Db_user extends Db_con
 
 
   
-/*
-    function updateUser($user)
-  {
-    $user_array = $user->convert_to_array();
-    $u_id = $user_array[0];
-    $query = "UPDATE users SET vorname = ? ,nachname = ? ,email = ? ,adresse= ? ,plz = ?,ort = ? ,username = ? , password_hash= ? 
-    WHERE id = :id";
-    $con = $this->connect();
-    $stmt = $con->prepare($query);
-    $stmt->bindParam(':id', $u_id, PDO::PARAM_INT);
-    return $stmt->execute($user_array);
-  }
-  function deleteUser($UserId)
-  {
-    $query = "DELETE FROM users WHERE id = ?";
-    $con = $this->connect();
-    $stmt = $con->prepare($query);
-    return $stmt->execute([$UserId]);
-  }
-  */
 }
