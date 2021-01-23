@@ -36,13 +36,13 @@ if($_SESSION['logged'])
           $image_processor = new ImageProcessor();
           $thumbnail_path= $image_processor->createThumbnail($file_destination);
         } else {
-          $this->error( "Your file is too big!");
+          $db_create_stuff->error( "Your file is too big!");
         }
       } else {
-        $this->error( "There was an error uploading your file!");
+        $db_create_stuff->error( "There was an error uploading your file!");
       }
     } else {
-      $this->error( "You cannot upload filesof this type!");
+      $db_create_stuff->error( "You cannot upload filesof this type!");
     }
   
     $image = array();

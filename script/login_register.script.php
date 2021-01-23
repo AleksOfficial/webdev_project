@@ -3,10 +3,14 @@ $user = new Db_user();
 //Register
 if(!($_SESSION['logged'])&& isset($_POST['register']))
 {
-    if(!empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['email']))
+    if(!empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['password_repeat']) && !empty($_POST['email']))
     {
-      $user->register_user($_POST);
-      $navigator = "login";
+      if($_POST['password'] == $_POST['password_repeat'])
+      {
+        $user->register_user($_POST);
+        $navigator = "login";
+      }
+      
     }
 }
 else if( isset($_POST['register'])){
@@ -21,8 +25,8 @@ if(isset($_POST['login']))
 {
   if(!empty($_POST['username']) && !empty($_POST['password']))
   {
-    $un = $_POST['username'];
-    $pw = $_POST['password'];
+    $un = stripslashes(htmlspecialchars($_POST['username']));
+    $pw = stripslashes(htmlspecialchars($_POST['password']));
     if($user->login_user($un,$pw))
     {
       $_SESSION['user']=$user->get_user_by_name($un);

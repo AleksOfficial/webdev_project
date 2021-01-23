@@ -17,22 +17,22 @@ class Db_con
   public function error($error_msg, $array = NULL)
   {
     if ($array == NULL) {
-      echo '<div class="alert alert-danger" role="alert">
-      ' . $error_msg . '</div>';
+      echo '<div class="alert alert-danger alert-dismissible fade show float_msg" role="alert">
+      ' . $error_msg . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
     } else {
       $string = $error_msg . "<ul>\n";
       foreach ($array as $x) {
         $string = $string . "\n<li>$x</li>\n";
       }
       $string = $string . "</ul>";
-      echo '<div class="alert alert-danger" role="alert">
-      ' . $string . '</div>';
+      echo '<div class="alert alert-danger alert-dismissible fade show float_msg" role="alert">
+      ' . $string . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
     }
   }
   public function success($success_msg)
   {
-    echo '<div class="alert alert-success" role="alert">
-    ' . $success_msg . '</div>';
+    echo '<div class="alert alert-success alert-dismissible float_msg" role="alert">
+    ' . $success_msg . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
   }
   function get_timestring($timestamp)
   {

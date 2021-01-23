@@ -9,19 +9,36 @@
   <link rel="stylesheet" href="../res/css/base.css">
   <link rel="stylesheet" href="../res/css/reset_pw.css">
   <?php
+  session_start();
+  $navigator = "login";
+  $dots = "..";
   $file = basename(__FILE__);
   include "../inc/class-autoload.inc.php";
+  include "../inc/navigation.inc.php";
   $submission = true;
   $reset = new Db_pw_reset();
+  $db_user = new Db_user();
   if (isset($_POST['reset-request-submit'])) {
-    $reset->send_request_reset($_POST);
+    if(!empty($_POST['email']))
+    {
+      $user = $db_user->get_user_by_email($_POST['email']);
+      if($user != false)
+      {
+        $reset->send_request_reset($_POST);
+      }
+      else{
+        $db_user->error("Error: No User found with this email!");
+      }
+      
+    }
+    
   }
   if (isset($_GET['selector']) && isset($_GET['validator'])) {
     if ($reset->token_checker($_GET['selector'], $_GET['validator'])) {
       if(isset($_POST['reset-change-submit']))
       {
         $reset->password_reset($_POST['password'],$_POST['password_confirm'],$_GET['selector']);
-        //header("../index.php?pwreset=0");
+        $reset->success("Password reset");
       }
       else{
         $submission = false;
@@ -43,7 +60,7 @@ if ($submission) {
 echo'
   <body>
     <div class="container">
-      <div class="d-flex justify-content-center h-100">
+      <div class="d-flex justify-content-center h-100" style="margin-top:15%">
         <div class="card">
           <div class="card-header">
             <h3>Password Reset </h3>

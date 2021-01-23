@@ -209,6 +209,7 @@ ALTER TABLE password_reset
 /* INSERT STATEMENTS*/
 #will be done at the end, especially notifications as this is not needed. the feed is more important as well as the profile.php site. 
 
-#INSERT INTO type_notification(notification_text,icon_path) VALUES('friend request')
 INSERT INTO images(image_id,image_name,file_path,thumbnail_path) VALUES(0,'default.png','res/icons/default.png','res/icons/default_smaller.png');
 INSERT INTO reaction_type(reaction_text,emoji_path) VALUES('liked','res/icons/emoji_like.png'),('disliked','res/icons/emoji_dislike.png'),('pooped on','res/icons/emoji_poop.png');
+#Inserting admin
+INSERT INTO person(profile_pic,gender,first_name,last_name,password_hash,username,email,last_login,active,is_admin) VALUES(1,'m','admin','admin','$2y$10$JyRsuzEQrKv24JNv.9.AVuyeWUrgBTxpgf3kcW0H2Uzc1k1sUPB0e','admin','admin@mail.com',CURRENT_TIMESTAMP,1,1)

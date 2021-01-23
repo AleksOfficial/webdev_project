@@ -63,7 +63,7 @@ class Db_user extends Db_con
   {
     $username = strtolower($username);
     $user = $this->get_user_by_name($username);
-    if($user !=NULL)
+    if($user !=NULL && $user['active'])
     {
       if (password_verify($password, $user['password_hash'])) {
         //$this->update_timestamp($username); On logout it should be updated though.

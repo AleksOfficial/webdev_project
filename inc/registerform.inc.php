@@ -56,6 +56,13 @@
                 </div>
                 <input type="password" class="form-control" name="password">
               </div>
+              <label for="password_repeat">Repeat your Password: </label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-key"><img src="res/icons/repeat.png"></i></span>
+                </div>
+                <input type="password" class="form-control" name="password_repeat">
+              </div>
               <label for="email">E-Mail-Adresse: </label>
               <div class="input-group">
                 <div class="input-group-prepend">

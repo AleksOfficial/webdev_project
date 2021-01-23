@@ -25,7 +25,7 @@ class Db_posts extends Db_con
   function get_post_ids_from_own_and_friends($user_id)
   {
     $con = $this->connect();
-    $query = "SELECT post.post_id, post.person_id FROM post LEFT JOIN person ON person.person_id = post.person_id WHERE post.person_id = ? OR post.privacy_status = 1 OR post.privacy_status = 2";
+    $query = "SELECT post.post_id, post.person_id, post.privacy_status FROM post LEFT JOIN person ON person.person_id = post.person_id WHERE post.person_id = ? OR post.privacy_status = 1 OR post.privacy_status = 2";
     //$addition_query = " OR (post.person_id = ? AND (privacy_status=1 OR privacy_status = 2)) ";
     //Original plan was to extend the query string by the above line This won't work with huge a lot of friends. max char amount for a query is 65k chars
 
@@ -49,7 +49,7 @@ class Db_posts extends Db_con
     if (!empty($results)) {
       foreach ($results as $post_id) {
 
-        if ($db_user->check_friends($user_id, $post_id['person_id']) || $user_id == $post_id['person_id'])
+        if ($db_user->check_friends($user_id, $post_id['person_id']) || $user_id == $post_id['person_id'] || $post_id['privacy_status']==1)
           array_push($all_posts, $post_id['post_id']);
       }
       rsort($all_posts);
@@ -383,7 +383,7 @@ class Db_posts extends Db_con
             }
           }
           //Query Friends
-          $query = "SELECT * FROM post LEFT JOIN comments ON post.post_id = comments.post_id LEFT JOIN images ON images.image_id = post.image_id WHERE (post.post_text LIKE ? OR comments.comment_text LIKE ? OR images.image_name LIKE ?) AND post.privacy_status = 2 AND post.person_id NOT LIKE ? ";
+          $query = "SELECT * FROM post LEFT JOIN comments ON post.post_id = comments.post_id LEFT JOIN images ON images.image_id = post.image_id WHERE (post.post_text LIKE ? OR comments.comment_text LIKE ? OR images.image_name LIKE ?) AND (post.privacy_status = 2 OR post.privacy_status = 1) AND post.person_id <> ? ";
           $stmt = $con->prepare($query);
           $x = $stmt->execute(["%" . $string . "%", "%" . $string . "%", "%" . $string . "%", $user_id]);
           $all_result = array();
@@ -398,12 +398,9 @@ class Db_posts extends Db_con
           }
           foreach ($result as $element)
           {
-            if ($db_user->check_friends($user_id, $element['person_id']))
+            if ($db_user->check_friends($user_id, $element['person_id']) || $element['privacy_status']==1)
             {
-              if (in_array($element['tag_id'], $all_tags))
-              {
                 array_push($all_result, $element['post_id']);
-              }
             }
           }
           $all_result = array_unique($all_result);
@@ -432,7 +429,7 @@ class Db_posts extends Db_con
           }
         }
         //Query Friends
-        $query = "SELECT * FROM post LEFT JOIN comments ON post.post_id = comments.post_id LEFT JOIN images ON images.image_id = post.image_id INNER JOIN all_tags ON all_tags.post_id = post.post_id WHERE (post.post_text LIKE ? OR comments.comment_text LIKE ? OR images.image_name LIKE ?) AND post.privacy_status = 2 AND post.person_id NOT LIKE ? ";
+        $query = "SELECT * FROM post LEFT JOIN comments ON post.post_id = comments.post_id LEFT JOIN images ON images.image_id = post.image_id INNER JOIN all_tags ON all_tags.post_id = post.post_id WHERE (post.post_text LIKE ? OR comments.comment_text LIKE ? OR images.image_name LIKE ?) AND post.privacy_status = 2 AND post.person_id <> ? ";
         $stmt = $con->prepare($query);
         $x = $stmt->execute(["%" . $string . "%", "%" . $string . "%", "%" . $string . "%", $user_id]);
         $all_result = array();
@@ -445,7 +442,7 @@ class Db_posts extends Db_con
           $result = $stmt->fetchAll();
         }
         foreach ($result as $element) {
-          if ($db_user->check_friends($user_id, $element['person_id'])) {
+          if ($db_user->check_friends($user_id, $element['person_id']) ||$element['privacy_status'] == 1) {
             if (in_array($element['tag_id'], $all_tags)) {
               array_push($all_result, $element['post_id']);
             }
@@ -502,7 +499,7 @@ class Db_posts extends Db_con
     $post_id = $post_with_person['post_id'];
     $username = $post_with_person['username'];
     $timestring = $this->get_timestring($post_with_person['created_on']);
-
+    $db_user = new Db_user();
     $edit_button = "";
     $delete_button = "";
     $url = $_SERVER['REQUEST_URI'];
@@ -521,11 +518,21 @@ class Db_posts extends Db_con
     }
 
     $status_image = $this->get_status_img_string($post_with_person['privacy_status'], $dots); //should echo out an img tag and an a tag around it so you can change it if necessary. changes possible only in single_post view. as a dropdown perhaps idk..
+    
     if ($this->own_post_check($post_with_person, $logged_id)) {
       $edit_button = "<li><a class='btn btn-warning small_'href='$dots/sites/single_post.php?post=$post_id&edit=$post_id'><img class='small_button edit_button' src ='$dots/res/icons/edit.png' alt='edit'></a></li>";
       $delete_button = "<li><a class='btn btn-danger small_' href='$dots/sites/single_post.php?post=$post_id&delete=$post_id'><img class='small_button delete_button' src ='$dots/res/icons/delete.png' alt='delete'></a></li>";
     }
-
+    if($logged_id)
+    {
+      $user = $db_user->get_user_by_id($logged_id);
+      if($user['is_admin'])
+      {
+        $edit_button = "<li><a class='btn btn-warning small_'href='$dots/sites/single_post.php?post=$post_id&edit=$post_id'><img class='small_button edit_button' src ='$dots/res/icons/edit.png' alt='edit'></a></li>";
+        $delete_button = "<li><a class='btn btn-danger small_' href='$dots/sites/single_post.php?post=$post_id&delete=$post_id'><img class='small_button delete_button' src ='$dots/res/icons/delete.png' alt='delete'></a></li>";
+      }
+    }
+      
     $singlepost = $dots . "/sites/single_post.php?post=$post_id";
 
 
@@ -581,7 +588,7 @@ class Db_posts extends Db_con
     echo "
       </div>
       <div class='row reaction_section'>
-        <div class='col-6'>
+        <div class='col-7'>
           <div class='row'>
         ";
     $reactions = $this->get_possible_reactions();
@@ -595,7 +602,7 @@ class Db_posts extends Db_con
       $reaction = $this->get_reaction_details($reaction_id);
       $reactions[$reaction_id - 1] = 0;
       $emoji_path = $reaction['emoji_path'];
-      if($this->already_liked($user_id,$reaction_id,$post_id))
+      if($this->already_liked($user_id,$reaction_id,$post_id) || $logged_id == NULL)
         $disabled = " isDisabled";
       else
         $disabled = "";
@@ -610,8 +617,13 @@ class Db_posts extends Db_con
         $reaction = $this->get_reaction_details($reaction);
         $reaction_id = $reaction['reaction_id'];
         $emoji_path = $reaction['emoji_path'];
+        $disabled = "";
+        if(!$logged_id)
+        {
+          $disabled = " isDisabled";
+        }
         echo "<div class='col'>
-            <a class='btn btn-warning' href='$dots/sites/single_post.php?post=$post_id&reaction=$reaction_id'><img class='smaller_profile_icon'src='$dots/$emoji_path'></a></div>";
+            <a class='btn btn-warning$disabled' href='$dots/sites/single_post.php?post=$post_id&reaction=$reaction_id'><img class='smaller_profile_icon'src='$dots/$emoji_path'></a></div>";
       }
     }
 
@@ -654,7 +666,7 @@ class Db_posts extends Db_con
           $comment_content = $comment['comment_text'];
 
           echo "
-                <div class='card bg-dark text-white mb-3 comment'>
+                <div class='card bg-dark text-white comment'>
                 <div class='row user_image'>
                 <div class='col-md-2 pic_container'> 
                   <img src='$dots/$comment_thumbnail' class='smaller_profile_pic' alt = '$comment_filename'>
@@ -673,20 +685,32 @@ class Db_posts extends Db_con
       echo "</ul>";
     }
 
-    
+   
+
+
 
     if ($_SESSION['logged']) {
+      $comment_thumbnail =$user['thumbnail_path'];
+      $comment_filename = $user['image_name'];
+
       echo "
-          <div class='comment_img'>
-          <img class='smaller_profile_pic' src='$dots/$profile_pic_thumbnail' alt='$filename'>
-        </div>
-          <div class='comment_box'>
-            <form action='$dots/sites/single_post.php' method='POST'>
-              <input type='text' placeholder='Post a comment' name='comment_text'>
-              <input type='hidden' name='post_id' value='$post_id'>
-              <button type='submit' name='comment_submit'>Send</button>
-            </form>
+      <div class='row comment_on_things'>
+      <div class='card bg-dark text-white comment'>
+          <div class='row user_image'>
+            <div class='col-2 pic_container'>
+              <img class='profile_pic smaller_profile_pic' src='$dots/$comment_thumbnail' alt='$comment_filename'>
+            </div>
+          <div class='col-10 user_name'>
+                <form action='$dots/sites/single_post.php' method='POST'>
+                <div class='input-group'>  
+                <textarea class='form-control' placeholder='Post a comment' name='comment_text'></textarea>
+                  <input type='hidden' name='post_id' value='$post_id'>
+                  <button type='submit' class='btn  btn-warning send_btn' name='comment_submit'><img src='$dots/res/icons/send.png' ></button></div>
+                </form>
           </div>
+          </div>
+    </div>
+    </div>
           ";
     }
     echo "          
