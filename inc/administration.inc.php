@@ -49,7 +49,7 @@ $cycle = 0;
                     for ($i = 0 ; $i < 2 ; $i++) {
     ?>                  <div class="col-md-4 searchResultContainer">                                            <?php
 
-                            $adminUserClass->print_admin_card($adminUser[$userCount]['person_id']);
+                            $adminUserClass->print_admin_card($adminUser[$userCount]['person_id'], $dots);
                             $userCount++;
                     
     ?>                  </div>                                                                                  <?php
@@ -59,7 +59,7 @@ $cycle = 0;
                    
 ?>                  <div class="col-md-4 searchResultContainer">                                            <?php
                     
-                        $adminUserClass->print_admin_card($adminUser[$userCount]['person_id']);
+                        $adminUserClass->print_admin_card($adminUser[$userCount]['person_id'], $dots);
                         $userCount++;
                                         
 ?>                  </div>                                                                                  <?php
@@ -80,13 +80,13 @@ $cycle = 0;
                     
                         if ($rowsRest > 0) {
                             for($i = 0 ; $i < $rows ; $i++) {
-                                $adminUserClass->print_admin_card($adminUser[$userCount]['person_id']);
+                                $adminUserClass->print_admin_card($adminUser[$userCount]['person_id'], $dots);
                                 
                                 $userCount++;
                             }
                         } else {
                             for($i = 0 ; $i < $rows-1 ; $i++) {
-                                $adminUserClass->print_admin_card($adminUser[$userCount]['person_id']);
+                                $adminUserClass->print_admin_card($adminUser[$userCount]['person_id'], $dots);
                                 
                                 $userCount++;
                             }
