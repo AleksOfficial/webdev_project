@@ -43,12 +43,14 @@ if (isset($_GET['chat'])) {
         </div>
       </div>
       </div>
-      <div class='row' style='padding-left:30px;'>";
+      <div class='chatWindowWrapper'>
+      <div class='row chatWindow' style='padding-left:30px;'>";
   foreach ($all_messages as $message) {
     $db_messages->print_message($message, $_SESSION['user']['person_id']);
   }
 
   echo "</div><form action ='index.php?site=show_chat&chat=$recipient_id' method = 'POST'>
+        </div>
         <div class='row input_of_message'>
         <div class='col-11 input_field'>
         <textarea rows=3 class = 'form-control' name='content' maxlength='500' placeholder='Enter your Message here ...' required></textarea></div>
