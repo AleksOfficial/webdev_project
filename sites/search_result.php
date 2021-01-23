@@ -27,7 +27,7 @@
 
       foreach ($all_tags as $tag) {
         $tag_search = true;
-        $searchval = str_replace("#" . $tag, "", $searchval,);
+        $searchval = str_replace("#" . $tag, "", $searchval);
         $searchval = trim($searchval);
       }
       if (!$tag_search) {

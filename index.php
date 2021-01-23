@@ -39,6 +39,10 @@
   {
     include "script/add_post.script.php";
   }
+  if(isset($_POST['update_profile']))
+  {
+    include "script/update_profile.script.php";
+  }
 
 
   //css
