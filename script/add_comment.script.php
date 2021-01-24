@@ -32,7 +32,15 @@
 
 
     if($valid_comment)
+    {
       $db_create_stuff->create_comment($comment);
+      $db_notification = new Db_notifications();
+      $db_post = new Db_posts();
+      $post = $db_post->get_post_from_id($_POST['post_id']);
+      $db_notification->add_notification_user($_SESSION['user']['person_id'],$post['person_id'],1);
+
+    }
+      
     else
       $db_create_stuff->error("Error: one of the pararmeters is corrupted. repost your comment!");
   }

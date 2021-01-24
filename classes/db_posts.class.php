@@ -49,7 +49,7 @@ class Db_posts extends Db_con
     if (!empty($results)) {
       foreach ($results as $post_id) {
 
-        if ($db_user->check_friends($user_id, $post_id['person_id']) || $user_id == $post_id['person_id'] || $post_id['privacy_status']==1)
+        if ($db_user->check_friends($user_id, $post_id['person_id'])>0 || $user_id == $post_id['person_id'] || $post_id['privacy_status']==1)
           array_push($all_posts, $post_id['post_id']);
       }
       rsort($all_posts);
@@ -366,7 +366,7 @@ class Db_posts extends Db_con
         if ($all_tags == NULL)
         {
           //Query for own posts
-          $query = "SELECT * FROM post LEFT JOIN comments ON post.post_id = comments.post_id LEFT JOIN images ON images.image_id = post.image_id WHERE (post.post_text LIKE ? OR comments.comment_text LIKE ? OR images.image_name LIKE ?) AND post.person_id = ?";
+          $query = "SELECT post.post_id,post.person_id,post.privacy_status FROM post LEFT JOIN comments ON post.post_id = comments.post_id LEFT JOIN images ON images.image_id = post.image_id WHERE (post.post_text LIKE ? OR comments.comment_text LIKE ? OR images.image_name LIKE ?) AND post.person_id = ?";
           $stmt = $con->prepare($query);
           $x = $stmt->execute(["%" . $string . "%", "%" . $string . "%", "%" . $string . "%", $user_id]);
           $all_result = array();
@@ -377,16 +377,12 @@ class Db_posts extends Db_con
           }
           foreach ($result as $element)
           {
-            if (in_array($element['tag_id'], $all_tags))
-            {
               array_push($all_result, $element['post_id']);
-            }
           }
           //Query Friends
-          $query = "SELECT * FROM post LEFT JOIN comments ON post.post_id = comments.post_id LEFT JOIN images ON images.image_id = post.image_id WHERE (post.post_text LIKE ? OR comments.comment_text LIKE ? OR images.image_name LIKE ?) AND (post.privacy_status = 2 OR post.privacy_status = 1) AND post.person_id <> ? ";
+          $query = "SELECT post.post_id,post.person_id,post.privacy_status FROM post LEFT JOIN comments ON post.post_id = comments.post_id   LEFT JOIN images ON images.image_id = post.image_id WHERE (post.post_text LIKE ? OR comments.comment_text LIKE ? OR images.image_name LIKE ?) AND (post.privacy_status = 2 OR post.privacy_status = 1) AND post.person_id <> ? ";
           $stmt = $con->prepare($query);
           $x = $stmt->execute(["%" . $string . "%", "%" . $string . "%", "%" . $string . "%", $user_id]);
-          $all_result = array();
           $db_user = new Db_user();
           if (!$x)
           {
@@ -398,7 +394,7 @@ class Db_posts extends Db_con
           }
           foreach ($result as $element)
           {
-            if ($db_user->check_friends($user_id, $element['person_id']) || $element['privacy_status']==1)
+            if ($db_user->check_friends($user_id, $element['person_id'])>0 || $element['privacy_status']==1)
             {
                 array_push($all_result, $element['post_id']);
             }
@@ -429,10 +425,9 @@ class Db_posts extends Db_con
           }
         }
         //Query Friends
-        $query = "SELECT * FROM post LEFT JOIN comments ON post.post_id = comments.post_id LEFT JOIN images ON images.image_id = post.image_id INNER JOIN all_tags ON all_tags.post_id = post.post_id WHERE (post.post_text LIKE ? OR comments.comment_text LIKE ? OR images.image_name LIKE ?) AND post.privacy_status = 2 AND post.person_id <> ? ";
+        $query = "SELECT * FROM post LEFT JOIN comments ON post.post_id = comments.post_id LEFT JOIN images ON images.image_id = post.image_id INNER JOIN all_tags ON all_tags.post_id = post.post_id WHERE (post.post_text LIKE ? OR comments.comment_text LIKE ? OR images.image_name LIKE ?) AND (post.privacy_status = 2 OR post.privacy_status = 1)  AND post.person_id <> ? ";
         $stmt = $con->prepare($query);
         $x = $stmt->execute(["%" . $string . "%", "%" . $string . "%", "%" . $string . "%", $user_id]);
-        $all_result = array();
         $db_user = new Db_user();
         if (!$x)
         {
@@ -442,7 +437,7 @@ class Db_posts extends Db_con
           $result = $stmt->fetchAll();
         }
         foreach ($result as $element) {
-          if ($db_user->check_friends($user_id, $element['person_id']) ||$element['privacy_status'] == 1) {
+          if ($db_user->check_friends($user_id, $element['person_id'])>0 ||$element['privacy_status'] == 1) {
             if (in_array($element['tag_id'], $all_tags)) {
               array_push($all_result, $element['post_id']);
             }
@@ -602,7 +597,12 @@ class Db_posts extends Db_con
       $reaction = $this->get_reaction_details($reaction_id);
       $reactions[$reaction_id - 1] = 0;
       $emoji_path = $reaction['emoji_path'];
-      if($this->already_liked($user_id,$reaction_id,$post_id) || $logged_id == NULL)
+      $already_liked = false;
+      if($_SESSION['logged'])
+      {
+        $already_liked = $this->already_liked($_SESSION['user']['person_id'],$reaction_id,$post_id);
+      }
+      if($already_liked|| $logged_id == NULL)
         $disabled = " isDisabled";
       else
         $disabled = "";
@@ -637,7 +637,7 @@ class Db_posts extends Db_con
     $count_comments = $this->count_comments_post($post_id);
     if (($count_comments-3) > 0 && $var!=1) {
       $count_comments -= 3;
-      echo "<a href='$singlepost' class='view_more_comments'>view more comments ($count_comments)</a>";
+      echo "<a href='$singlepost' class='view_more_comments' style='text-align:center'>view more comments ($count_comments)</a>";
       $count_comments += 3;
     }
     if ($var!=0) {

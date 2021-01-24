@@ -51,7 +51,7 @@ class Db_user extends Db_con
       $stmt = $con->prepare($query);
       if ($stmt->execute($user)) {
         $this->success("User sucessfully registered!");
-        return true;
+        return $con->lastInsertId();
       } else {
         $this->error("Could not Insert into Database: " . $stmt->errorInfo()[2]);
         return false;
@@ -86,9 +86,9 @@ class Db_user extends Db_con
   function get_user_by_id($userid)
   {
     $con = $this->connect();
-    $query = "SELECT * FROM person LEFT JOIN images ON person.profile_pic = images.image_id WHERE person.person_id LIKE ?";
+    $query = "SELECT * FROM person LEFT JOIN images ON person.profile_pic = images.image_id WHERE person_id LIKE ?";
     $stmt = $con->prepare($query);
-    $stmt->execute([$userid]);
+    $x = $stmt->execute([$userid]);
     $results = $stmt->fetch();
     return $results;
   }
@@ -113,18 +113,20 @@ class Db_user extends Db_con
   function check_friends($user_id1, $user_id2)
   {
     $con = $this->connect();
-    $query = "SELECT * FROM friends WHERE (from_id = ? AND to_id = ?) OR (from_id = ? AND to_id = ?)";
+    $query = "SELECT * FROM friends WHERE ((from_id = ? AND to_id = ?) OR (from_id = ? AND to_id = ?))";
     $stmt = $con->prepare($query);
     $stmt->execute([$user_id1,$user_id2,$user_id2,$user_id1]);
-    $result = $stmt->fetch();
+    $result = $stmt->fetchAll();
     if(!empty($result))
     {
-      if($result['status_request'])
+      if($result[0]['status_request'])
       {
-        return true;
+        return 1;
       }
+      return 0;
     }
-    return false;
+    return -1;
+    
   }
 
   function get_friends($user_id)
@@ -138,14 +140,14 @@ class Db_user extends Db_con
     foreach($result as $key => $array)
     {
       $other_id=$this->get_not_user($array,$user_id);
-      $friends_ids[$key] = $other_id;
+      array_push($friends_ids,$other_id);
     }
     return $friends_ids;
   }
   function count_friends($user_id)
   {
     $con = $this->connect();
-    $query = "SELECT COUNT(*) FROM friends WHERE from_id = ? or to_id = ?";
+    $query = "SELECT COUNT(*) FROM friends WHERE (from_id = ? OR to_id = ?) AND status_request=1";
     $stmt = $con->prepare($query);
     $stmt->execute([$user_id,$user_id]);
     $result = $stmt->fetch();
@@ -167,8 +169,15 @@ class Db_user extends Db_con
     $thumbnail_path = $user['thumbnail_path'];
     $names = $user['first_name']." ".$user['last_name'];
     $filename = $user['image_name'];
+    if($_SESSION['logged'])
+    {
+        $friends = $this->check_friends($_SESSION['user']['person_id'],$user_id);
+        $sender = $_SESSION['user']['person_id'];
+    }
+    else
+    $friends = 0;
     
-    echo "      <div class='card text-white bg-dark m-2 search_result_card'>
+    echo "<div class='card text-white bg-dark m-2 search_result_card'>
     <img class='card-img-top profile_pic' src='../$thumbnail_path' alt='$filename'>
   <div class='card-body'>
   <div class='card-title username'>
@@ -177,13 +186,26 @@ class Db_user extends Db_con
 <div class='card-text names'>
   <span>$names</span>
 </div>
-    <div class='card-text buttons'>
-    <div class='col'>
-       <a href='$dots/index.php?site=show_chat&chat=$user_id' class='btn message_button msg_button '><img src='$dots/res/icons/mail.png'></a></li>
-    </div>
-    <div class='col'>
-       <a href='profile.php?user=$user_id&friend_request=1' class='btn message_button fr_button'><img src='$dots/res/icons/friendrequest.png'></a></li>
-    </div>
+    <div class='card-text buttons'>";
+    if($friends == -1)
+    {
+      echo "<div class='col'>
+      <a href='profile.php?user=$user_id&friend_request=$sender' class='btn message_button fr_button'><img src='$dots/res/icons/friendrequest.png'></a></li>
+   </div>";
+
+    }
+    else if($friends == 0)
+    {
+      echo "    <div class='col'>
+      <a href='#' class='btn message_button fr_button isDisabled'><img src='$dots/res/icons/friendrequest.png'></a></li>
+   </div>";
+
+    }else{      echo "<div class='col'>
+    <a href='$dots/index.php?site=show_chat&chat=$user_id' class='btn message_button msg_button '><img src='$dots/res/icons/mail.png'></a></li>
+  </div> "; 
+    }
+    echo"
+   
   </div>
 </div>
 </div>";

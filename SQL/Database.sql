@@ -65,7 +65,8 @@ CREATE TABLE post(
 CREATE TABLE type_notification(
   notification_id INTEGER PRIMARY KEY AUTO_INCREMENT,
   notification_text VARCHAR(255),
-  icon_path VARCHAR(255)
+  icon_path VARCHAR(255),
+  --There might be a higher form of normalization possible actually. I just missed it. type_notification needs to be connected to reaction_type and pull the information from there. 
 );
 
 CREATE TABLE password_reset(
@@ -118,7 +119,7 @@ CREATE TABLE all_reactions
 
 CREATE TABLE all_notifications(
   notification_id INTEGER,
-  notification_time TIMESTAMP,
+  notification_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   viewed INTEGER,
   from_id INTEGER,
   to_id INTEGER
@@ -212,4 +213,6 @@ ALTER TABLE password_reset
 INSERT INTO images(image_id,image_name,file_path,thumbnail_path) VALUES(0,'default.png','res/icons/default.png','res/icons/default_smaller.png');
 INSERT INTO reaction_type(reaction_text,emoji_path) VALUES('liked','res/icons/emoji_like.png'),('disliked','res/icons/emoji_dislike.png'),('pooped on','res/icons/emoji_poop.png');
 #Inserting admin
-INSERT INTO person(profile_pic,gender,first_name,last_name,password_hash,username,email,last_login,active,is_admin) VALUES(1,'m','admin','admin','$2y$10$JyRsuzEQrKv24JNv.9.AVuyeWUrgBTxpgf3kcW0H2Uzc1k1sUPB0e','admin','admin@mail.com',CURRENT_TIMESTAMP,1,1)
+INSERT INTO person(profile_pic,gender,first_name,last_name,password_hash,username,email,last_login,active,is_admin) VALUES(1,'m','admin','admin','$2y$10$JyRsuzEQrKv24JNv.9.AVuyeWUrgBTxpgf3kcW0H2Uzc1k1sUPB0e','admin','admin@mail.com',CURRENT_TIMESTAMP,1,1);
+
+INSERT INTO type_notification(notification_text,icon_path) VALUES('commented on','res/icons/notification_commented.png'),('friend request','res/icons/friend_request.png'),('liked','res/icons/notification_liked.png'),('disliked','res/icons/notification_disliked.png'),('pooped on','res/icons/notification_pooped.png');

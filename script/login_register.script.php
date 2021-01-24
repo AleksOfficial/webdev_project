@@ -7,8 +7,10 @@ if(!($_SESSION['logged'])&& isset($_POST['register']))
     {
       if($_POST['password'] == $_POST['password_repeat'])
       {
-        $user->register_user($_POST);
+        $insert_id = $user->register_user($_POST);
         $navigator = "login";
+        $db_notification = new Db_notifications();
+        $db_notification->welcome_message($insert_id);
       }
       
     }

@@ -49,7 +49,6 @@ class Db_create_stuff extends Db_con
   }
   function create_comment($comment)
   {
-    var_dump($comment);
     $con = $this->connect();
     $query = "INSERT INTO comments(comment_text,created_on,post_id,person_id) VALUES(?,CURRENT_TIMESTAMP,?,?)";
     $stmt = $con->prepare($query);
@@ -152,6 +151,51 @@ class Db_create_stuff extends Db_con
       $this->error($stmt->errorInfo()[2]);
       return false;
     }
-
+  }
+  function add_friend($from_id,$to_id)
+  {
+    $con = $this->connect();
+    $query = "INSERT INTO friends(status_request,from_id,to_id,viewed) VALUES(0,?,?,0)";
+    $stmt = $con->prepare($query);
+    $x = $stmt->execute([$from_id,$to_id]);
+    if($x)
+    {
+      $this->success("Friend added! Wait for the Request to be accepted");
+    }
+    else
+    {
+      $this->error($stmt->errorInfo());
+    }
+    
+  }
+  function accept_friend($from_id,$to_id)
+  {
+    $con = $this->connect();
+    $query = "UPDATE friends SET status_request = 1 WHERE (from_id = ? AND to_id = ?) OR (from_id = ? AND to_id = ?)";
+    $stmt = $con->prepare($query);
+    $x = $stmt->execute([$from_id,$to_id,$to_id,$from_id]);
+    if($x)
+    {
+      $this->success("Friend accepted! Now you can see his friend posts and chat with him.");
+    }
+    else
+    {
+      $this->error($stmt->errorInfo());
+    }
+  }
+  function remove_friend($from_id,$to_id)
+  {
+    $con = $this->connect();
+    $query = "DELETE FROM friends WHERE (from_id = ? AND to_id =?) OR (from_id = ? AND to_id = ?)";
+    $stmt = $con->prepare($query);
+    $x = $stmt->execute([$from_id,$to_id,$to_id,$from_id]);
+    if($x)
+    {
+      $this->success("Friend removed!");
+    }
+    else
+    {
+      $this->error($stmt->errorInfo());
+    }
   }
 }

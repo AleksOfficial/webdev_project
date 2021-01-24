@@ -56,9 +56,9 @@ if ($_SESSION['logged']) {
     $post_id = $db_create_stuff->create_post($new_post);
     $tags=$db_create_stuff->get_hashtags($new_post[2],0);
     $db_create_stuff->add_tags($tags,$post_id);
-    var_dump($post_id);
+    //var_dump($post_id);
   }
-//header("Location: index.php");
+header("Location: index.php");
 }
 else
 {//User is not logged in

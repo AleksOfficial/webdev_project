@@ -27,7 +27,7 @@
       if ($_SESSION['user']['person_id'] == $_GET['user']) {
         //own page
         $posts_person = $db_post->get_own_posts($_SESSION['user']['person_id']);
-      } else if ($db_user->check_friends($_SESSION['user']['person_id'], $_GET['user'])) {
+      } else if ($db_user->check_friends($_SESSION['user']['person_id'], $_GET['user'])>0) {
         //friend's page
         $posts_person = $db_post->get_posts_from_id_friend($_GET['user']);
       } else {

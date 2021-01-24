@@ -6,7 +6,7 @@ if($_SESSION['logged'])
     $post = $db_post->convert_to_posts([$post_id]);
     if($post)
     {
-      $condition1 = $db_post->own_post_check($post,$_SESSION['user']['person_id']);
+      $condition1 = $db_post->own_post_check($post[0],$_SESSION['user']['person_id']);
     }
     else{
       $condition1 = false;
