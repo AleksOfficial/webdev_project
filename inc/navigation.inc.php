@@ -1,4 +1,9 @@
 
+           <?php
+            $db_notifications = new Db_notifications();
+            $newNotifications = $db_notifications->count_unseen_notifications($_SESSION['user']['person_id']);
+           ?>
+            
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div class="container-fluid">
                     
@@ -23,7 +28,7 @@
                                     Profile</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link<?php echo $navigator == "notifications" ? " active": "";?>" href="<?php echo $file == "index.php" ?  "./" :  "../" ?>index.php?site=notifications">Notifications</a>
+                                    <a class="nav-link<?php echo $navigator == "notifications" ? " active": "";?>" href="<?php echo $file == "index.php" ?  "./" :  "../" ?>index.php?site=notifications">Notifications<?php if($newNotifications>0){echo " - $newNotifications";} ?></a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link<?php echo $navigator == "messages" ? " active": "";?>" href="<?php echo $file == "index.php" ?  "./" :  "../" ?>index.php?site=messages">Messages</a>

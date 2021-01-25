@@ -65,8 +65,8 @@ CREATE TABLE post(
 CREATE TABLE type_notification(
   notification_id INTEGER PRIMARY KEY AUTO_INCREMENT,
   notification_text VARCHAR(255),
-  icon_path VARCHAR(255),
-  --There might be a higher form of normalization possible actually. I just missed it. type_notification needs to be connected to reaction_type and pull the information from there. 
+  icon_path VARCHAR(255)
+  -- There might be a higher form of normalization possible actually. I just missed it. type_notification needs to be connected to reaction_type and pull the information from there. 
 );
 
 CREATE TABLE password_reset(

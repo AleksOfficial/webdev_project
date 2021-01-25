@@ -3,11 +3,27 @@ class Db_notifications extends Db_con{
   function get_all_notifications($user_id)
   {
     $con = $this->connect();
-    $query = "SELECT * FROM all_notifications WHERE to_id = ?";
+    $query = "SELECT * FROM all_notifications WHERE to_id = ? ORDER BY notification_time DESC";
     $stmt = $con->prepare($query);
     $stmt->execute([$user_id]);
     return $stmt->fetchAll();
   }
+
+  function count_unseen_notifications($user_id) {
+    $count = 0;
+    $con = $this->connect();
+    $query = "SELECT * FROM all_notifications WHERE to_id = ? and viewed = 0";
+    $stmt = $con->prepare($query);
+    $stmt->execute([$user_id]);
+    $result = $stmt->fetchAll();
+    foreach ($result as $lol) {
+      $count++;
+    }
+    return $count;
+  }
+
+
+
   function add_notification_user ($from_user,$to_user,$notification_type)
   {
     $con = $this->connect();
@@ -40,6 +56,6 @@ class Db_notifications extends Db_con{
       return false;
     }
   }
-
+  
 
 }

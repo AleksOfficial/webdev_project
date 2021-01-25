@@ -48,6 +48,7 @@
   switch ($navigator) {
     case 'notifications':
       // does notifications have a css?
+      echo '<link rel = "stylesheet" href="./res/css/notifications.css">';
       break;
     case 'messages':
       echo '<link rel = "stylesheet" href="res/css/messages.css">';

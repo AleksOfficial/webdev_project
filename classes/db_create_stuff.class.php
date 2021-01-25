@@ -168,10 +168,40 @@ class Db_create_stuff extends Db_con
     }
     
   }
+
+  function change_viewed($from_id,$to_id) {
+    $con = $this->connect();
+    $query = "UPDATE all_notifications SET viewed = 1 WHERE from_id = ? AND to_id = ?;";
+    $stmt = $con->prepare($query);
+    $x = $stmt->execute([$from_id,$to_id]);
+  }
+
+  function change_all_viewed($to_id) {
+    $con = $this->connect();
+    $query = "UPDATE all_notifications SET viewed = 1 WHERE to_id = ?;";
+    $stmt = $con->prepare($query);
+    $x = $stmt->execute([$to_id]);
+  }
+
+  function check_viewed($from_id,$to_id) {
+    $result = array();
+    $con = $this->connect();
+    $query = "SELECT status_request FROM friends WHERE from_id = ? and to_id = ?;";
+    $stmt = $con->prepare($query);
+    $stmt->execute([$from_id,$to_id]);
+    $result = $stmt->fetchAll();
+    var_dump($result);
+    if ($result[0]['status_request'] == 0) {
+      return 0;
+    } else {
+      return 1;
+    }
+  }
+
   function accept_friend($from_id,$to_id)
   {
     $con = $this->connect();
-    $query = "UPDATE friends SET status_request = 1 WHERE (from_id = ? AND to_id = ?) OR (from_id = ? AND to_id = ?)";
+    $query = "UPDATE friends SET status_request = 1 and viewed = 1 WHERE (from_id = ? AND to_id = ?) OR (from_id = ? AND to_id = ?)";
     $stmt = $con->prepare($query);
     $x = $stmt->execute([$from_id,$to_id,$to_id,$from_id]);
     if($x)
@@ -198,4 +228,5 @@ class Db_create_stuff extends Db_con
       $this->error($stmt->errorInfo());
     }
   }
+
 }

@@ -324,7 +324,7 @@ class Db_user extends Db_con
     $is_active = $user['active'];
     
     echo "      <div class='card text-white bg-dark m-2 search_result_card'>
-    <a href='$dots/sites/profile.php?user=$user_id'><img class='card-img-top profile_pic' src='$dots/$thumbnail_path' alt='$filename'></a>
+    <a href='$dots/sites/profile.php?user=$user_id'><img class='card-img-top profile_pic' src='../$thumbnail_path' alt='$filename'></a>
   <div class='card-body'>
   <div class='card-title username'>
   <h3>$username's profile</h3>
@@ -358,6 +358,127 @@ class Db_user extends Db_con
     
   }
 
+  function print_friendrequest_notification ($user_id,$dots,$status) {
+    $user = $this->get_user_by_id($user_id);
+    $username = $user['username'];
+    $thumbnail_path = $user['thumbnail_path'];
+    $names = $user['first_name']." ".$user['last_name'];
+    $filename = $user['image_name'];
+    $is_active = $user['active'];
 
+
+    echo "<div class='card text-white bg-dark mb-2' style='max-width: 100%;'>
+    <div class='row g-0'>
+      <div class='col-md-1'>
+        <a href='$dots/sites/profile.php?user=$user_id'><img class='notProfilePic' src='../$thumbnail_path' alt='$filename'></a>
+      </div>
+      <div class='col-md-7'>
+        <div class='card-body'>
+          <p class='card-text'>$username wants to be your friend :)</p>
+        </div>
+      </div>
+      "; if ($status == 0) { echo "
+      <div class='col-md-2'>
+        <a href='$dots/index.php?site=notifications&accept=$user_id' class='btn message_button msg_button frButton'>Accept :)</a>
+      </div>
+      <div class='col-md-2'>
+        <a href='$dots/index.php?site=notifications&reject=$user_id' class='btn message_button msg_button frButton'>Reject :(</a>
+      </div>";
+      }
+    echo "</div>
+  </div>";
+  }
+
+  function print_liked_notification ($user_id,$dots) {
+    $user = $this->get_user_by_id($user_id);
+    $username = $user['username'];
+    $thumbnail_path = $user['thumbnail_path'];
+    $names = $user['first_name']." ".$user['last_name'];
+    $filename = $user['image_name'];
+    $is_active = $user['active'];
+
+
+    echo "<div class='card text-white bg-dark mb-2' style='max-width: 100%;'>
+    <div class='row g-0'>
+      <div class='col-md-1'>
+        <a href='$dots/sites/profile.php?user=$user_id'><img class='notProfilePic' src='../$thumbnail_path' alt='$filename'></a>
+      </div>
+      <div class='col-md-11'>
+        <div class='card-body'>
+          <p class='card-text'>$username liked your post!</p>
+        </div>
+      </div>  
+    </div>
+  </div>";
+  }
+
+  function print_disliked_notification ($user_id,$dots) {
+    $user = $this->get_user_by_id($user_id);
+    $username = $user['username'];
+    $thumbnail_path = $user['thumbnail_path'];
+    $names = $user['first_name']." ".$user['last_name'];
+    $filename = $user['image_name'];
+    $is_active = $user['active'];
+
+
+    echo "<div class='card text-white bg-dark mb-2' style='max-width: 100%;'>
+    <div class='row g-0'>
+      <div class='col-md-1'>
+        <a href='$dots/sites/profile.php?user=$user_id'><img class='notProfilePic' src='../$thumbnail_path' alt='$filename'></a>
+      </div>
+      <div class='col-md-11'>
+        <div class='card-body'>
+          <p class='card-text'>$username disliked your post!</p>
+        </div>
+      </div>   
+    </div>
+  </div>";
+  }
+
+  function print_pooped_notification ($user_id,$dots) {
+    $user = $this->get_user_by_id($user_id);
+    $username = $user['username'];
+    $thumbnail_path = $user['thumbnail_path'];
+    $names = $user['first_name']." ".$user['last_name'];
+    $filename = $user['image_name'];
+    $is_active = $user['active'];
+
+
+    echo "<div class='card text-white bg-dark mb-2' style='max-width: 100%;'>
+    <div class='row g-0'>
+      <div class='col-md-1'>
+        <a href='$dots/sites/profile.php?user=$user_id'><img class='notProfilePic' src='../$thumbnail_path' alt='$filename'></a>
+      </div>
+      <div class='col-md-11'>
+        <div class='card-body'>
+          <p class='card-text'>$username pooped on your post :(</p>
+        </div>
+      </div> 
+    </div>
+  </div>";
+  }
+
+  function print_commented_notification ($user_id,$dots) {
+    $user = $this->get_user_by_id($user_id);
+    $username = $user['username'];
+    $thumbnail_path = $user['thumbnail_path'];
+    $names = $user['first_name']." ".$user['last_name'];
+    $filename = $user['image_name'];
+    $is_active = $user['active'];
+
+
+    echo "<div class='card text-white bg-dark mb-2' style='max-width: 100%;'>
+    <div class='row g-0'>
+      <div class='col-md-1'>
+        <a href='$dots/sites/profile.php?user=$user_id'><img class='notProfilePic' src='../$thumbnail_path' alt='$filename'></a>
+      </div>
+      <div class='col-md-11'>
+        <div class='card-body'>
+          <p class='card-text'>$username commented on your post!</p>
+        </div>
+      </div>
+    </div>
+  </div>";
+  }
   
 }
