@@ -27,8 +27,8 @@
 
     </div>
     <div class="col">
-      print notifications
-      <?php
+      
+      <?php //print notifications
         foreach($notificationsArray as $notification) {
           $from_id = $notification['from_id'];
           if ($notification['notification_id'] == 2) {

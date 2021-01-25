@@ -12,14 +12,18 @@ class Db_notifications extends Db_con{
   function count_unseen_notifications($user_id) {
     $count = 0;
     $con = $this->connect();
-    $query = "SELECT * FROM all_notifications WHERE to_id = ? and viewed = 0";
+    $query = "SELECT COUNT(*) AS 'amount' FROM all_notifications WHERE to_id = ? AND viewed = 0";
     $stmt = $con->prepare($query);
-    $stmt->execute([$user_id]);
-    $result = $stmt->fetchAll();
-    foreach ($result as $lol) {
-      $count++;
+    $x = $stmt->execute([$user_id]);
+    if($x)
+    {
+      $result = $stmt->fetch();
+      return $result['amount'];
     }
-    return $count;
+    else
+    {
+      $this->error($stmt->errorInfo());
+    }
   }
 
 

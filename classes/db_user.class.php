@@ -370,7 +370,7 @@ class Db_user extends Db_con
     echo "<div class='card text-white bg-dark mb-2' style='max-width: 100%;'>
     <div class='row g-0'>
       <div class='col-md-1'>
-        <a href='$dots/sites/profile.php?user=$user_id'><img class='notProfilePic' src='../$thumbnail_path' alt='$filename'></a>
+        <a href='$dots/sites/profile.php?user=$user_id'><img class='notProfilePic' src='$dots/' alt='$filename'></a>
       </div>
       <div class='col-md-7'>
         <div class='card-body'>
@@ -401,7 +401,7 @@ class Db_user extends Db_con
     echo "<div class='card text-white bg-dark mb-2' style='max-width: 100%;'>
     <div class='row g-0'>
       <div class='col-md-1'>
-        <a href='$dots/sites/profile.php?user=$user_id'><img class='notProfilePic' src='../$thumbnail_path' alt='$filename'></a>
+        <a href='$dots/sites/profile.php?user=$user_id'><img class='notProfilePic' src='$dots/$thumbnail_path' alt='$filename'></a>
       </div>
       <div class='col-md-11'>
         <div class='card-body'>
@@ -424,7 +424,7 @@ class Db_user extends Db_con
     echo "<div class='card text-white bg-dark mb-2' style='max-width: 100%;'>
     <div class='row g-0'>
       <div class='col-md-1'>
-        <a href='$dots/sites/profile.php?user=$user_id'><img class='notProfilePic' src='../$thumbnail_path' alt='$filename'></a>
+        <a href='$dots/sites/profile.php?user=$user_id'><img class='notProfilePic' src='$dots/$thumbnail_path' alt='$filename'></a>
       </div>
       <div class='col-md-11'>
         <div class='card-body'>
@@ -447,7 +447,7 @@ class Db_user extends Db_con
     echo "<div class='card text-white bg-dark mb-2' style='max-width: 100%;'>
     <div class='row g-0'>
       <div class='col-md-1'>
-        <a href='$dots/sites/profile.php?user=$user_id'><img class='notProfilePic' src='../$thumbnail_path' alt='$filename'></a>
+        <a href='$dots/sites/profile.php?user=$user_id'><img class='notProfilePic' src='$dots/$thumbnail_path' alt='$filename'></a>
       </div>
       <div class='col-md-11'>
         <div class='card-body'>
@@ -470,7 +470,7 @@ class Db_user extends Db_con
     echo "<div class='card text-white bg-dark mb-2' style='max-width: 100%;'>
     <div class='row g-0'>
       <div class='col-md-1'>
-        <a href='$dots/sites/profile.php?user=$user_id'><img class='notProfilePic' src='../$thumbnail_path' alt='$filename'></a>
+        <a href='$dots/sites/profile.php?user=$user_id'><img class='notProfilePic' src='$dots/$thumbnail_path' alt='$filename'></a>
       </div>
       <div class='col-md-11'>
         <div class='card-body'>
