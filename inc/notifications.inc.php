@@ -12,8 +12,12 @@
 
     if (isset($_GET['accept'])) {
       $db_create->accept_friend($_GET['accept'],$_SESSION['user']['person_id']);
+      $db_create->remove_friendrequest_notification($_GET['accept'],$_SESSION['user']['person_id']);
+      header("Refresh:0; url=$dots/index.php?site=notifications");
     } else if (isset($_GET['reject'])) {
-      $db_create->remove_friend($_GET['accept'],$_SESSION['user']['person_id']);
+      $db_create->remove_friend($_GET['reject'],$_SESSION['user']['person_id']);
+      $db_create->remove_friendrequest_notification($_GET['reject'],$_SESSION['user']['person_id']);
+      header("Refresh:0; url=$dots/index.php?site=notifications");
     }
 ?>
 <div class='container'>

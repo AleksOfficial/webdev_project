@@ -190,7 +190,7 @@ class Db_create_stuff extends Db_con
     $stmt = $con->prepare($query);
     $stmt->execute([$from_id,$to_id]);
     $result = $stmt->fetchAll();
-    var_dump($result);
+    //var_dump($result);
     if ($result[0]['status_request'] == 0) {
       return 0;
     } else {
@@ -201,9 +201,9 @@ class Db_create_stuff extends Db_con
   function accept_friend($from_id,$to_id)
   {
     $con = $this->connect();
-    $query = "UPDATE friends SET status_request = 1 and viewed = 1 WHERE (from_id = ? AND to_id = ?) OR (from_id = ? AND to_id = ?)";
+    $query = "UPDATE friends SET status_request = 1, viewed = 1 WHERE from_id = ? AND to_id = ? ;";
     $stmt = $con->prepare($query);
-    $x = $stmt->execute([$from_id,$to_id,$to_id,$from_id]);
+    $x = $stmt->execute([$from_id,$to_id]);
     if($x)
     {
       $this->success("Friend accepted! Now you can see his friend posts and chat with him.");
@@ -227,6 +227,13 @@ class Db_create_stuff extends Db_con
     {
       $this->error($stmt->errorInfo());
     }
+  }
+
+  function remove_friendrequest_notification($from_id,$to_id) {
+    $con = $this->connect();
+    $query = "DELETE FROM all_notifications WHERE (from_id = ? AND to_id =?) OR (from_id = ? AND to_id = ?) AND notification_id = 2";
+    $stmt = $con->prepare($query);
+    $result = $stmt->execute([$from_id,$to_id,$to_id,$from_id]);
   }
 
 }
